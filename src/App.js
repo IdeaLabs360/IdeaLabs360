@@ -9,7 +9,18 @@ const theme = createTheme({
       main: "#FFFFFF",
     },
     secondary: {
-      main: "#E33E7F",
+      main: "#FFFF00",
+    },
+    button: {
+      primary: "#800000",
+    },
+    icon: {
+      primary: "#800000",
+    },
+  },
+  typography: {
+    h4: {
+      lineHeight: "inhert",
     },
   },
 });
