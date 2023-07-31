@@ -24,13 +24,13 @@ export const Header = () => {
             aria-label="menu"
             sx={{ mr: 2 }}
           >
-            <MenuIcon />
+            <MenuIcon sx={{ color: "icon.primary" }} />
           </IconButton>
           <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>
             IdeaLabs360
           </Typography>
           <Button color="inherit">
-            <PhoneIcon sx={{ fontSize: "medium" }} />
+            <PhoneIcon sx={{ color: "icon.primary", fontSize: "medium" }} />
             <Box sx={{ marginLeft: "10px" }}>Call Now</Box>
           </Button>
         </Toolbar>
