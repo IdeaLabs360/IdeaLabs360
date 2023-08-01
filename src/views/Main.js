@@ -1,24 +1,36 @@
 import * as React from "react";
 import CssBaseline from "@mui/material/CssBaseline";
-import { Box, Typography } from "@mui/material";
-import Container from "@mui/material/Container";
+import {
+  CardMedia,
+  CardContent,
+  CardActionArea,
+  Card,
+  Box,
+  Typography,
+  Container,
+} from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import Button from "@mui/material/Button";
-import { Portfolio } from "./Portfolio";
 import AttachMoneyOutlinedIcon from "@mui/icons-material/AttachMoneyOutlined";
 import ElectricBoltOutlinedIcon from "@mui/icons-material/ElectricBoltOutlined";
 
 export const Main = () => {
+  const images = [
+    "1.jpg",
+    "2.webp",
+    "1.jpg",
+    "2.webp",
+    "1.jpg",
+    "2.webp",
+    "1.jpg",
+    "2.webp",
+  ];
+
   return (
     <>
       <CssBaseline />
       <Container maxWidth="lg" sx={{ marginTop: "10px" }}>
         <Box sx={{ flexGrow: 1 }}>
-          <Grid container spacing={2}>
+          <Grid container spacing={6}>
             <Grid xs={12}>
               <Box
                 sx={{
@@ -59,6 +71,7 @@ export const Main = () => {
                     elevation={0}
                     sx={{
                       display: "flex",
+                      alignItems: "center",
                       maxWidth: 400,
                     }}
                   >
@@ -66,8 +79,6 @@ export const Main = () => {
                       sx={{
                         color: "icon.primary",
                         fontSize: "4rem",
-                        paddingTop: "16px",
-                        marginRight: "15px",
                       }}
                     />
                     <CardContent>
@@ -88,6 +99,7 @@ export const Main = () => {
                     elevation={0}
                     sx={{
                       display: "flex",
+                      alignItems: "center",
                       maxWidth: 400,
                       marginLeft: "15px",
                     }}
@@ -96,8 +108,6 @@ export const Main = () => {
                       sx={{
                         color: "icon.primary",
                         fontSize: "4rem",
-                        paddingTop: "16px",
-                        marginRight: "15px",
                       }}
                     />
                     <CardContent>
@@ -118,7 +128,32 @@ export const Main = () => {
               </Box>
             </Grid>
             <Grid xs={12}>
-              <Portfolio />
+              <Grid container spacing={4}>
+                {images.map((image) => (
+                  <Grid xs={4}>
+                    <Card sx={{ maxWidth: 345 }}>
+                      <CardActionArea>
+                        <CardMedia
+                          component="img"
+                          height="200"
+                          image={`./ui/img/${image}`}
+                          alt={`project ${image.split(".")[0]}`}
+                        />
+                        <CardContent>
+                          <Typography gutterBottom variant="h5" component="div">
+                            Lizard
+                          </Typography>
+                          <Typography variant="body2" color="text.secondary">
+                            Lizards are a widespread group of squamate reptiles,
+                            with over 6,000 species, ranging across all
+                            continents except Antarctica
+                          </Typography>
+                        </CardContent>
+                      </CardActionArea>
+                    </Card>
+                  </Grid>
+                ))}
+              </Grid>
             </Grid>
           </Grid>
         </Box>
