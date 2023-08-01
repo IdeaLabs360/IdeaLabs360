@@ -136,7 +136,7 @@ export const Main = () => {
                         <CardMedia
                           component="img"
                           height="200"
-                          image={`./ui/img/${image}`}
+                          image={`./img/${image}`}
                           // alt={`project ${image.split(".")[0]}`}
                         />
                         <CardContent>
