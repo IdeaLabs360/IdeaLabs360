@@ -129,15 +129,15 @@ export const Main = () => {
             </Grid>
             <Grid xs={12}>
               <Grid container spacing={4}>
-                {images.map((image) => (
-                  <Grid xs={4}>
+                {images.map((image, index) => (
+                  <Grid key={index} xs={4}>
                     <Card sx={{ maxWidth: 345 }}>
                       <CardActionArea>
                         <CardMedia
                           component="img"
                           height="200"
                           image={`./ui/img/${image}`}
-                          alt={`project ${image.split(".")[0]}`}
+                          // alt={`project ${image.split(".")[0]}`}
                         />
                         <CardContent>
                           <Typography gutterBottom variant="h5" component="div">
