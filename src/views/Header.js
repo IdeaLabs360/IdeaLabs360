@@ -88,7 +88,7 @@ export const Header = ({ landingRef, pages }) => {
               onClick={handleOpenNavMenu}
               color="inherit"
             >
-              <MenuIcon />
+              <MenuIcon sx={{ color: "icon.primary" }} />
             </IconButton>
 
             <Menu
@@ -112,7 +112,7 @@ export const Header = ({ landingRef, pages }) => {
               {pages.map((page) => (
                 <MenuItem
                   key={page}
-                  onClick={(page) => scrollToComponent(page.reference)}
+                  onClick={() => scrollToComponent(page.ref)}
                 >
                   <Typography textAlign="center">{page.name}</Typography>
                 </MenuItem>
@@ -121,7 +121,11 @@ export const Header = ({ landingRef, pages }) => {
           </Box>
 
           <LightbulbRoundedIcon
-            sx={{ display: { xs: "flex", md: "none" }, mr: 1 }}
+            sx={{
+              display: { xs: "flex", md: "none" },
+              color: "icon.primary",
+              mr: 1,
+            }}
           />
 
           <Box
@@ -134,7 +138,12 @@ export const Header = ({ landingRef, pages }) => {
               textDecoration: "none",
             }}
           >
-            <Logo onClick={() => landingRef?.current?.scrollIntoView()} />
+            <Button
+              onClick={() => scrollToComponent(landingRef)}
+              sx={{ color: "inherit", textTransform: "none" }}
+            >
+              <Logo />
+            </Button>
           </Box>
 
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
