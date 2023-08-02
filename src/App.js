@@ -20,7 +20,7 @@ const theme = createTheme({
       primary: "#800000",
     },
     icon: {
-      primary: "#800000",
+      primary: "#4A91BF",
     },
   },
   typography: {
