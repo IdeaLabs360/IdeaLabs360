@@ -12,12 +12,6 @@ import Grid from "@mui/material/Unstable_Grid2";
 export const Gallery = ({ testRef }) => {
   const images = [
     "1.jpg",
-    "2.webp",
-    "1.jpg",
-    "2.webp",
-    "1.jpg",
-    "2.webp",
-    "1.jpg",
   ];
 
   return (
@@ -36,26 +30,22 @@ export const Gallery = ({ testRef }) => {
             item
             key={index}
             xs={12}
-            sm={6}
-            md={4}
+            // sm={6}
+            // md={4}
             sx={{ display: "flex", justifyContent: "center" }}
           >
             <Card sx={{ maxWidth: 345 }}>
               <CardActionArea>
                 <CardMedia
                   component="img"
-                  height="200"
+                  height="345"
                   image={`./img/${image}`}
                   // alt={`project ${image.split(".")[0]}`}
                 />
                 <CardContent>
-                  <Typography gutterBottom variant="h5" component="div">
-                    Lizard
-                  </Typography>
                   <Typography variant="body2" color="text.secondary">
-                    Lizards are a widespread group of squamate reptiles, with
-                    over 6,000 species, ranging across all continents except
-                    Antarctica
+                    A custom addition meticulously crafted to perfectly
+                    match the dimensions of the Mustang emblem.
                   </Typography>
                 </CardContent>
               </CardActionArea>

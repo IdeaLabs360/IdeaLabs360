@@ -1,26 +1,30 @@
 import * as React from "react";
 import { Box, Typography } from "@mui/material";
 
-export const Logo = () => {
+export const Logo = ({ variant, fontSize }) => {
   return (
     <Box sx={{ mr: 2, display: "flex" }}>
       <Typography
-        variant="h6"
-        noWrap
-        component="div"
-        sx={{ fontFamily: "monospace", fontWeight: 700, fontSize: "1.5rem" }}
-      >
-        Idea
-      </Typography>
-
-      <Typography
-        variant="h6"
+        variant={variant}
         noWrap
         component="div"
         sx={{
           fontFamily: "monospace",
           fontWeight: 700,
-          fontSize: "1.5rem",
+          fontSize: { fontSize },
+        }}
+      >
+        Idea
+      </Typography>
+
+      <Typography
+        variant={variant}
+        noWrap
+        component="div"
+        sx={{
+          fontFamily: "monospace",
+          fontWeight: 700,
+          fontSize: { fontSize },
           color: "gray",
         }}
       >
@@ -28,13 +32,13 @@ export const Logo = () => {
       </Typography>
 
       <Typography
-        variant="h6"
+        variant={variant}
         noWrap
         component="div"
         sx={{
           fontFamily: "monospace",
           fontWeight: 700,
-          fontSize: "1.5rem",
+          fontSize: { fontSize },
           color: "lightgray",
         }}
       >

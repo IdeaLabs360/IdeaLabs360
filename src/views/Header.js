@@ -14,7 +14,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import LightbulbRoundedIcon from "@mui/icons-material/LightbulbRounded";
 import { Logo } from "./Logo";
 
-export const Header = ({ landingRef, pages }) => {
+export const Header = ({ contactUsRef, pages }) => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
 
   const handleOpenNavMenu = (event) => {
@@ -72,10 +72,10 @@ export const Header = ({ landingRef, pages }) => {
             }}
           >
             <Button
-              onClick={() => scrollToComponent(landingRef)}
+              onClick={() => scrollToComponent(contactUsRef)}
               sx={{ color: "inherit", textTransform: "none" }}
             >
-              <Logo />
+              <Logo variant={"h6"} fontSize={"1.5rem"} />
             </Button>
           </Box>
 
@@ -139,10 +139,10 @@ export const Header = ({ landingRef, pages }) => {
             }}
           >
             <Button
-              onClick={() => scrollToComponent(landingRef)}
+              onClick={() => scrollToComponent(contactUsRef)}
               sx={{ color: "inherit", textTransform: "none" }}
             >
-              <Logo />
+              <Logo variant={"h6"} fontSize={"1.5rem"} />
             </Button>
           </Box>
 
