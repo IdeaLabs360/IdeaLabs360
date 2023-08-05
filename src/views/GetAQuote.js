@@ -65,19 +65,23 @@ export const GetAQuote = () => {
       {/* Explain what services is provided */}
 
       <Box sx={{ marginBottom: "50px" }}>
-        <Typography
-          variant="h3"
-          component="div"
-          sx={{ display: "flex", justifyContent: "center" }}
+        <Box
+          sx={{ display: { xs: "none", md: "flex" }, justifyContent: "center" }}
         >
           <Logo variant={"div"} fontSize={"3.5rem"} />
-        </Typography>
+        </Box>
+
+        <Box
+          sx={{ display: { xs: "flex", md: "none" }, justifyContent: "center" }}
+        >
+          <Logo variant={"div"} fontSize={"2.0rem"} />
+        </Box>
 
         <Typography
           variant="h5"
           component="div"
           sx={{
-            display: "flex",
+            display: { xs: "none", md: "flex" },
             justifyContent: "center",
           }}
         >
@@ -85,25 +89,41 @@ export const GetAQuote = () => {
         </Typography>
 
         <Typography
-          variant="body1"
+          variant="h7"
           component="div"
           sx={{
-            display: "flex",
+            display: { xs: "flex", md: "none" },
             justifyContent: "center",
-            color: "gray",
-            marginTop: "7px",
           }}
         >
-          Bring Your Ideas To Life
+          Product Design | Prototyping | 3D Printing
         </Typography>
       </Box>
 
       {/* Get a quote contact */}
 
       <Typography
-        variant="h4"
+        variant="h5"
         component="div"
-        sx={{ display: "flex", justifyContent: "center" }}
+        sx={{
+          display: { xs: "none", md: "flex" },
+          justifyContent: "center",
+          fontSize: "2.0rem",
+          fontWeight: "bold",
+        }}
+      >
+        Get A Quote Now
+      </Typography>
+
+      <Typography
+        variant="h5"
+        component="div"
+        sx={{
+          display: { xs: "flex", md: "none" },
+          justifyContent: "center",
+          fontSize: "1.5rem",
+          fontWeight: "bold",
+        }}
       >
         Get A Quote Now
       </Typography>
