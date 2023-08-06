@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 
-export const Gallery = ({ testRef }) => {
+export const Gallery = () => {
   const images = [
     "1.jpg",
   ];
@@ -22,7 +22,6 @@ export const Gallery = ({ testRef }) => {
         justifyContent: "center",
         marginTop: "30px",
       }}
-      ref={testRef}
     >
       <Grid container spacing={4}>
         {images.map((image, index) => (
