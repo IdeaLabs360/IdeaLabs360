@@ -1,4 +1,3 @@
-import "./App.css";
 import { useRef } from "react";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { Box, CssBaseline, Container } from "@mui/material";
