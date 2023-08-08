@@ -2,6 +2,7 @@ import * as React from "react";
 import {
   AppBar,
   Box,
+  Button,
   Container,
   IconButton,
   Link,
@@ -31,7 +32,11 @@ export const Header = () => {
     <AppBar
       position="sticky"
       elevation={0}
-      sx={{ borderBottom: "1px solid lightgray", marginBottom: "30px" }}
+      sx={{
+        color: "inherit",
+        bgcolor: "white",
+        borderBottom: "1px solid lightgray",
+      }}
     >
       <Container maxWidth="lg">
         <Toolbar
@@ -128,12 +133,18 @@ export const Header = () => {
           {/* End of Sizes */}
 
           <Box sx={{}}>
-            <Link
+            <Button
               href="/quote"
-              sx={{ color: "inherit", textDecoration: "none" }}
+              variant="contained"
+              sx={{
+                px: "20px",
+                py: "10px",
+                fontWeight: "bold",
+                textTransform: "none",
+              }}
             >
-              Get A Quote Now
-            </Link>
+              Get a Quote
+            </Button>
           </Box>
         </Toolbar>
       </Container>

@@ -1,119 +1,136 @@
 import * as React from "react";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 import {
+  Button,
   Container,
   CssBaseline,
+  FormControl,
   Grid,
   Box,
-  Paper,
+  TextField,
   Typography,
 } from "@mui/material";
 
 import { Header } from "./Header";
 
-const CreateQuoteContact = (contact) => {
-  return (
-    <Paper
-      variant="outlined"
-      sx={{
-        display: "flex",
-        bgcolor: "icon.primary",
-        color: "primary.main",
-        justifyContent: "center",
-        width: "280px",
-        padding: "10px",
-      }}
-    >
-      {contact}
-    </Paper>
-  );
-};
+const schema = yup
+  .object({
+    name: yup.string().required(),
+    email: yup.string().email().required(),
+    request: yup.string().required(),
+  })
+  .required();
 
 export const GetAQuote = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ resolver: yupResolver(schema) });
+  const onSubmit = (data) => console.log(data);
+
   return (
     <>
       <Header />
 
       <CssBaseline />
 
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          marginTop: "30px",
-        }}
-      >
-        {/* Get a quote contact */}
-
-        <Typography
-          variant="h5"
-          component="div"
-          sx={{
-            display: { xs: "none", md: "flex" },
-            justifyContent: "center",
-            fontSize: "2.0rem",
-            fontWeight: "bold",
-          }}
-        >
-          Get A Quote Now
-        </Typography>
-
-        <Typography
-          variant="h5"
-          component="div"
-          sx={{
-            display: { xs: "flex", md: "none" },
-            justifyContent: "center",
-            fontSize: "1.5rem",
-            fontWeight: "bold",
-          }}
-        >
-          Get A Quote Now
-        </Typography>
-
-        <Typography
-          variant="body1"
-          component="div"
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            color: "gray",
-          }}
-        >
-          Bring Your Ideas To Life
-        </Typography>
-
-        <Container
-          maxWidth="md"
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            marginTop: "30px",
-          }}
-        >
-          <Grid container spacing={2}>
-            <Grid
-              item
-              xs={12}
-              md={6}
-              justifyContent={{ xs: "center", md: "right" }}
-              sx={{ display: "flex" }}
+      <Grid container spacing={0} sx={{ display: "flex" }}>
+        <Grid item xs={12} sx={{ flexGrow: 1, marginTop: "30px" }}>
+          <Container maxWidth="md">
+            <Typography
+              variant="h5"
+              component="div"
+              sx={{
+                color: "#595e6c",
+                fontSize: "2.0rem",
+                fontWeight: "bold",
+              }}
             >
-              {CreateQuoteContact("Call or Text - (651) 357-6817")}
-            </Grid>
+              Request a Quote
+            </Typography>
 
-            <Grid
-              item
-              xs={12}
-              md={6}
-              justifyContent={{ xs: "center", md: "left" }}
-              sx={{ display: "flex" }}
+            <Typography variant="body2" component="div" sx={{ color: "gray" }}>
+              We just need some information to get started
+            </Typography>
+
+            <FormControl
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                marginTop: "10px",
+              }}
             >
-              {CreateQuoteContact("Email - idealabs360@gmail.com")}
-            </Grid>
-          </Grid>
-        </Container>
-      </Box>
+              <TextField
+                id="name"
+                label="Name"
+                variant="outlined"
+                margin="normal"
+                {...register("name")}
+              />
+
+              <Typography
+                variant="body2"
+                component="span"
+                sx={{ color: "red" }}
+              >
+                {errors.name?.message}
+              </Typography>
+
+              <TextField
+                id="email"
+                label="Email"
+                variant="outlined"
+                margin="normal"
+                {...register("email")}
+              />
+
+              <Typography
+                variant="body2"
+                component="span"
+                sx={{ color: "red" }}
+              >
+                {errors.email?.message}
+              </Typography>
+
+              <TextField
+                id="request"
+                label="Request"
+                variant="outlined"
+                multiline
+                rows={5}
+                margin="normal"
+                {...register("request")}
+              />
+
+              <Typography
+                variant="body2"
+                component="span"
+                sx={{ color: "red" }}
+              >
+                {errors.request?.message}
+              </Typography>
+
+              <Box sx={{ marginTop: "20px" }}>
+                <Button
+                  variant="contained"
+                  onClick={handleSubmit(onSubmit)}
+                  sx={{
+                    color: "secondary",
+                    px: "30px",
+                    py: "10px",
+                    textTransform: "none",
+                  }}
+                >
+                  Submit
+                </Button>
+              </Box>
+            </FormControl>
+          </Container>
+        </Grid>
+      </Grid>
     </>
   );
 };

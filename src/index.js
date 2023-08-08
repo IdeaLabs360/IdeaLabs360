@@ -10,13 +10,7 @@ import { GetAQuote } from "./views/GetAQuote";
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#FFFFFF",
-    },
-    secondary: {
-      main: "#FFFF00",
-    },
-    button: {
-      primary: "#800000",
+      main: "#4A91BF",
     },
     icon: {
       primary: "#4A91BF",
