@@ -98,11 +98,12 @@ export const Header = () => {
               sx={{
                 display: { xs: "flex", md: "none" },
                 color: "icon.primary",
+                fontSize: "medium",
                 mr: 1,
               }}
             />
             <Link href="/" sx={{ color: "inherit", textDecoration: "none" }}>
-              <Logo variant={"h6"} fontSize={"1.5rem"} />
+              <Logo variant={"h6"} fontSize={"1.35rem"} />
             </Link>
           </Box>
 
