@@ -1,13 +1,45 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import "./index.css";
+import reportWebVitals from "./reportWebVitals";
+import { Home } from "./views/Home";
+import { GetAQuote } from "./views/GetAQuote";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#4A91BF",
+    },
+    icon: {
+      primary: "#4A91BF",
+    },
+  },
+  typography: {
+    h4: {
+      lineHeight: "inhert",
+    },
+  },
+});
+
+const router = createBrowserRouter([
+  {
+    path: "*",
+    element: <Home />,
+  },
+  {
+    path: "/quote",
+    element: <GetAQuote />,
+  },
+]);
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <App />
+    <ThemeProvider theme={theme}>
+      <RouterProvider router={router} />
+    </ThemeProvider>
   </React.StrictMode>
 );
 

@@ -5,13 +5,14 @@ name: Node.js CI
 
 on:
   push:
-    branches: ["main"]
-  pull_request:
-    branches: ["main"]
+    branches:
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      REACT_APP_ENV: prod
 
     strategy:
       matrix:

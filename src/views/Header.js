@@ -5,6 +5,7 @@ import {
   Button,
   Container,
   IconButton,
+  Link,
   Menu,
   MenuItem,
   Toolbar,
@@ -14,7 +15,9 @@ import MenuIcon from "@mui/icons-material/Menu";
 import LightbulbRoundedIcon from "@mui/icons-material/LightbulbRounded";
 import { Logo } from "./Logo";
 
-export const Header = ({ contactUsRef, pages }) => {
+const pages = ["Gallery"];
+
+export const Header = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
 
   const handleOpenNavMenu = (event) => {
@@ -25,61 +28,26 @@ export const Header = ({ contactUsRef, pages }) => {
     setAnchorElNav(null);
   };
 
-  const scrollToComponent = (reference) => {
-    scrollToComponentWithOffset(reference, 50);
-    handleCloseNavMenu();
-  };
-
-  const scrollToComponentWithOffset = (componentRef, offset = 0) => {
-    if (componentRef && componentRef.current) {
-      const options = {
-        behavior: "smooth", // or 'auto' for instant scrolling without animation
-        block: "start", // or 'end' to scroll to the bottom edge of the component
-      };
-
-      const element = componentRef.current;
-      const topOffset =
-        element.getBoundingClientRect().top + window.scrollY - offset;
-
-      window.scrollTo({ top: topOffset, ...options });
-    }
-  };
-
   return (
     <AppBar
       position="sticky"
       elevation={0}
-      sx={{ borderBottom: "1px solid lightgray" }}
+      sx={{
+        color: "inherit",
+        bgcolor: "white",
+        borderBottom: "1px solid lightgray",
+      }}
     >
-      <Container maxWidth="xl">
-        <Toolbar disableGutters>
-          <LightbulbRoundedIcon
-            sx={{
-              display: { xs: "none", md: "flex" },
-              color: "icon.primary",
-              mr: 1,
-            }}
-          />
+      <Container maxWidth="lg">
+        <Toolbar
+          disableGutters
+          sx={{ display: "flex", justifyContent: "space-between" }}
+        >
+          {/* XS */}
 
           <Box
-            noWrap
-            component="div"
-            sx={{
-              mr: 2,
-              display: { xs: "none", md: "flex" },
-              color: "inherit",
-              textDecoration: "none",
-            }}
+            sx={{ display: { xs: "flex", md: "none" }, alignItems: "center" }}
           >
-            <Button
-              onClick={() => scrollToComponent(contactUsRef)}
-              sx={{ color: "inherit", textTransform: "none" }}
-            >
-              <Logo variant={"h6"} fontSize={"1.5rem"} />
-            </Button>
-          </Box>
-
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -110,55 +78,74 @@ export const Header = ({ contactUsRef, pages }) => {
               }}
             >
               {pages.map((page) => (
-                <MenuItem
-                  key={page}
-                  onClick={() => scrollToComponent(page.ref)}
-                >
-                  <Typography textAlign="center">{page.name}</Typography>
+                <MenuItem key={page} onClick={() => console.log("page")}>
+                  <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
             </Menu>
           </Box>
 
-          <LightbulbRoundedIcon
-            sx={{
-              display: { xs: "flex", md: "none" },
-              color: "icon.primary",
-              mr: 1,
-            }}
-          />
-
           <Box
             noWrap
             sx={{
-              mr: 2,
               display: { xs: "flex", md: "none" },
-              flexGrow: 1,
+              alignItems: "center",
               color: "inherit",
               textDecoration: "none",
             }}
           >
-            <Button
-              onClick={() => scrollToComponent(contactUsRef)}
-              sx={{ color: "inherit", textTransform: "none" }}
-            >
+            <LightbulbRoundedIcon
+              sx={{
+                display: { xs: "flex", md: "none" },
+                color: "icon.primary",
+                mr: 1,
+              }}
+            />
+            <Link href="/" sx={{ color: "inherit", textDecoration: "none" }}>
               <Logo variant={"h6"} fontSize={"1.5rem"} />
+            </Link>
+          </Box>
+
+          {/* MD */}
+
+          <Box
+            noWrap
+            component="div"
+            sx={{
+              display: { xs: "none", md: "flex" },
+              alignItems: "center",
+              color: "inherit",
+              textDecoration: "none",
+            }}
+          >
+            <LightbulbRoundedIcon
+              sx={{
+                display: { xs: "none", md: "flex" },
+                color: "icon.primary",
+                mr: 1,
+              }}
+            />
+            <Link href="/" sx={{ color: "inherit", textDecoration: "none" }}>
+              <Logo variant={"h6"} fontSize={"1.5rem"} />
+            </Link>
+          </Box>
+
+          {/* End of Sizes */}
+
+          <Box sx={{}}>
+            <Button
+              href="/quote"
+              variant="contained"
+              sx={{
+                px: "20px",
+                py: "10px",
+                fontWeight: "bold",
+                textTransform: "none",
+              }}
+            >
+              Get a Quote
             </Button>
           </Box>
-
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
-              <Button
-                key={page.name}
-                onClick={() => scrollToComponent(page.ref)}
-                sx={{ my: 2, color: "black", display: "block" }}
-              >
-                {page.name}
-              </Button>
-            ))}
-          </Box>
-
-          {/* <Box sx={{ flexGrow: 0 }}>lajsdlfjkals;df</Box> */}
         </Toolbar>
       </Container>
     </AppBar>
