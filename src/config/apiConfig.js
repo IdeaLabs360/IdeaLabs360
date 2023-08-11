@@ -14,7 +14,7 @@ const envConfigs = {
   stg: {},
   prod: {
     api: {
-      baseUrl: "http://3.144.250.97:8080/idealabs360",
+      baseUrl: "https://idealabs360-api-load-balancer-762764709.us-east-2.elb.amazonaws.com/idealabs360",
     },
   },
 };
