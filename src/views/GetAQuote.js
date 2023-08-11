@@ -2,6 +2,7 @@ import * as React from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import axios from "axios";
 import {
   Button,
   Container,
@@ -14,6 +15,7 @@ import {
 } from "@mui/material";
 
 import { Header } from "./Header";
+import apiConfig from "../config/apiConfig";
 
 const schema = yup
   .object({
@@ -29,7 +31,24 @@ export const GetAQuote = () => {
     handleSubmit,
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) });
-  const onSubmit = (data) => console.log(data);
+
+  const onSubmit = async (data) => {
+    const body = {
+      name: data?.name,
+      email: data?.email,
+      request: data?.request,
+    };
+
+    try {
+      const url = `${apiConfig.api.baseUrl}/v1/quote`;
+      const response = await axios.post(url, body);
+      console.log(response);
+    } catch (err) {
+      console.error(err);
+    }
+
+    console.log(data);
+  };
 
   return (
     <>
