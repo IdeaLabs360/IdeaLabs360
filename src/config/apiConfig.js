@@ -14,7 +14,7 @@ const envConfigs = {
   stg: {},
   prod: {
     api: {
-      baseUrl: "http://localhost:8080/idealabs360",
+      baseUrl: "http://3.144.250.97:8080/idealabs360",
     },
   },
 };

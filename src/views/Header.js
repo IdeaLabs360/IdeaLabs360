@@ -134,7 +134,7 @@ export const Header = () => {
 
           <Box sx={{}}>
             <Button
-              href="/quote"
+              href="/#/quote"
               variant="contained"
               sx={{
                 px: "20px",

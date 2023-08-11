@@ -1,11 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createHashRouter, RouterProvider } from "react-router-dom";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import { Home } from "./views/Home";
 import { GetAQuote } from "./views/GetAQuote";
+import { Header } from "./views/Header";
 
 const theme = createTheme({
   palette: {
@@ -23,9 +24,9 @@ const theme = createTheme({
   },
 });
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
-    path: "*",
+    path: "/*",
     element: <Home />,
   },
   {
@@ -38,6 +39,7 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
+      <Header />
       <RouterProvider router={router} />
     </ThemeProvider>
   </React.StrictMode>
