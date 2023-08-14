@@ -7,11 +7,30 @@ import {
   Container,
   Grid,
   Box,
+  Paper,
   Typography,
 } from "@mui/material";
 import AttachMoneyOutlinedIcon from "@mui/icons-material/AttachMoneyOutlined";
 import ElectricBoltOutlinedIcon from "@mui/icons-material/ElectricBoltOutlined";
 import { Logo } from "./Logo";
+
+const CreateQuoteContact = (contact) => {
+  return (
+    <Paper
+      variant="outlined"
+      sx={{
+        display: "flex",
+        bgcolor: "icon.primary",
+        color: "background.paper",
+        justifyContent: "center",
+        width: "280px",
+        padding: "10px",
+      }}
+    >
+      {contact}
+    </Paper>
+  );
+};
 
 const CreateQuoteMotto = (icon, contentTitle, content) => {
   return (
@@ -44,12 +63,12 @@ export const Home = () => {
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
-        marginTop: "30px",
+        marginTop: "50px",
       }}
     >
       {/* Explain what services is provided */}
 
-      <Box sx={{ marginBottom: "50px" }}>
+      <Box>
         <Box
           sx={{
             display: { xs: "none", md: "flex" },
@@ -96,7 +115,38 @@ export const Home = () => {
         sx={{
           display: "flex",
           justifyContent: "center",
-          marginTop: "30px",
+          marginTop: "50px",
+        }}
+      >
+        <Grid container spacing={2}>
+          <Grid
+            item
+            xs={12}
+            md={6}
+            justifyContent={{ xs: "center", md: "right" }}
+            sx={{ display: "flex" }}
+          >
+            {CreateQuoteContact("Call or Text: (651) 357-6817")}
+          </Grid>
+
+          <Grid
+            item
+            xs={12}
+            md={6}
+            justifyContent={{ xs: "center", md: "left" }}
+            sx={{ display: "flex" }}
+          >
+            {CreateQuoteContact("Email: idealabs360@gmail.com")}
+          </Grid>
+        </Grid>
+      </Container>
+
+      <Container
+        maxWidth="md"
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          marginTop: "50px",
         }}
       >
         <Grid container spacing={1}>
