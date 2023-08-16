@@ -230,7 +230,7 @@ export const Home = () => {
               }}
             >
               <PhoneIcon sx={{ mr: 2 }} />
-              651 357 6817
+              +1 (651) 357-6817
             </Button>
           </Grid>
 
