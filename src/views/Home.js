@@ -1,7 +1,11 @@
 import * as React from "react";
+
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
 import {
   Card,
-  CardActionArea,
   CardContent,
   CardMedia,
   Container,
@@ -10,9 +14,28 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
+
 import AttachMoneyOutlinedIcon from "@mui/icons-material/AttachMoneyOutlined";
 import ElectricBoltOutlinedIcon from "@mui/icons-material/ElectricBoltOutlined";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+
 import { Logo } from "./Logo";
+
+const images = [
+  {
+    file: "1.jpg",
+    description: `A custom addition meticulously crafted to perfectly 
+                  match the dimensions of the Mustang emblem`,
+  },
+  {
+    file: "2.jpg",
+    description: `Enhanced grip 3D-printed replacement lever designed 
+                  for the American Flyer 26760 Remote Control Switch. 
+                  This elongated lever offers improved functionality 
+                  compared to the original.`,
+  },
+];
 
 const CreateQuoteContact = (contact) => {
   return (
@@ -54,8 +77,61 @@ const CreateQuoteMotto = (icon, contentTitle, content) => {
   );
 };
 
+const PrevArrow = (props) => {
+  const { className, style, onClick } = props;
+  return (
+    <ArrowBackIcon
+      className={className}
+      style={{
+        ...style,
+        left: 0,
+        display: "block",
+        padding: "15px",
+        backgroundColor: "#4A91BF",
+        color: "white",
+        borderRadius: "50%",
+        zIndex: 1,
+      }}
+      onClick={onClick}
+    />
+  );
+};
+
+const NextArrow = (props) => {
+  const { className, style, onClick } = props;
+  return (
+    <ArrowForwardIcon
+      className={className}
+      style={{
+        ...style,
+        right: 0,
+        display: "block",
+        padding: "15px",
+        backgroundColor: "#4A91BF",
+        color: "white",
+        borderRadius: "50%",
+      }}
+      onClick={onClick}
+    />
+  );
+};
+
 export const Home = () => {
-  const images = ["1.jpg"];
+  const settings = {
+    dots: true,
+    centerMode: true,
+    infinite: true,
+    slidesToShow: 2,
+    slidesToScroll: 1,
+
+    nextArrow: <NextArrow />,
+    prevArrow: <PrevArrow />,
+  };
+
+  const mobileSettings = {
+    ...settings,
+    slidesToShow: 1,
+  };
 
   return (
     <Box
@@ -115,7 +191,7 @@ export const Home = () => {
         sx={{
           display: "flex",
           justifyContent: "center",
-          marginTop: "50px",
+          my: "50px",
         }}
       >
         <Grid container spacing={2}>
@@ -139,6 +215,76 @@ export const Home = () => {
             {CreateQuoteContact("Email: idealabs360@gmail.com")}
           </Grid>
         </Grid>
+      </Container>
+
+      <Container maxWidth="md" sx={{ display: { xs: "block", md: "none" } }}>
+        <Slider {...mobileSettings}>
+          {images.map((image, index) => (
+            <Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                <Card
+                  elevation={0}
+                  sx={{
+                    maxWidth: 345,
+                    mx: "15px",
+                  }}
+                >
+                  <CardMedia
+                    component="img"
+                    height="345"
+                    image={`./img/${image.file}`}
+                    sx={{ objectFit: "contain" }}
+                  />
+                  <CardContent>
+                    <Typography variant="body2" color="text.secondary">
+                      {image.description}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Box>
+            </Box>
+          ))}
+        </Slider>
+      </Container>
+
+      <Container maxWidth="md" sx={{ display: { xs: "none", md: "block" } }}>
+        <Slider {...settings}>
+          {images.map((image, index) => (
+            <Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                <Card
+                  elevation={0}
+                  sx={{
+                    maxWidth: 345,
+                    mx: "15px",
+                  }}
+                >
+                  <CardMedia
+                    component="img"
+                    height="345"
+                    image={`./img/${image.file}`}
+                    sx={{ objectFit: "contain" }}
+                  />
+                  <CardContent>
+                    <Typography variant="body2" color="text.secondary">
+                      {image.description}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Box>
+            </Box>
+          ))}
+        </Slider>
       </Container>
 
       <Container
@@ -194,45 +340,6 @@ export const Home = () => {
                together.`
             )}
           </Grid>
-        </Grid>
-      </Container>
-
-      <Container
-        maxWidth="md"
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          marginTop: "30px",
-        }}
-      >
-        <Grid container spacing={4}>
-          {images.map((image, index) => (
-            <Grid
-              item
-              key={index}
-              xs={12}
-              // sm={6}
-              // md={4}
-              sx={{ display: "flex", justifyContent: "center" }}
-            >
-              <Card sx={{ maxWidth: 345 }}>
-                <CardActionArea>
-                  <CardMedia
-                    component="img"
-                    height="345"
-                    image={`./img/${image}`}
-                    // alt={`project ${image.split(".")[0]}`}
-                  />
-                  <CardContent>
-                    <Typography variant="body2" color="text.secondary">
-                      A custom addition meticulously crafted to perfectly match
-                      the dimensions of the Mustang emblem.
-                    </Typography>
-                  </CardContent>
-                </CardActionArea>
-              </Card>
-            </Grid>
-          ))}
         </Grid>
       </Container>
     </Box>
