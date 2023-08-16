@@ -11,6 +11,7 @@ import {
   Container,
   Grid,
   Box,
+  Button,
   Paper,
   Typography,
 } from "@mui/material";
@@ -224,7 +225,7 @@ export const Home = () => {
         sx={{
           display: "flex",
           justifyContent: "center",
-          my: "30px",
+          my: "50px",
         }}
       >
         <Grid container spacing={2}>
@@ -235,7 +236,17 @@ export const Home = () => {
             justifyContent={{ xs: "center", md: "right" }}
             sx={{ display: "flex" }}
           >
-            {CreateQuoteContact("Call or Text: (651) 357-6817")}
+            <Button
+              onClick={() => window.open("tel:6513576817", "_self")}
+              variant="contained"
+              sx={{
+                bgcolor: "icon.primary",
+                width: "280px",
+                padding: "10px",
+              }}
+            >
+              Call 651 357 6817
+            </Button>
           </Grid>
 
           <Grid
@@ -245,7 +256,19 @@ export const Home = () => {
             justifyContent={{ xs: "center", md: "left" }}
             sx={{ display: "flex" }}
           >
-            {CreateQuoteContact("Email: idealabs360@gmail.com")}
+            <Button
+              onClick={() =>
+                window.open("mailto:idealabs360@gmail.com", "_self")
+              }
+              variant="contained"
+              sx={{
+                bgcolor: "icon.primary",
+                width: "280px",
+                padding: "10px",
+              }}
+            >
+              Email idealabs360@gmail.com
+            </Button>
           </Grid>
         </Grid>
       </Container>
@@ -263,7 +286,7 @@ export const Home = () => {
         sx={{
           display: "flex",
           justifyContent: "center",
-          marginTop: "30px",
+          marginTop: "40px",
         }}
       >
         <Grid container spacing={1}>
