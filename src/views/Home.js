@@ -12,7 +12,6 @@ import {
   Grid,
   Box,
   Button,
-  Paper,
   Typography,
 } from "@mui/material";
 
@@ -37,24 +36,6 @@ const images = [
                   compared to the original.`,
   },
 ];
-
-const CreateQuoteContact = (contact) => {
-  return (
-    <Paper
-      variant="outlined"
-      sx={{
-        display: "flex",
-        bgcolor: "icon.primary",
-        color: "background.paper",
-        justifyContent: "center",
-        width: "280px",
-        padding: "10px",
-      }}
-    >
-      {contact}
-    </Paper>
-  );
-};
 
 const CreateQuoteMotto = (icon, contentTitle, content) => {
   return (
