@@ -9,8 +9,9 @@ export const Header = () => {
       position="sticky"
       elevation={0}
       sx={{
+        py: 1,
         color: "inherit",
-        bgcolor: "white",
+        bgcolor: "#eeeeee",
         borderBottom: "1px solid lightgray",
       }}
     >

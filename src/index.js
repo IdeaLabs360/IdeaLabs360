@@ -7,6 +7,7 @@ import reportWebVitals from "./reportWebVitals";
 import { Home } from "./views/Home";
 import { GetAQuote } from "./views/GetAQuote";
 import { Header } from "./views/Header";
+import { Footer } from "./views/Footer";
 
 const theme = createTheme({
   palette: {
@@ -41,6 +42,7 @@ root.render(
     <ThemeProvider theme={theme}>
       <Header />
       <RouterProvider router={router} />
+      <Footer />
     </ThemeProvider>
   </React.StrictMode>
 );
