@@ -15,6 +15,8 @@ import {
   Typography,
 } from "@mui/material";
 
+import PhoneIcon from "@mui/icons-material/Phone";
+import EmailIcon from "@mui/icons-material/Email";
 import AttachMoneyOutlinedIcon from "@mui/icons-material/AttachMoneyOutlined";
 import ElectricBoltOutlinedIcon from "@mui/icons-material/ElectricBoltOutlined";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -224,9 +226,11 @@ export const Home = () => {
                 bgcolor: "icon.primary",
                 width: "280px",
                 padding: "10px",
+                textTransform: "none",
               }}
             >
-              Call 651 357 6817
+              <PhoneIcon sx={{ mr: 2 }} />
+              651 357 6817
             </Button>
           </Grid>
 
@@ -239,16 +243,21 @@ export const Home = () => {
           >
             <Button
               onClick={() =>
-                window.open("mailto:idealabs360@gmail.com", "_self")
+                window.open(
+                  "mailto:idealabs360@gmail.com?subject=IdeaLabs360 - Quote Request",
+                  "_self"
+                )
               }
               variant="contained"
               sx={{
                 bgcolor: "icon.primary",
                 width: "280px",
                 padding: "10px",
+                textTransform: "none",
               }}
             >
-              Email idealabs360@gmail.com
+              <EmailIcon sx={{ mr: 2 }} />
+              idealabs360@gmail.com
             </Button>
           </Grid>
         </Grid>
