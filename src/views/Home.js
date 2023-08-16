@@ -116,9 +116,42 @@ const NextArrow = (props) => {
   );
 };
 
+const createGallery = () => {
+  return images.map((image, index) => (
+    <Box key={index}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <Card
+          elevation={0}
+          sx={{
+            maxWidth: 345,
+            mx: "15px",
+          }}
+        >
+          <CardMedia
+            component="img"
+            height="345"
+            image={`./img/${image.file}`}
+            sx={{ objectFit: "contain" }}
+          />
+          <CardContent>
+            <Typography variant="body2" color="text.secondary">
+              {image.description}
+            </Typography>
+          </CardContent>
+        </Card>
+      </Box>
+    </Box>
+  ));
+};
+
 export const Home = () => {
   const settings = {
-    dots: true,
+    dots: false,
     centerMode: true,
     infinite: true,
     slidesToShow: 2,
@@ -139,7 +172,7 @@ export const Home = () => {
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
-        marginTop: "50px",
+        marginTop: "30px",
       }}
     >
       {/* Explain what services is provided */}
@@ -191,7 +224,7 @@ export const Home = () => {
         sx={{
           display: "flex",
           justifyContent: "center",
-          my: "50px",
+          my: "30px",
         }}
       >
         <Grid container spacing={2}>
@@ -218,73 +251,11 @@ export const Home = () => {
       </Container>
 
       <Container maxWidth="md" sx={{ display: { xs: "block", md: "none" } }}>
-        <Slider {...mobileSettings}>
-          {images.map((image, index) => (
-            <Box>
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                }}
-              >
-                <Card
-                  elevation={0}
-                  sx={{
-                    maxWidth: 345,
-                    mx: "15px",
-                  }}
-                >
-                  <CardMedia
-                    component="img"
-                    height="345"
-                    image={`./img/${image.file}`}
-                    sx={{ objectFit: "contain" }}
-                  />
-                  <CardContent>
-                    <Typography variant="body2" color="text.secondary">
-                      {image.description}
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Box>
-            </Box>
-          ))}
-        </Slider>
+        <Slider {...mobileSettings}>{createGallery()}</Slider>
       </Container>
 
       <Container maxWidth="md" sx={{ display: { xs: "none", md: "block" } }}>
-        <Slider {...settings}>
-          {images.map((image, index) => (
-            <Box>
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                }}
-              >
-                <Card
-                  elevation={0}
-                  sx={{
-                    maxWidth: 345,
-                    mx: "15px",
-                  }}
-                >
-                  <CardMedia
-                    component="img"
-                    height="345"
-                    image={`./img/${image.file}`}
-                    sx={{ objectFit: "contain" }}
-                  />
-                  <CardContent>
-                    <Typography variant="body2" color="text.secondary">
-                      {image.description}
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Box>
-            </Box>
-          ))}
-        </Slider>
+        <Slider {...settings}>{createGallery()}</Slider>
       </Container>
 
       <Container
@@ -292,7 +263,7 @@ export const Home = () => {
         sx={{
           display: "flex",
           justifyContent: "center",
-          marginTop: "50px",
+          marginTop: "30px",
         }}
       >
         <Grid container spacing={1}>
