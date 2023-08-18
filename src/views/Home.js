@@ -134,6 +134,12 @@ const createGallery = () => {
 };
 
 export const Home = () => {
+  const descriptionTokens = [
+    "3D Design Services",
+    "Rapid Prototyping Services",
+    "3D Printing Services",
+  ];
+
   const settings = {
     dots: false,
     centerMode: true,
@@ -181,14 +187,15 @@ export const Home = () => {
         </Box>
 
         <Typography
-          variant="h5"
+          variant="h6"
           component="div"
           sx={{
             display: { xs: "none", md: "flex" },
             justifyContent: "center",
+            color: "gray",
           }}
         >
-          Product Design | Prototyping | 3D Printing
+          {descriptionTokens.join(" | ")}
         </Typography>
 
         <Typography
@@ -197,9 +204,26 @@ export const Home = () => {
           sx={{
             display: { xs: "flex", md: "none" },
             justifyContent: "center",
+            color: "gray",
+            mt: 1,
           }}
         >
-          Product Design | Prototyping | 3D Printing
+          <Grid container spacing={1}>
+            <Grid
+              item
+              xs={12}
+              sx={{ display: "flex", justifyContent: "center" }}
+            >
+              {`${descriptionTokens[0]} | ${descriptionTokens[1]}`}
+            </Grid>
+            <Grid
+              item
+              xs={12}
+              sx={{ display: "flex", justifyContent: "center" }}
+            >
+              {descriptionTokens[2]}
+            </Grid>
+          </Grid>
         </Typography>
       </Box>
 

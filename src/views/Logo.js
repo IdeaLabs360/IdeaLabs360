@@ -3,7 +3,7 @@ import { Box, Typography } from "@mui/material";
 
 export const Logo = ({ variant, fontSize }) => {
   return (
-    <Box sx={{ mr: 2, display: "flex" }}>
+    <Box sx={{ display: "flex" }}>
       <Typography
         variant={variant}
         noWrap
