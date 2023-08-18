@@ -14,6 +14,7 @@ import {
   Typography,
 } from "@mui/material";
 import Divider from "@mui/material/Divider";
+import CircularProgress from "@mui/material/CircularProgress";
 
 import apiConfig from "../config/apiConfig";
 
@@ -28,6 +29,7 @@ const schema = yup
 export const GetAQuote = () => {
   const [open, setOpen] = React.useState(false);
   const [success, setSuccess] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(false);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -46,6 +48,8 @@ export const GetAQuote = () => {
     };
 
     try {
+      setIsLoading(true);
+
       const url = `${apiConfig.api.baseUrl}/v1/quote`;
       const response = await axios.post(url, body, {
         headers: {
@@ -58,6 +62,7 @@ export const GetAQuote = () => {
       setSuccess(false);
     }
 
+    setIsLoading(false);
     handleOpen();
   };
 
@@ -143,14 +148,21 @@ export const GetAQuote = () => {
                 <Button
                   variant="contained"
                   onClick={handleSubmit(onSubmit)}
+                  disabled={isLoading}
                   sx={{
                     color: "secondary",
+                    width: "100px",
+                    height: "40px",
                     px: "30px",
                     py: "10px",
                     textTransform: "none",
                   }}
                 >
-                  Submit
+                  {isLoading ? (
+                    <CircularProgress size={20} sx={{ color: "white" }} />
+                  ) : (
+                    "Submit"
+                  )}
                 </Button>
               </Box>
             </FormControl>
