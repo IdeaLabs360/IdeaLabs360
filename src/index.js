@@ -8,6 +8,9 @@ import { Home } from "./views/Home";
 import { GetAQuote } from "./views/GetAQuote";
 import { Header } from "./views/Header";
 import { Footer } from "./views/Footer";
+import { PrintHome } from "./routes/print/PrintHome";
+import { DesignHome } from "./routes/design/DesignHome";
+import { PrintQuote } from "./routes/print/PrintQuote";
 
 const theme = createTheme({
   palette: {
@@ -23,12 +26,47 @@ const theme = createTheme({
       lineHeight: "inhert",
     },
   },
+  components: {
+    MuiButton: {
+      defaultProps: {
+        disableElevation: true,
+      },
+      styleOverrides: {
+        root: {
+          textTransform: "none",
+        },
+      },
+    },
+    MuiIconButton: {
+      styleOverrides: {
+        root: {
+          color: "#FFFFFF",
+          backgroundColor: "#4A91BF",
+          "&:hover": {
+            backgroundColor: "#175E8C",
+          },
+        },
+      },
+    },
+  },
 });
 
 const router = createHashRouter([
   {
     path: "/*",
     element: <Home />,
+  },
+  {
+    path: "/design",
+    element: <DesignHome />,
+  },
+  {
+    path: "/print",
+    element: <PrintHome />,
+  },
+  {
+    path: "/print/quote",
+    element: <PrintQuote />,
   },
   {
     path: "/quote",

@@ -1,13 +1,8 @@
 import * as React from "react";
 
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-
 import {
   Card,
   CardContent,
-  CardMedia,
   Container,
   Grid,
   Box,
@@ -19,25 +14,8 @@ import PhoneIcon from "@mui/icons-material/Phone";
 import EmailIcon from "@mui/icons-material/Email";
 import AttachMoneyOutlinedIcon from "@mui/icons-material/AttachMoneyOutlined";
 import ElectricBoltOutlinedIcon from "@mui/icons-material/ElectricBoltOutlined";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 import { Logo } from "./Logo";
-
-const images = [
-  {
-    file: "1.jpg",
-    description: `A custom addition meticulously crafted to perfectly 
-                  match the dimensions of the Mustang emblem`,
-  },
-  {
-    file: "2.jpg",
-    description: `Enhanced grip 3D-printed replacement lever designed 
-                  for the American Flyer 26760 Remote Control Switch. 
-                  This elongated lever offers improved functionality 
-                  compared to the original.`,
-  },
-];
 
 const CreateQuoteMotto = (icon, contentTitle, content) => {
   return (
@@ -61,100 +39,12 @@ const CreateQuoteMotto = (icon, contentTitle, content) => {
   );
 };
 
-const PrevArrow = (props) => {
-  const { className, style, onClick } = props;
-  return (
-    <ArrowBackIcon
-      className={className}
-      style={{
-        ...style,
-        left: 0,
-        display: "block",
-        padding: "15px",
-        backgroundColor: "#4A91BF",
-        color: "white",
-        borderRadius: "50%",
-        zIndex: 1,
-      }}
-      onClick={onClick}
-    />
-  );
-};
-
-const NextArrow = (props) => {
-  const { className, style, onClick } = props;
-  return (
-    <ArrowForwardIcon
-      className={className}
-      style={{
-        ...style,
-        right: 0,
-        display: "block",
-        padding: "15px",
-        backgroundColor: "#4A91BF",
-        color: "white",
-        borderRadius: "50%",
-      }}
-      onClick={onClick}
-    />
-  );
-};
-
-const createGallery = () => {
-  return images.map((image, index) => (
-    <Box key={index}>
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-        }}
-      >
-        <Card
-          elevation={0}
-          sx={{
-            maxWidth: 345,
-            mx: "15px",
-          }}
-        >
-          <CardMedia
-            component="img"
-            height="345"
-            image={`./img/${image.file}`}
-            sx={{ objectFit: "contain" }}
-          />
-          <CardContent>
-            <Typography variant="body2" color="text.secondary">
-              {image.description}
-            </Typography>
-          </CardContent>
-        </Card>
-      </Box>
-    </Box>
-  ));
-};
-
 export const Home = () => {
   const descriptionTokens = [
     "3D Design Services",
     "Rapid Prototyping Services",
     "3D Printing Services",
   ];
-
-  const settings = {
-    dots: false,
-    centerMode: true,
-    infinite: true,
-    slidesToShow: 2,
-    slidesToScroll: 1,
-
-    nextArrow: <NextArrow />,
-    prevArrow: <PrevArrow />,
-  };
-
-  const mobileSettings = {
-    ...settings,
-    slidesToShow: 1,
-  };
 
   return (
     <Box
@@ -285,14 +175,6 @@ export const Home = () => {
             </Button>
           </Grid>
         </Grid>
-      </Container>
-
-      <Container maxWidth="md" sx={{ display: { xs: "block", md: "none" } }}>
-        <Slider {...mobileSettings}>{createGallery()}</Slider>
-      </Container>
-
-      <Container maxWidth="md" sx={{ display: { xs: "none", md: "block" } }}>
-        <Slider {...settings}>{createGallery()}</Slider>
       </Container>
 
       <Container

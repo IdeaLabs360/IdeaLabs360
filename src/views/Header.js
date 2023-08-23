@@ -13,9 +13,19 @@ import {
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import LightbulbRoundedIcon from "@mui/icons-material/LightbulbRounded";
+import PhoneIcon from "@mui/icons-material/Phone";
+import EmailIcon from "@mui/icons-material/Email";
 import { Logo } from "./Logo";
 
 const pages = [
+  // {
+  //   name: "Design",
+  //   action: () => window.open("/#/design", "_self"),
+  // },
+  {
+    name: "3D Print",
+    action: () => window.open("/#/print", "_self"),
+  },
   {
     name: "Shop",
     action: () =>
@@ -42,13 +52,12 @@ export const Header = () => {
       position="sticky"
       elevation={0}
       sx={{
-        py: 1,
         color: "inherit",
-        bgcolor: "#eeeeee",
-        borderBottom: "1px solid lightgray",
+        bgcolor: "#ffffff",
+        boxShadow: "0 5px 20px 0 #0b076e0a",
       }}
     >
-      <Container maxWidth="lg">
+      <Container maxWidth={false}>
         <Toolbar
           disableGutters
           sx={{ display: "flex", justifyContent: "space-between" }}
@@ -64,9 +73,13 @@ export const Header = () => {
               aria-controls="menu-appbar"
               aria-haspopup="true"
               onClick={handleOpenNavMenu}
-              color="inherit"
+              sx={{
+                color: "black",
+                bgcolor: "white",
+                "&:hover": { bgcolor: "white" },
+              }}
             >
-              <MenuIcon sx={{ color: "icon.primary" }} />
+              <MenuIcon />
             </IconButton>
 
             <Menu
@@ -89,7 +102,15 @@ export const Header = () => {
             >
               {pages.map((page) => (
                 <MenuItem key={page.name} onClick={page.action}>
-                  <Typography color="gray" textAlign="center">
+                  <Typography
+                    textAlign="center"
+                    sx={{
+                      px: 2,
+                      py: 1,
+                      fontSize: "0.875rem",
+                      fontWeight: "bold",
+                    }}
+                  >
                     {page.name}
                   </Typography>
                 </MenuItem>
@@ -109,7 +130,6 @@ export const Header = () => {
             <LightbulbRoundedIcon
               sx={{
                 display: { xs: "flex", md: "none" },
-                color: "icon.primary",
                 fontSize: "medium",
                 mr: 1,
               }}
@@ -134,11 +154,13 @@ export const Header = () => {
             <LightbulbRoundedIcon
               sx={{
                 display: { xs: "none", md: "flex" },
-                color: "icon.primary",
                 mr: 1,
               }}
             />
-            <Link href="/" sx={{ color: "inherit", textDecoration: "none" }}>
+            <Link
+              href="/"
+              sx={{ mr: 2, color: "inherit", textDecoration: "none" }}
+            >
               <Logo variant={"h6"} fontSize={"1.5rem"} />
             </Link>
           </Box>
@@ -149,15 +171,12 @@ export const Header = () => {
                 key={page.name}
                 onClick={page.action}
                 sx={{
-                  my: 2,
-                  color: "gray",
-                  display: "block",
+                  color: "black",
                   textTransform: "none",
+                  fontWeight: "bold",
                 }}
               >
-                <Typography color="gray" textAlign="center">
-                  {page.name}
-                </Typography>
+                {page.name}
               </Button>
             ))}
           </Box>
@@ -165,18 +184,25 @@ export const Header = () => {
           {/* End of Sizes */}
 
           <Box sx={{}}>
-            <Button
-              href="/#/quote"
+            <IconButton
+              onClick={() => window.open("tel:6513576817", "_self")}
               variant="contained"
-              sx={{
-                px: "20px",
-                py: "10px",
-                fontWeight: "bold",
-                textTransform: "none",
-              }}
+              sx={{ mr: 1.5 }}
             >
-              Get a Quote
-            </Button>
+              <PhoneIcon sx={{ fontSize: "medium" }} />
+            </IconButton>
+
+            <IconButton
+              onClick={() =>
+                window.open(
+                  "mailto:idealabs360@gmail.com?subject=IdeaLabs360 - Quote Request",
+                  "_self"
+                )
+              }
+              variant="contained"
+            >
+              <EmailIcon sx={{ fontSize: "medium" }} />
+            </IconButton>
           </Box>
         </Toolbar>
       </Container>
