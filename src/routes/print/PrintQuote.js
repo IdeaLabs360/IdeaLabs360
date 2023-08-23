@@ -159,11 +159,12 @@ export const PrintQuote = () => {
                 </MenuItem>
               </TextField>
 
-              <Box sx={{ ml: 2, mt: 1 }}>
+              <Box sx={{ ml: 2, mt: 2 }}>
                 <FormControlLabel
                   id="no-file"
                   label="I don't have design file"
                   control={<Checkbox />}
+                  sx={{ ml: 0 }}
                   {...register("noFile")}
                 />
 
@@ -179,7 +180,7 @@ export const PrintQuote = () => {
               </Box>
 
               <Box sx={{ ml: 2, my: 1, color: "text.secondary" }}>
-                {userHasDesignFile && file && file[0].name}
+                {userHasDesignFile && file && file[0]?.name}
               </Box>
 
               <TextField
