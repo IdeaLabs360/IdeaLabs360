@@ -25,15 +25,7 @@ const reviews = [
   },
 ];
 
-export const materials = [
-  "PLA",
-  "ABS",
-  "PETG",
-  "TPU",
-  "Nylon",
-  "Polycarbonate",
-  "ASA",
-];
+export const materials = ["PLA", "ABS", "PETG", "TPU", "Nylon", "ASA"];
 
 export const PrintHome = () => {
   const settings = {

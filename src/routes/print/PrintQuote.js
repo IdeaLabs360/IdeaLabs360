@@ -5,12 +5,14 @@ import * as yup from "yup";
 import axios from "axios";
 import {
   Button,
-  Checkbox,
   Container,
   FormControl,
-  FormControlLabel,
   Grid,
   Box,
+  IconButton,
+  List,
+  ListItem,
+  ListItemText,
   Modal,
   MenuItem,
   TextField,
@@ -19,6 +21,7 @@ import {
 import Divider from "@mui/material/Divider";
 import CircularProgress from "@mui/material/CircularProgress";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 import apiConfig from "../../config/apiConfig";
 import { materials } from "./PrintHome";
@@ -31,6 +34,7 @@ const schema = yup
   .required();
 
 export const PrintQuote = () => {
+  const [files, setFiles] = React.useState([]);
   const [open, setOpen] = React.useState(false);
   const [success, setSuccess] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
@@ -39,26 +43,22 @@ export const PrintQuote = () => {
   const handleClose = () => setOpen(false);
 
   const {
-    watch,
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) });
 
-  const file = watch("file");
-  const userHasDesignFile = !watch("noFile");
-
-  const onSubmit = async (data) => {
+  const onSubmit = async ({ name, email, material, comment }) => {
     const formData = new FormData();
-    formData.append("name", data?.name);
-    formData.append("email", data?.email);
-    formData.append("material", data?.material);
+    formData.append("name", name);
+    formData.append("email", email);
+    formData.append("material", material);
 
-    if (userHasDesignFile && data?.file) {
-      formData.append("file", data?.file[0]);
+    for (const file of files) {
+      formData.append("file", file);
     }
 
-    formData.append("comment", data?.comment);
+    formData.append("comment", comment);
 
     try {
       setIsLoading(true);
@@ -159,28 +159,51 @@ export const PrintQuote = () => {
                 </MenuItem>
               </TextField>
 
-              <Box sx={{ ml: 2, mt: 2 }}>
-                <FormControlLabel
-                  id="no-file"
-                  label="I don't have design file"
-                  control={<Checkbox />}
-                  sx={{ ml: 0 }}
-                  {...register("noFile")}
+              <Button variant="contained" component="label" sx={{ mt: 1 }}>
+                <FileUploadIcon sx={{ mr: 1 }} />
+                Upload .STL File
+                <input
+                  type="file"
+                  multiple
+                  hidden
+                  onClick={(e) => (e.target.value = null)}
+                  onChange={(e) => setFiles([...files, ...e.target.files])}
                 />
+              </Button>
 
-                <Button
-                  variant="contained"
-                  component="label"
-                  disabled={watch("noFile")}
-                >
-                  <FileUploadIcon sx={{ mr: 1 }} />
-                  Upload .STL File
-                  <input type="file" hidden {...register("file")} />
-                </Button>
-              </Box>
+              <Box
+                display={files?.length === 0 ? "none" : "block"}
+                sx={{
+                  ml: 2,
+                  my: 1,
+                  color: "text.secondary",
+                  maxHeight: "120px",
+                  overflow: "auto",
+                }}
+              >
+                <List>
+                  {files?.map((file, index) => (
+                    <ListItem key={`file-${index}`} disablePadding>
+                      <IconButton
+                        onClick={() => {
+                          files.splice(index, 1);
+                          setFiles([...files]);
+                        }}
+                        variant="contained"
+                        sx={{
+                          mr: 1,
+                          bgcolor: "white",
+                          color: "black",
+                          "&:hover": { bgcolor: "white" },
+                        }}
+                      >
+                        <DeleteIcon sx={{ fontSize: "medium" }} />
+                      </IconButton>
 
-              <Box sx={{ ml: 2, my: 1, color: "text.secondary" }}>
-                {userHasDesignFile && file && file[0]?.name}
+                      <ListItemText primary={file.name} />
+                    </ListItem>
+                  ))}
+                </List>
               </Box>
 
               <TextField
