@@ -48,7 +48,7 @@ export const PrintQuote = () => {
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) });
 
-  const onSubmit = async ({ name, email, material, comment }) => {
+  const onSubmit = async ({ name, email, material, details }) => {
     const formData = new FormData();
     formData.append("name", name);
     formData.append("email", email);
@@ -58,7 +58,7 @@ export const PrintQuote = () => {
       formData.append("file", file);
     }
 
-    formData.append("comment", comment);
+    formData.append("details", details);
 
     try {
       setIsLoading(true);
@@ -207,13 +207,13 @@ export const PrintQuote = () => {
               </Box>
 
               <TextField
-                id="comment"
-                label="Comment"
+                id="details"
+                label="Additional Details"
                 variant="outlined"
                 multiline
                 rows={5}
                 margin="normal"
-                {...register("comment")}
+                {...register("details")}
               />
 
               <Box sx={{ marginTop: "20px" }}>
