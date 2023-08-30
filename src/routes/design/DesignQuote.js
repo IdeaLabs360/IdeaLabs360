@@ -258,14 +258,14 @@ export const DesignQuote = () => {
           <Typography id="modal-modal-description" sx={{ my: 2 }}>
             {success ? (
               <>
-                Thank you for submitting the quote. We will be in touch with you
-                within one business day
+                Thank you for submitting a consultation request. We will be in
+                touch with you within one business day.
               </>
             ) : (
               <>
-                An issue occurred while submitting the quote. Please make
+                An issue occurred while submitting the request. Please make
                 another attempt or contact us using the information provided
-                below. We appologies for inconvinience
+                below. We apologize for the inconvenience.
               </>
             )}
           </Typography>
