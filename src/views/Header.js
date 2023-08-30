@@ -18,14 +18,6 @@ import EmailIcon from "@mui/icons-material/Email";
 import { Logo } from "./Logo";
 
 const pages = [
-  // {
-  //   name: "Design",
-  //   action: () => window.open("/#/design", "_self"),
-  // },
-  {
-    name: "3D Print",
-    action: () => window.open("/#/print", "_self"),
-  },
   {
     name: "Shop",
     action: () =>

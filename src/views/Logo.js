@@ -25,7 +25,7 @@ export const Logo = ({ variant, fontSize }) => {
           fontFamily: "monospace",
           fontWeight: 700,
           fontSize: { fontSize },
-          color: "gray",
+          color: "text.secondary",
         }}
       >
         Labs

@@ -24,7 +24,7 @@ import FileUploadIcon from "@mui/icons-material/FileUpload";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 import apiConfig from "../../config/apiConfig";
-import { materials } from "./PrintHome";
+import { materials } from "../../views/Home";
 
 const schema = yup
   .object({
@@ -54,6 +54,8 @@ export const PrintQuote = () => {
     formData.append("email", email);
     formData.append("material", material);
 
+    formData.append("type", "Print");
+
     for (const file of files) {
       formData.append("file", file);
     }
@@ -63,7 +65,7 @@ export const PrintQuote = () => {
     try {
       setIsLoading(true);
 
-      const url = `${apiConfig.api.baseUrl}/v1/print/quote`;
+      const url = `${apiConfig.api.baseUrl}/v1/quote`;
       const response = await axios.post(url, formData);
 
       setSuccess(response.status === 200);
@@ -83,16 +85,16 @@ export const PrintQuote = () => {
             <Typography
               variant="h5"
               component="div"
-              sx={{
-                color: "#595e6c",
-                fontSize: "2.0rem",
-                fontWeight: "bold",
-              }}
+              sx={{ fontSize: "2.0rem", fontWeight: "bold" }}
             >
               Request a Quote
             </Typography>
 
-            <Typography variant="body2" component="div" sx={{ color: "gray" }}>
+            <Typography
+              variant="body2"
+              component="div"
+              sx={{ color: "text.secondary" }}
+            >
               We just need some information to get started
             </Typography>
 
@@ -161,7 +163,7 @@ export const PrintQuote = () => {
 
               <Button variant="contained" component="label" sx={{ mt: 1 }}>
                 <FileUploadIcon sx={{ mr: 1 }} />
-                Upload .STL File
+                Upload Design File
                 <input
                   type="file"
                   multiple
@@ -283,8 +285,7 @@ export const PrintQuote = () => {
             {success ? (
               <>
                 Thank you for submitting the quote. We will be in touch with you
-                within one business day. Please don't hesitate to make another
-                attempt or contact us using the information provided below
+                within one business day
               </>
             ) : (
               <>

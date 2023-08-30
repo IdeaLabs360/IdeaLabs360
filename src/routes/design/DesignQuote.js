@@ -9,24 +9,30 @@ import {
   FormControl,
   Grid,
   Box,
+  IconButton,
+  List,
+  ListItem,
+  ListItemText,
   Modal,
   TextField,
   Typography,
 } from "@mui/material";
 import Divider from "@mui/material/Divider";
 import CircularProgress from "@mui/material/CircularProgress";
+import FileUploadIcon from "@mui/icons-material/FileUpload";
+import DeleteIcon from "@mui/icons-material/Delete";
 
-import apiConfig from "../config/apiConfig";
+import apiConfig from "../../config/apiConfig";
 
 const schema = yup
   .object({
     name: yup.string().required(),
     email: yup.string().email().required(),
-    request: yup.string().required(),
   })
   .required();
 
-export const GetAQuote = () => {
+export const DesignQuote = () => {
+  const [files, setFiles] = React.useState([]);
   const [open, setOpen] = React.useState(false);
   const [success, setSuccess] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
@@ -40,22 +46,25 @@ export const GetAQuote = () => {
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) });
 
-  const onSubmit = async (data) => {
-    const body = {
-      name: data?.name,
-      email: data?.email,
-      request: data?.request,
-    };
+  const onSubmit = async ({ name, email, details }) => {
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("email", email);
+
+    formData.append("type", "Design");
+    formData.append("material", "N/A");
+
+    for (const file of files) {
+      formData.append("file", file);
+    }
+
+    formData.append("details", details);
 
     try {
       setIsLoading(true);
 
       const url = `${apiConfig.api.baseUrl}/v1/quote`;
-      const response = await axios.post(url, body, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await axios.post(url, formData);
 
       setSuccess(response.status === 200);
     } catch (err) {
@@ -74,16 +83,16 @@ export const GetAQuote = () => {
             <Typography
               variant="h5"
               component="div"
-              sx={{
-                color: "#595e6c",
-                fontSize: "2.0rem",
-                fontWeight: "bold",
-              }}
+              sx={{ fontSize: "2.0rem", fontWeight: "bold" }}
             >
-              Request a Quote
+              Request a Free Design Consultation
             </Typography>
 
-            <Typography variant="body2" component="div" sx={{ color: "gray" }}>
+            <Typography
+              variant="body2"
+              component="div"
+              sx={{ color: "text.secondary" }}
+            >
               We just need some information to get started
             </Typography>
 
@@ -123,26 +132,65 @@ export const GetAQuote = () => {
                 component="span"
                 sx={{ color: "red" }}
               >
-                {errors.email?.message}
+                {errors.name?.message}
               </Typography>
 
+              <Button variant="contained" component="label" sx={{ mt: 1 }}>
+                <FileUploadIcon sx={{ mr: 1 }} />
+                Upload Supporting Files
+                <input
+                  type="file"
+                  multiple
+                  hidden
+                  onClick={(e) => (e.target.value = null)}
+                  onChange={(e) => setFiles([...files, ...e.target.files])}
+                />
+              </Button>
+
+              <Box
+                display={files?.length === 0 ? "none" : "block"}
+                sx={{
+                  ml: 2,
+                  my: 1,
+                  color: "text.secondary",
+                  maxHeight: "120px",
+                  overflow: "auto",
+                }}
+              >
+                <List>
+                  {files?.map((file, index) => (
+                    <ListItem key={`file-${index}`} disablePadding>
+                      <IconButton
+                        onClick={() => {
+                          files.splice(index, 1);
+                          setFiles([...files]);
+                        }}
+                        variant="contained"
+                        sx={{
+                          mr: 1,
+                          bgcolor: "white",
+                          color: "black",
+                          "&:hover": { bgcolor: "white" },
+                        }}
+                      >
+                        <DeleteIcon sx={{ fontSize: "medium" }} />
+                      </IconButton>
+
+                      <ListItemText primary={file.name} />
+                    </ListItem>
+                  ))}
+                </List>
+              </Box>
+
               <TextField
-                id="request"
-                label="Request"
+                id="details"
+                label="Additional Details"
                 variant="outlined"
                 multiline
                 rows={5}
                 margin="normal"
-                {...register("request")}
+                {...register("details")}
               />
-
-              <Typography
-                variant="body2"
-                component="span"
-                sx={{ color: "red" }}
-              >
-                {errors.request?.message}
-              </Typography>
 
               <Box sx={{ marginTop: "20px" }}>
                 <Button
@@ -211,14 +259,13 @@ export const GetAQuote = () => {
             {success ? (
               <>
                 Thank you for submitting the quote. We will be in touch with you
-                within one business day. Please don't hesitate to make another
-                attempt or contact us using the information provided below
+                within one business day
               </>
             ) : (
               <>
-                An issue occurred while submitting the quote. Please don't
-                hesitate to make another attempt or contact us using the
-                information provided below
+                An issue occurred while submitting the quote. Please make
+                another attempt or contact us using the information provided
+                below. We appologies for inconvinience
               </>
             )}
           </Typography>
@@ -235,29 +282,6 @@ export const GetAQuote = () => {
               <Box>idealabs360@gmail.com</Box>
             </Grid>
           </Grid>
-
-          {/* <List sx={{ my: 2 }}>
-            <ListItem disablePadding>
-              <ListItemText primary={watch("name")} />
-            </ListItem>
-
-            <ListItem disablePadding>
-              <ListItemText primary={watch("email")} />
-            </ListItem>
-
-            <ListItem disablePadding>
-              <ListItemText
-                primary={watch("request")}
-                sx={{
-                  maxHeight: "150px",
-                  overflowY: "auto",
-                  borderTop: "1px dashed lightgray",
-                  borderBottom: "1px dashed lightgray",
-                  py: 1,
-                }}
-              />
-            </ListItem>
-          </List> */}
         </Box>
       </Modal>
     </>

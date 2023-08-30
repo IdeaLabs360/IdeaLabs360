@@ -5,12 +5,10 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import { Home } from "./views/Home";
-import { GetAQuote } from "./views/GetAQuote";
 import { Header } from "./views/Header";
 import { Footer } from "./views/Footer";
-import { PrintHome } from "./routes/print/PrintHome";
-import { DesignHome } from "./routes/design/DesignHome";
 import { PrintQuote } from "./routes/print/PrintQuote";
+import { DesignQuote } from "./routes/design/DesignQuote";
 
 const theme = createTheme({
   palette: {
@@ -53,24 +51,16 @@ const theme = createTheme({
 
 const router = createHashRouter([
   {
-    path: "/*",
+    path: "*",
     element: <Home />,
   },
   {
-    path: "/design",
-    element: <DesignHome />,
-  },
-  {
-    path: "/print",
-    element: <PrintHome />,
+    path: "/design/quote",
+    element: <DesignQuote />,
   },
   {
     path: "/print/quote",
     element: <PrintQuote />,
-  },
-  {
-    path: "/quote",
-    element: <GetAQuote />,
   },
 ]);
 
