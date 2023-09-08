@@ -1,4 +1,5 @@
 import { Box, Button, Typography } from "@mui/material";
+import LockIcon from "@mui/icons-material/Lock";
 import RequestQuoteIcon from "@mui/icons-material/RequestQuote";
 import { materials } from "../../views/Home";
 
@@ -12,11 +13,11 @@ export const PrintHome = () => {
       }}
     >
       <Box>
-        <Box sx={{ display: "flex", justifyContent: "center" }}>
+        <Box sx={{ display: "flex" }}>
           <Typography
             component="div"
             variant="h4"
-            sx={{ display: { xs: "none", md: "flex" }, fontWeight: "700" }}
+            sx={{ display: { xs: "none", md: "flex" } }}
           >
             3D Print Your Designs
           </Typography>
@@ -30,69 +31,18 @@ export const PrintHome = () => {
           </Typography>
         </Box>
 
-        <Box sx={{ mt: 1, color: "#676e8b" }}>
+        <Box sx={{ mt: 2, color: "#676e8b" }}>
           <Typography
-            variant="h6"
+            variant="body1"
             component="div"
-            sx={{
-              display: { xs: "none", md: "flex" },
-              justifyContent: "center",
-            }}
+            sx={{ display: { xs: "none", md: "flex" } }}
           >
             Use cutting edge FDM printing and bring your ideas to life
           </Typography>
-
-          <Typography
-            variant="h7"
-            component="div"
-            sx={{
-              display: { xs: "flex", md: "none" },
-              justifyContent: "center",
-              mt: 1,
-            }}
-          >
-            Use cutting edge FDM printing
-          </Typography>
-
-          <Typography
-            variant="h7"
-            component="div"
-            sx={{
-              display: { xs: "flex", md: "none" },
-              justifyContent: "center",
-              color: "#676e8b",
-              mt: 1,
-            }}
-          >
-            Bring your ideas to life
-          </Typography>
-        </Box>
-
-        <Box sx={{ my: 4, textAlign: "center" }}>
-          <Button
-            onClick={() => window.open("/#/print/quote", "_self")}
-            variant="contained"
-            sx={{
-              py: 1.5,
-              px: 3,
-              bgcolor: "icon.primary",
-              textTransform: "none",
-              textAlign: "left",
-              fontWeight: "700",
-            }}
-          >
-            <RequestQuoteIcon sx={{ mr: 2 }} />
-            Get a FREE Quote Now
-          </Button>
         </Box>
 
         <Box
-          sx={{
-            display: { xs: "block", md: "flex" },
-            justifyContent: "center",
-            alignItems: "center",
-            textAlign: "center",
-          }}
+          sx={{ display: { xs: "block", md: "flex" }, alignItems: "center" }}
         >
           <Typography
             component="div"
@@ -105,6 +55,51 @@ export const PrintHome = () => {
           <Typography component="div" variant="body2" sx={{ color: "#676e8b" }}>
             {materials.join(", ")}
           </Typography>
+        </Box>
+
+        <Box
+          sx={{
+            mt: 4,
+            p: 4,
+            border: "2px dashed #676e8b78",
+            borderRadius: "10px",
+          }}
+        >
+          <Box sx={{ pb: 2, display: "flex", justifyContent: "center" }}>
+            <Button
+              onClick={() => window.open("/#/print/quote", "_self")}
+              variant="contained"
+              sx={{
+                py: 1.5,
+                px: 3,
+                bgcolor: "icon.primary",
+                textTransform: "none",
+                textAlign: "left",
+                fontWeight: "700",
+              }}
+            >
+              <RequestQuoteIcon sx={{ mr: 2 }} />
+              Get a FREE Quote Now
+            </Button>
+          </Box>
+
+          <Box
+            sx={{ display: "flex", justifyContent: "center", color: "#676e8b" }}
+          >
+            <LockIcon sx={{ mr: 1, fontSize: "1.1rem" }} />
+
+            <Typography
+              variant="body2"
+              component="div"
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              Secure and Confidential Quote
+            </Typography>
+          </Box>
         </Box>
       </Box>
     </Box>

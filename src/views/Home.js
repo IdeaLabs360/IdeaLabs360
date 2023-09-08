@@ -121,62 +121,95 @@ export const Home = () => {
     >
       {/* Services we provide */}
 
-      <Box>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            borderBottom: 1,
-            borderColor: "divider",
-          }}
-        >
-          <AppBar
-            position="static"
-            elevation={0}
+      <Box sx={{ p: 10, bgcolor: "#0b076e0a" }}>
+        <Grid container spacing={4}>
+          <Grid item sm={12} md={6}>
+            <Paper elevation={0}>
+              <AppBar
+                position="static"
+                elevation={0}
+                sx={{
+                  color: "inherit",
+                  bgcolor: "#ffffff",
+                  boxShadow: "0 5px 20px 0 #0b076e0a",
+                }}
+              >
+                <Tabs
+                  value={serviceTab}
+                  onChange={(_, index) => setServiceTab(index)}
+                  textColor="inherit"
+                  variant="fullWidth"
+                  aria-label="full width tabs example"
+                >
+                  <Tab
+                    value={0}
+                    label={
+                      <Box sx={{ display: "flex", alignItems: "center" }}>
+                        <PrintIcon sx={{ mr: 2 }} />
+                        3D Print
+                      </Box>
+                    }
+                    sx={{
+                      py: 4,
+                      fontSize: "1rem",
+                      fontWeight: "600",
+                      textTransform: "none",
+                    }}
+                  />
+
+                  <Tab
+                    value={1}
+                    label={
+                      <Box sx={{ display: "flex", alignItems: "center" }}>
+                        <DesignServicesIcon sx={{ mr: 2 }} />
+                        Design/Modeling
+                      </Box>
+                    }
+                    sx={{
+                      py: 4,
+                      fontSize: "1rem",
+                      fontWeight: "600",
+                      textTransform: "none",
+                    }}
+                  />
+                </Tabs>
+              </AppBar>
+
+              <TabPanel value={serviceTab} index={0} dir={"x"}>
+                <PrintHome />
+              </TabPanel>
+
+              <TabPanel value={serviceTab} index={1} dir={"x"}>
+                <DesignHome />
+              </TabPanel>
+            </Paper>
+          </Grid>
+
+          <Grid
+            item
+            sm={12}
+            md={6}
             sx={{
-              color: "inherit",
-              bgcolor: "#ffffff",
-              boxShadow: "0 5px 20px 0 #0b076e0a",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
             }}
           >
-            <Tabs
-              value={serviceTab}
-              onChange={(_, index) => setServiceTab(index)}
-              textColor="inherit"
-              variant="fullWidth"
-              aria-label="full width tabs example"
-            >
-              <Tab
-                value={0}
-                label={
-                  <Box sx={{ display: "flex", alignItems: "center" }}>
-                    <DesignServicesIcon sx={{ mr: 1 }} />
-                    Design
-                  </Box>
-                }
-                sx={{ py: 2, fontSize: "1rem", fontWeight: "700" }}
-              />
+            <Box>Test</Box>
+          </Grid>
+        </Grid>
+      </Box>
 
-              <Tab
-                value={1}
-                label={
-                  <Box sx={{ display: "flex", alignItems: "center" }}>
-                    <PrintIcon sx={{ mr: 1 }} />
-                    3D Print
-                  </Box>
-                }
-                sx={{ py: 2, fontSize: "1rem", fontWeight: "700" }}
-              />
-            </Tabs>
-          </AppBar>
-        </Box>
+      {/* Images */}
 
-        <TabPanel value={serviceTab} index={0} dir={"x"}>
-          <DesignHome />
-        </TabPanel>
-        <TabPanel value={serviceTab} index={1} dir={"x"}>
-          <PrintHome />
-        </TabPanel>
+      <Box sx={{ mb: 4 }}>
+        <Slider {...settings}>
+          {images.map((image, index) => (
+            <Box key={index}>
+              <img width="100%" height="100%" src={`./img/${image}`} alt="" />
+            </Box>
+          ))}
+        </Slider>
       </Box>
 
       {/* Reviews */}
@@ -304,18 +337,6 @@ export const Home = () => {
             </Button>
           </Grid>
         </Grid>
-      </Box>
-
-      {/* Images */}
-
-      <Box>
-        <Slider {...settings}>
-          {images.map((image, index) => (
-            <Box key={index}>
-              <img width="100%" height="100%" src={`./img/${image}`} alt="" />
-            </Box>
-          ))}
-        </Slider>
       </Box>
 
       {/* Motto */}

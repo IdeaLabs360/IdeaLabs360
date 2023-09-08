@@ -11,7 +11,7 @@ export const DesignHome = () => {
       }}
     >
       <Box>
-        <Box sx={{ display: "flex", justifyContent: "center" }}>
+        <Box>
           <Typography
             component="div"
             variant="h4"
@@ -20,13 +20,15 @@ export const DesignHome = () => {
             Innovative Design Solutions
           </Typography>
 
-          <Typography
-            component="div"
-            variant="h5"
-            sx={{ display: { xs: "flex", md: "none" }, fontWeight: "700" }}
-          >
-            Innovative Design Solutions
-          </Typography>
+          <Box sx={{ display: "flex", justifyContent: "center" }}>
+            <Typography
+              component="div"
+              variant="h5"
+              sx={{ display: { xs: "flex", md: "none" }, fontWeight: "700" }}
+            >
+              Innovative Design Solutions
+            </Typography>
+          </Box>
         </Box>
 
         <Box sx={{ mt: 1 }}>
@@ -35,7 +37,6 @@ export const DesignHome = () => {
             component="div"
             sx={{
               display: { xs: "none", md: "flex" },
-              justifyContent: "center",
               color: "text.secondary",
             }}
           >
@@ -69,7 +70,13 @@ export const DesignHome = () => {
           </Typography>
         </Box>
 
-        <Box sx={{ mt: 4, textAlign: "center" }}>
+        <Box
+          sx={{
+            display: { xs: "flex", md: "inherit" },
+            justifyContent: { xs: "center", md: "inherit" },
+            mt: 4,
+          }}
+        >
           <Button
             onClick={() => window.open("/#/design/quote", "_self")}
             variant="contained"
