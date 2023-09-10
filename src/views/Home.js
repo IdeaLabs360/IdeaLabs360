@@ -8,6 +8,7 @@ import {
   AppBar,
   Card,
   CardContent,
+  CardMedia,
   Container,
   Grid,
   Box,
@@ -61,13 +62,7 @@ const TabPanel = (props) => {
     >
       {value === index && (
         <Box>
-          <Box sx={{ p: 3, display: { xs: "block", md: "none" } }}>
-            {children}
-          </Box>
-
-          <Box sx={{ p: 6, display: { xs: "none", md: "block" } }}>
-            {children}
-          </Box>
+          <Box sx={{ p: 4 }}>{children}</Box>
         </Box>
       )}
     </div>
@@ -96,7 +91,7 @@ const CreateQuoteMotto = (icon, contentTitle, content) => {
   );
 };
 
-export const materials = ["PLA", "ABS", "PETG", "TPU", "Nylon", "ASA"];
+export const materials = ["PLA", "PETG", "ABS", "ASA", "TPU", "Nylon"];
 
 export const Home = () => {
   const [serviceTab, setServiceTab] = React.useState(0);
@@ -121,9 +116,16 @@ export const Home = () => {
     >
       {/* Services we provide */}
 
-      <Box sx={{ p: 10, bgcolor: "#0b076e0a" }}>
-        <Grid container spacing={4}>
-          <Grid item sm={12} md={6}>
+      <Box
+        sx={{
+          p: { xs: 0, sm: 2, md: 4, lg: 12 },
+          bgcolor: "#0b076e0a",
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={12} md={6}>
             <Paper elevation={0}>
               <AppBar
                 position="static"
@@ -144,33 +146,23 @@ export const Home = () => {
                   <Tab
                     value={0}
                     label={
-                      <Box sx={{ display: "flex", alignItems: "center" }}>
-                        <PrintIcon sx={{ mr: 2 }} />
+                      <>
+                        <PrintIcon sx={{ mb: 1 }} />
                         3D Print
-                      </Box>
+                      </>
                     }
-                    sx={{
-                      py: 4,
-                      fontSize: "1rem",
-                      fontWeight: "600",
-                      textTransform: "none",
-                    }}
+                    sx={{ py: 2, fontWeight: "600", textTransform: "none" }}
                   />
 
                   <Tab
                     value={1}
                     label={
-                      <Box sx={{ display: "flex", alignItems: "center" }}>
-                        <DesignServicesIcon sx={{ mr: 2 }} />
+                      <>
+                        <DesignServicesIcon sx={{ mb: 1 }} />
                         Design/Modeling
-                      </Box>
+                      </>
                     }
-                    sx={{
-                      py: 4,
-                      fontSize: "1rem",
-                      fontWeight: "600",
-                      textTransform: "none",
-                    }}
+                    sx={{ py: 2, fontWeight: "600", textTransform: "none" }}
                   />
                 </Tabs>
               </AppBar>
@@ -187,15 +179,62 @@ export const Home = () => {
 
           <Grid
             item
+            xs={12}
             sm={12}
             md={6}
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-            }}
+            sx={{ display: "flex", alignItems: "top" }}
           >
-            <Box>Test</Box>
+            <Box>
+              <CardMedia
+                component="video"
+                image={"/video/vase_timelapse.mp4"}
+                controls
+              />
+            </Box>
+          </Grid>
+
+          <Grid
+            item
+            xs={12}
+            sm={12}
+            md={6}
+            sx={{ display: "flex", justifyContent: "center" }}
+          >
+            <Box sx={{ mb: 2 }}>
+              <Box sx={{ display: "flex", justifyContent: "center" }}>
+                {reviews.map((review) => (
+                  <Box elevation={0} sx={{ maxWidth: 250, px: 2, py: 0.5 }}>
+                    <Box sx={{ color: "gold" }}>{review.stars}</Box>
+
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                      sx={{ my: 0.5 }}
+                    >
+                      {review.detail}
+                    </Typography>
+
+                    <Typography
+                      gutterBottom
+                      variant="body2"
+                      component="div"
+                      sx={{ fontWeight: "700" }}
+                    >
+                      {review.name}
+                    </Typography>
+                  </Box>
+                ))}
+              </Box>
+
+              <Typography
+                variant="body2"
+                component="div"
+                color="text.secondary"
+                sx={{ textAlign: "center" }}
+              >
+                Google reviews
+              </Typography>
+            </Box>
           </Grid>
         </Grid>
       </Box>
@@ -210,72 +249,6 @@ export const Home = () => {
             </Box>
           ))}
         </Slider>
-      </Box>
-
-      {/* Reviews */}
-
-      <Box sx={{ pb: 4, bgcolor: "#0b076e0a" }}>
-        <Box>
-          <Typography
-            variant="h5"
-            component="div"
-            sx={{
-              display: { xs: "block", md: "none" },
-              textAlign: "center",
-              fontWeight: "700",
-              my: 3,
-            }}
-          >
-            What our customers say
-          </Typography>
-
-          <Typography
-            variant="h4"
-            component="div"
-            sx={{
-              display: { xs: "none", md: "block" },
-              textAlign: "center",
-              fontWeight: "700",
-              my: 5,
-            }}
-          >
-            What our customers say
-          </Typography>
-        </Box>
-
-        <Box sx={{ display: "flex", justifyContent: "center" }}>
-          {reviews.map((review) => (
-            <Paper elevation={0} sx={{ maxWidth: 300, p: 2 }}>
-              <Box sx={{ color: "gold" }}>{review.stars}</Box>
-
-              <Typography
-                variant="body2"
-                color="text.secondary"
-                sx={{ my: 1.5 }}
-              >
-                {review.detail}
-              </Typography>
-
-              <Typography
-                gutterBottom
-                variant="body2"
-                component="div"
-                sx={{ fontWeight: "700" }}
-              >
-                {review.name}
-              </Typography>
-            </Paper>
-          ))}
-        </Box>
-
-        <Typography
-          variant="body2"
-          component="div"
-          color="text.secondary"
-          sx={{ mt: 0.5, textAlign: "center" }}
-        >
-          Google reviews
-        </Typography>
       </Box>
 
       {/* Additional contact */}
