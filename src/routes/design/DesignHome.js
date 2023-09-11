@@ -1,5 +1,15 @@
-import { Box, Button, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  List,
+  ListItem,
+  ListItemText,
+  Typography,
+} from "@mui/material";
+import CircleIcon from "@mui/icons-material/Circle";
 import EngineeringIcon from "@mui/icons-material/Engineering";
+
+const data = ["3D Modeling", "Product Design", "Replacement Parts"];
 
 export const DesignHome = () => {
   return (
@@ -11,81 +21,55 @@ export const DesignHome = () => {
       }}
     >
       <Box>
-        <Box sx={{ display: "flex", justifyContent: "center" }}>
-          <Typography
-            component="div"
-            variant="h4"
-            sx={{ display: { xs: "none", md: "flex" }, fontWeight: "700" }}
-          >
-            Innovative Design Solutions
-          </Typography>
+        <Typography
+          component="div"
+          variant="h4"
+          sx={{ display: { xs: "none", md: "flex" } }}
+        >
+          Digital Sculpting
+        </Typography>
 
-          <Typography
-            component="div"
-            variant="h5"
-            sx={{ display: { xs: "flex", md: "none" }, fontWeight: "700" }}
-          >
-            Innovative Design Solutions
-          </Typography>
-        </Box>
+        <Typography
+          component="div"
+          variant="h5"
+          sx={{ display: { xs: "flex", md: "none" } }}
+        >
+          Digital Sculpting
+        </Typography>
+      </Box>
 
-        <Box sx={{ mt: 1 }}>
-          <Typography
-            variant="h6"
-            component="div"
-            sx={{
-              display: { xs: "none", md: "flex" },
-              justifyContent: "center",
-              color: "text.secondary",
-            }}
-          >
-            Product Design | 3D Modeling | Replacement Parts
-          </Typography>
+      <Box sx={{ mt: 2, color: "#676e8b" }}>
+        <Typography variant="body1" component="div">
+          Reach out to our skilled engineers for a complimentary consultation
+          and embark on your product development journey with us today!
+        </Typography>
 
-          <Typography
-            variant="h7"
-            component="div"
-            sx={{
-              display: { xs: "flex", md: "none" },
-              justifyContent: "center",
-              color: "text.secondary",
-              mt: 1,
-            }}
-          >
-            Product Design | 3D Modeling
-          </Typography>
+        <List sx={{ ml: 4, mt: 1 }}>
+          {data.map((d, index) => (
+            <ListItem key={index} disablePadding disableGutters>
+              <CircleIcon sx={{ mr: 1, fontSize: "0.5rem" }} />
+              <ListItemText primary={d} />
+            </ListItem>
+          ))}
+        </List>
+      </Box>
 
-          <Typography
-            variant="h7"
-            component="div"
-            sx={{
-              display: { xs: "flex", md: "none" },
-              justifyContent: "center",
-              color: "text.secondary",
-              mt: 1,
-            }}
-          >
-            Replacement Parts
-          </Typography>
-        </Box>
-
-        <Box sx={{ mt: 4, textAlign: "center" }}>
-          <Button
-            onClick={() => window.open("/#/design/quote", "_self")}
-            variant="contained"
-            sx={{
-              py: 1.5,
-              px: 3,
-              bgcolor: "icon.primary",
-              textTransform: "none",
-              textAlign: "left",
-              fontWeight: "700",
-            }}
-          >
-            <EngineeringIcon sx={{ mr: 2 }} />
-            Request a FREE Consultation
-          </Button>
-        </Box>
+      <Box sx={{ mt: 2 }}>
+        <Button
+          onClick={() => window.open("/#/design/quote", "_self")}
+          variant="contained"
+          sx={{
+            py: 1.5,
+            px: 3,
+            bgcolor: "icon.primary",
+            textTransform: "none",
+            textAlign: "center",
+            fontWeight: "700",
+          }}
+        >
+          <EngineeringIcon sx={{ mr: 2 }} />
+          Request Your Free Consultation
+        </Button>
       </Box>
     </Box>
   );

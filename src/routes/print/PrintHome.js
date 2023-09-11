@@ -1,5 +1,6 @@
 import { Box, Button, Typography } from "@mui/material";
-import RequestQuoteIcon from "@mui/icons-material/RequestQuote";
+import LockIcon from "@mui/icons-material/Lock";
+import BackupIcon from "@mui/icons-material/Backup";
 import { materials } from "../../views/Home";
 
 export const PrintHome = () => {
@@ -12,99 +13,107 @@ export const PrintHome = () => {
       }}
     >
       <Box>
-        <Box sx={{ display: "flex", justifyContent: "center" }}>
+        <Box sx={{ display: "flex" }}>
           <Typography
             component="div"
             variant="h4"
-            sx={{ display: { xs: "none", md: "flex" }, fontWeight: "700" }}
+            sx={{ display: { xs: "none", md: "flex" } }}
           >
-            3D Print Your Designs
+            On Demand Manufacturing
           </Typography>
 
           <Typography
             component="div"
             variant="h5"
-            sx={{ display: { xs: "flex", md: "none" }, fontWeight: "700" }}
+            sx={{ display: { xs: "flex", md: "none" } }}
           >
-            3D Print Your Designs
+            On Demand Manufacturing
           </Typography>
         </Box>
 
-        <Box sx={{ mt: 1, color: "#676e8b" }}>
-          <Typography
-            variant="h6"
-            component="div"
-            sx={{
-              display: { xs: "none", md: "flex" },
-              justifyContent: "center",
-            }}
-          >
-            Use cutting edge FDM printing and bring your ideas to life
+        <Box sx={{ mt: 2, mb: 4, color: "#676e8b" }}>
+          <Typography variant="body1" component="div">
+            Upload your design files to get pricing details, lead times, and
+            design feedback, simply. IdeaLabs360 serves as your comprehensive
+            destination for tailored manufacturing solutions, offering a
+            seamless and convenient experience.
           </Typography>
-
-          <Typography
-            variant="h7"
-            component="div"
-            sx={{
-              display: { xs: "flex", md: "none" },
-              justifyContent: "center",
-              mt: 1,
-            }}
-          >
-            Use cutting edge FDM printing
-          </Typography>
-
-          <Typography
-            variant="h7"
-            component="div"
-            sx={{
-              display: { xs: "flex", md: "none" },
-              justifyContent: "center",
-              color: "#676e8b",
-              mt: 1,
-            }}
-          >
-            Bring your ideas to life
-          </Typography>
-        </Box>
-
-        <Box sx={{ my: 4, textAlign: "center" }}>
-          <Button
-            onClick={() => window.open("/#/print/quote", "_self")}
-            variant="contained"
-            sx={{
-              py: 1.5,
-              px: 3,
-              bgcolor: "icon.primary",
-              textTransform: "none",
-              textAlign: "left",
-              fontWeight: "700",
-            }}
-          >
-            <RequestQuoteIcon sx={{ mr: 2 }} />
-            Get a FREE Quote Now
-          </Button>
         </Box>
 
         <Box
           sx={{
-            display: { xs: "block", md: "flex" },
-            justifyContent: "center",
-            alignItems: "center",
-            textAlign: "center",
+            p: 3,
+            border: "1px dashed #676e8b78",
+            borderRadius: "5px",
           }}
         >
           <Typography
             component="div"
             variant="body1"
-            sx={{ mr: 1, fontWeight: "700" }}
+            sx={{ pb: 2, textAlign: "center", fontWeight: "600" }}
           >
-            Materials we support
+            Get Pricing, lead times, and design feedback
           </Typography>
 
-          <Typography component="div" variant="body2" sx={{ color: "#676e8b" }}>
-            {materials.join(", ")}
+          {/* Supported materials */}
+          <Typography
+            component="div"
+            variant="body2"
+            sx={{ color: "#566573", textAlign: "center" }}
+          >
+            {materials.join(" | ")} materials
           </Typography>
+
+          {/* Files supported */}
+          <Typography
+            variant="body2"
+            component="div"
+            sx={{ pt: 0.5, color: "#566573", textAlign: "center" }}
+          >
+            STL | OBJ | X3D | 3MF files
+          </Typography>
+
+          {/* Quote button */}
+          <Box sx={{ py: 2, display: "flex", justifyContent: "center" }}>
+            <Button
+              onClick={() => window.open("/#/print/quote", "_self")}
+              variant="contained"
+              sx={{
+                py: 1.5,
+                px: 3,
+                bgcolor: "icon.primary",
+                textTransform: "none",
+                textAlign: "center",
+                fontWeight: "700",
+              }}
+            >
+              <BackupIcon sx={{ mr: 2 }} />
+              Start Your Free Quote
+            </Button>
+          </Box>
+
+          {/* Security info */}
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              color: "#ABB2B9",
+            }}
+          >
+            <LockIcon sx={{ mr: 1, fontSize: "1.1rem" }} />
+
+            <Typography
+              variant="body2"
+              component="div"
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              All uploads are secure and confidential.
+            </Typography>
+          </Box>
         </Box>
       </Box>
     </Box>

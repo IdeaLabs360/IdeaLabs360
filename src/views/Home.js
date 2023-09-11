@@ -5,9 +5,9 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 import {
-  AppBar,
   Card,
   CardContent,
+  CardMedia,
   Container,
   Grid,
   Box,
@@ -61,13 +61,7 @@ const TabPanel = (props) => {
     >
       {value === index && (
         <Box>
-          <Box sx={{ p: 3, display: { xs: "block", md: "none" } }}>
-            {children}
-          </Box>
-
-          <Box sx={{ p: 6, display: { xs: "none", md: "block" } }}>
-            {children}
-          </Box>
+          <Box sx={{ p: 4 }}>{children}</Box>
         </Box>
       )}
     </div>
@@ -96,7 +90,7 @@ const CreateQuoteMotto = (icon, contentTitle, content) => {
   );
 };
 
-export const materials = ["PLA", "ABS", "PETG", "TPU", "Nylon", "ASA"];
+export const materials = ["PLA", "PETG", "ABS", "ASA", "TPU", "Nylon"];
 
 export const Home = () => {
   const [serviceTab, setServiceTab] = React.useState(0);
@@ -121,128 +115,138 @@ export const Home = () => {
     >
       {/* Services we provide */}
 
-      <Box>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            borderBottom: 1,
-            borderColor: "divider",
-          }}
-        >
-          <AppBar
-            position="static"
-            elevation={0}
-            sx={{
-              color: "inherit",
-              bgcolor: "#ffffff",
-              boxShadow: "0 5px 20px 0 #0b076e0a",
-            }}
+      <Box
+        sx={{
+          p: { xs: 0, sm: 2, md: 4, lg: 12 },
+          bgcolor: "#0b076e0a",
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <Grid container spacing={2}>
+          <Grid
+            item
+            xs={12}
+            sm={12}
+            md={6}
+            sx={{ display: "flex", justifyContent: "center" }}
           >
-            <Tabs
-              value={serviceTab}
-              onChange={(_, index) => setServiceTab(index)}
-              textColor="inherit"
-              variant="fullWidth"
-              aria-label="full width tabs example"
-            >
-              <Tab
-                value={0}
-                label={
-                  <Box sx={{ display: "flex", alignItems: "center" }}>
-                    <DesignServicesIcon sx={{ mr: 1 }} />
-                    Design
-                  </Box>
-                }
-                sx={{ py: 2, fontSize: "1rem", fontWeight: "700" }}
-              />
-
-              <Tab
-                value={1}
-                label={
-                  <Box sx={{ display: "flex", alignItems: "center" }}>
-                    <PrintIcon sx={{ mr: 1 }} />
-                    3D Print
-                  </Box>
-                }
-                sx={{ py: 2, fontSize: "1rem", fontWeight: "700" }}
-              />
-            </Tabs>
-          </AppBar>
-        </Box>
-
-        <TabPanel value={serviceTab} index={0} dir={"x"}>
-          <DesignHome />
-        </TabPanel>
-        <TabPanel value={serviceTab} index={1} dir={"x"}>
-          <PrintHome />
-        </TabPanel>
-      </Box>
-
-      {/* Reviews */}
-
-      <Box sx={{ pb: 4, bgcolor: "#0b076e0a" }}>
-        <Box>
-          <Typography
-            variant="h5"
-            component="div"
-            sx={{
-              display: { xs: "block", md: "none" },
-              textAlign: "center",
-              fontWeight: "700",
-              my: 3,
-            }}
-          >
-            What our customers say
-          </Typography>
-
-          <Typography
-            variant="h4"
-            component="div"
-            sx={{
-              display: { xs: "none", md: "block" },
-              textAlign: "center",
-              fontWeight: "700",
-              my: 5,
-            }}
-          >
-            What our customers say
-          </Typography>
-        </Box>
-
-        <Box sx={{ display: "flex", justifyContent: "center" }}>
-          {reviews.map((review) => (
-            <Paper elevation={0} sx={{ maxWidth: 300, p: 2 }}>
-              <Box sx={{ color: "gold" }}>{review.stars}</Box>
-
-              <Typography
-                variant="body2"
-                color="text.secondary"
-                sx={{ my: 1.5 }}
+            <Paper elevation={0} sx={{ maxWidth: 720 }}>
+              <Tabs
+                value={serviceTab}
+                onChange={(_, index) => setServiceTab(index)}
+                textColor="inherit"
+                variant="fullWidth"
+                aria-label="full width tabs example"
+                sx={{ boxShadow: "0 5px 20px 0 #0b076e0a" }}
               >
-                {review.detail}
-              </Typography>
+                <Tab
+                  value={0}
+                  label={
+                    <>
+                      <PrintIcon sx={{ mb: 0.5, fontSize: "1.2rem" }} />
+                      3D Print
+                    </>
+                  }
+                  sx={{ p: 3, fontWeight: "600", textTransform: "none" }}
+                />
+
+                <Tab
+                  value={1}
+                  label={
+                    <>
+                      <DesignServicesIcon
+                        sx={{ mb: 0.5, fontSize: "1.2rem" }}
+                      />
+                      Design / Modeling
+                    </>
+                  }
+                  sx={{ py: 3, fontWeight: "600", textTransform: "inherit" }}
+                />
+              </Tabs>
+
+              <TabPanel value={serviceTab} index={0} dir={"x"}>
+                <PrintHome />
+              </TabPanel>
+
+              <TabPanel value={serviceTab} index={1} dir={"x"}>
+                <DesignHome />
+              </TabPanel>
+            </Paper>
+          </Grid>
+
+          <Grid
+            item
+            xs={12}
+            sm={12}
+            md={6}
+            sx={{ display: "flex", justifyContent: "center" }}
+          >
+            <Box>
+              <CardMedia
+                component="video"
+                image={"/video/vase_timelapse.mp4"}
+                controls
+              />
+            </Box>
+          </Grid>
+
+          <Grid
+            item
+            xs={12}
+            sm={12}
+            md={6}
+            sx={{ display: "flex", justifyContent: "center" }}
+          >
+            <Box sx={{ my: 2 }}>
+              <Box sx={{ display: "flex", justifyContent: "center" }}>
+                {reviews.map((review) => (
+                  <Box elevation={0} sx={{ maxWidth: 300, px: 2, py: 0.5 }}>
+                    <Box sx={{ color: "gold" }}>{review.stars}</Box>
+
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                      sx={{ my: 0.5 }}
+                    >
+                      {review.detail}
+                    </Typography>
+
+                    <Typography
+                      gutterBottom
+                      variant="body2"
+                      component="div"
+                      sx={{ fontWeight: "700" }}
+                    >
+                      {review.name}
+                    </Typography>
+                  </Box>
+                ))}
+              </Box>
 
               <Typography
-                gutterBottom
                 variant="body2"
                 component="div"
-                sx={{ fontWeight: "700" }}
+                color="text.secondary"
+                sx={{ textAlign: "center" }}
               >
-                {review.name}
+                Google reviews
               </Typography>
-            </Paper>
-          ))}
-        </Box>
+            </Box>
+          </Grid>
+        </Grid>
+      </Box>
 
-        <Typography
-          variant="body2"
-          component="div"
-          color="text.secondary"
-          sx={{ mt: 0.5, textAlign: "center" }}
-        >
-          Google reviews
-        </Typography>
+      {/* Images */}
+
+      <Box sx={{ mb: 4 }}>
+        <Slider {...settings}>
+          {images.map((image, index) => (
+            <Box key={index}>
+              <img width="100%" height="100%" src={`./img/${image}`} alt="" />
+            </Box>
+          ))}
+        </Slider>
       </Box>
 
       {/* Additional contact */}
@@ -304,18 +308,6 @@ export const Home = () => {
             </Button>
           </Grid>
         </Grid>
-      </Box>
-
-      {/* Images */}
-
-      <Box>
-        <Slider {...settings}>
-          {images.map((image, index) => (
-            <Box key={index}>
-              <img width="100%" height="100%" src={`./img/${image}`} alt="" />
-            </Box>
-          ))}
-        </Slider>
       </Box>
 
       {/* Motto */}
