@@ -34,7 +34,7 @@ export const PrintHome = () => {
         <Box sx={{ mt: 2, mb: 4, color: "#676e8b" }}>
           <Typography variant="body1" component="div">
             Upload your design files to get pricing details, lead times, and
-            design feedback, simply. IdeaLabs360 serves as your comprehensive
+            design feedback. IdeaLabs360 serves as your comprehensive
             destination for tailored manufacturing solutions, offering a
             seamless and convenient experience.
           </Typography>

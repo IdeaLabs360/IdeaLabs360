@@ -41,7 +41,7 @@ export const DesignHome = () => {
       <Box sx={{ mt: 2, color: "#676e8b" }}>
         <Typography variant="body1" component="div">
           Reach out to our skilled engineers for a complimentary consultation
-          and embark on your product development journey with us today!
+          and embark on your product development journey with us today.
         </Typography>
 
         <List sx={{ ml: 4, mt: 1 }}>
