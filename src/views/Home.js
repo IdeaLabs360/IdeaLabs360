@@ -5,7 +5,6 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 import {
-  AppBar,
   Card,
   CardContent,
   CardMedia,
@@ -132,10 +131,7 @@ export const Home = () => {
             md={6}
             sx={{ display: "flex", justifyContent: "center" }}
           >
-            <Paper
-              elevation={0}
-              sx={{ maxWidth: 720, borderRadius: { xs: "0", md: "10px" } }}
-            >
+            <Paper elevation={0} sx={{ maxWidth: 720 }}>
               <Tabs
                 value={serviceTab}
                 onChange={(_, index) => setServiceTab(index)}
@@ -148,22 +144,24 @@ export const Home = () => {
                   value={0}
                   label={
                     <>
-                      <PrintIcon sx={{ mb: 1, fontSize: "1.2rem" }} />
+                      <PrintIcon sx={{ mb: 0.5, fontSize: "1.2rem" }} />
                       3D Print
                     </>
                   }
-                  sx={{ py: 2, fontWeight: "600", textTransform: "none" }}
+                  sx={{ p: 3, fontWeight: "600", textTransform: "none" }}
                 />
 
                 <Tab
                   value={1}
                   label={
                     <>
-                      <DesignServicesIcon sx={{ mb: 1, fontSize: "1.2rem" }} />
+                      <DesignServicesIcon
+                        sx={{ mb: 0.5, fontSize: "1.2rem" }}
+                      />
                       Design / Modeling
                     </>
                   }
-                  sx={{ py: 2, fontWeight: "600", textTransform: "inherit" }}
+                  sx={{ py: 3, fontWeight: "600", textTransform: "inherit" }}
                 />
               </Tabs>
 

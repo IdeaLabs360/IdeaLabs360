@@ -19,7 +19,7 @@ export const PrintHome = () => {
             variant="h4"
             sx={{ display: { xs: "none", md: "flex" } }}
           >
-            3D Print Your Designs
+            On Demand Manufacturing
           </Typography>
 
           <Typography
@@ -27,7 +27,7 @@ export const PrintHome = () => {
             variant="h5"
             sx={{ display: { xs: "flex", md: "none" } }}
           >
-            3D Print Your Designs
+            On Demand Manufacturing
           </Typography>
         </Box>
 
@@ -42,20 +42,15 @@ export const PrintHome = () => {
 
         <Box
           sx={{
-            p: 2,
-            border: "1.5px dashed #676e8b78",
-            borderRadius: "10px",
+            p: 3,
+            border: "1px dashed #676e8b78",
+            borderRadius: "5px",
           }}
         >
           <Typography
             component="div"
             variant="body1"
-            sx={{
-              pb: 2,
-              textAlign: "center",
-              color: "#676e8b",
-              fontWeight: "600",
-            }}
+            sx={{ pb: 2, textAlign: "center", fontWeight: "600" }}
           >
             Get Pricing, lead times, and design feedback
           </Typography>
@@ -88,12 +83,12 @@ export const PrintHome = () => {
                 px: 3,
                 bgcolor: "icon.primary",
                 textTransform: "none",
-                textAlign: "left",
+                textAlign: "center",
                 fontWeight: "700",
               }}
             >
               <BackupIcon sx={{ mr: 2 }} />
-              Get a FREE Quote Now
+              Start Your Free Quote
             </Button>
           </Box>
 
@@ -116,7 +111,7 @@ export const PrintHome = () => {
                 alignItems: "center",
               }}
             >
-              Secure and Confidential Quote
+              All uploads are secure and confidential.
             </Typography>
           </Box>
         </Box>
