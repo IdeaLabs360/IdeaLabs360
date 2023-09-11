@@ -125,47 +125,47 @@ export const Home = () => {
         }}
       >
         <Grid container spacing={2}>
-          <Grid item xs={12} sm={12} md={6}>
-            <Paper elevation={0}>
-              <AppBar
-                position="static"
-                elevation={0}
-                sx={{
-                  color: "inherit",
-                  bgcolor: "#ffffff",
-                  boxShadow: "0 5px 20px 0 #0b076e0a",
-                }}
+          <Grid
+            item
+            xs={12}
+            sm={12}
+            md={6}
+            sx={{ display: "flex", justifyContent: "center" }}
+          >
+            <Paper
+              elevation={0}
+              sx={{ maxWidth: 720, borderRadius: { xs: "0", md: "10px" } }}
+            >
+              <Tabs
+                value={serviceTab}
+                onChange={(_, index) => setServiceTab(index)}
+                textColor="inherit"
+                variant="fullWidth"
+                aria-label="full width tabs example"
+                sx={{ boxShadow: "0 5px 20px 0 #0b076e0a" }}
               >
-                <Tabs
-                  value={serviceTab}
-                  onChange={(_, index) => setServiceTab(index)}
-                  textColor="inherit"
-                  variant="fullWidth"
-                  aria-label="full width tabs example"
-                >
-                  <Tab
-                    value={0}
-                    label={
-                      <>
-                        <PrintIcon sx={{ mb: 1 }} />
-                        3D Print
-                      </>
-                    }
-                    sx={{ py: 2, fontWeight: "600", textTransform: "none" }}
-                  />
+                <Tab
+                  value={0}
+                  label={
+                    <>
+                      <PrintIcon sx={{ mb: 1, fontSize: "1.2rem" }} />
+                      3D Print
+                    </>
+                  }
+                  sx={{ py: 2, fontWeight: "600", textTransform: "none" }}
+                />
 
-                  <Tab
-                    value={1}
-                    label={
-                      <>
-                        <DesignServicesIcon sx={{ mb: 1 }} />
-                        Design/Modeling
-                      </>
-                    }
-                    sx={{ py: 2, fontWeight: "600", textTransform: "none" }}
-                  />
-                </Tabs>
-              </AppBar>
+                <Tab
+                  value={1}
+                  label={
+                    <>
+                      <DesignServicesIcon sx={{ mb: 1, fontSize: "1.2rem" }} />
+                      Design / Modeling
+                    </>
+                  }
+                  sx={{ py: 2, fontWeight: "600", textTransform: "inherit" }}
+                />
+              </Tabs>
 
               <TabPanel value={serviceTab} index={0} dir={"x"}>
                 <PrintHome />
@@ -182,7 +182,7 @@ export const Home = () => {
             xs={12}
             sm={12}
             md={6}
-            sx={{ display: "flex", alignItems: "top" }}
+            sx={{ display: "flex", justifyContent: "center" }}
           >
             <Box>
               <CardMedia
@@ -200,10 +200,10 @@ export const Home = () => {
             md={6}
             sx={{ display: "flex", justifyContent: "center" }}
           >
-            <Box sx={{ mb: 2 }}>
+            <Box sx={{ my: 2 }}>
               <Box sx={{ display: "flex", justifyContent: "center" }}>
                 {reviews.map((review) => (
-                  <Box elevation={0} sx={{ maxWidth: 250, px: 2, py: 0.5 }}>
+                  <Box elevation={0} sx={{ maxWidth: 300, px: 2, py: 0.5 }}>
                     <Box sx={{ color: "gold" }}>{review.stars}</Box>
 
                     <Typography
