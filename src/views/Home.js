@@ -30,6 +30,7 @@ import { DesignHome } from "../routes/design/DesignHome";
 import { PrintHome } from "../routes/print/PrintHome";
 
 export const phoneNumber = "6125481004";
+export const displayPhoneNumber = "(612) 548-1004";
 export const email = "idealabs360@gmail.com";
 
 const images = ["1.jpg", "2.jpeg", "3.jpg"];
@@ -126,7 +127,7 @@ export const Home = () => {
           justifyContent: "center",
         }}
       >
-        <Grid container spacing={2}>
+        <Grid container spacing={2} sx={{ maxWidth: "1300px" }}>
           <Grid
             item
             xs={12}
@@ -134,7 +135,7 @@ export const Home = () => {
             md={6}
             sx={{ display: "flex", justifyContent: "center" }}
           >
-            <Paper elevation={0} sx={{ maxWidth: 720 }}>
+            <Paper elevation={0} sx={{ maxWidth: 638 }}>
               <Tabs
                 value={serviceTab}
                 onChange={(_, index) => setServiceTab(index)}
@@ -192,6 +193,7 @@ export const Home = () => {
                 loop
                 component="video"
                 image={"/video/vase_timelapse.mp4"}
+                sx={{ width: "100%", height: "100%", objectFit: "cover" }}
               />
             </Box>
           </Grid>
@@ -205,8 +207,12 @@ export const Home = () => {
           >
             <Box sx={{ my: 2 }}>
               <Box sx={{ display: "flex", justifyContent: "center" }}>
-                {reviews.map((review) => (
-                  <Box elevation={0} sx={{ maxWidth: 300, px: 2, py: 0.5 }}>
+                {reviews.map((review, index) => (
+                  <Box
+                    key={`review-${index}`}
+                    elevation={0}
+                    sx={{ maxWidth: 300, px: 2, py: 0.5 }}
+                  >
                     <Box sx={{ color: "gold" }}>{review.stars}</Box>
 
                     <Typography
@@ -247,7 +253,7 @@ export const Home = () => {
       <Box sx={{ mb: 4 }}>
         <Slider {...settings}>
           {images.map((image, index) => (
-            <Box key={index}>
+            <Box key={`image-${index}`}>
               <img width="100%" height="100%" src={`./img/${image}`} alt="" />
             </Box>
           ))}
@@ -282,7 +288,7 @@ export const Home = () => {
               }}
             >
               <PhoneIcon sx={{ mr: 2 }} />
-              {phoneNumber}
+              {displayPhoneNumber}
             </Button>
           </Grid>
 
@@ -327,6 +333,7 @@ export const Home = () => {
       >
         <Grid container spacing={1}>
           <Grid
+            item
             xs={12}
             md={6}
             justifyContent={{ xs: "center" }}
@@ -349,6 +356,7 @@ export const Home = () => {
           </Grid>
 
           <Grid
+            item
             xs={12}
             md={6}
             justifyContent={{ xs: "center" }}

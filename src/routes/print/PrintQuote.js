@@ -20,16 +20,21 @@ import {
 } from "@mui/material";
 import Divider from "@mui/material/Divider";
 import CircularProgress from "@mui/material/CircularProgress";
-import FileUploadIcon from "@mui/icons-material/FileUpload";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 import apiConfig from "../../config/apiConfig";
-import { email, materials, phoneNumber } from "../../views/Home";
+import { displayPhoneNumber, email, materials } from "../../views/Home";
 
 const schema = yup
   .object({
-    name: yup.string().required(),
-    email: yup.string().email().required(),
+    firstname: yup.string().required("First name is required"),
+    lastname: yup.string().required("Last name is required"),
+    phone: yup.string().required("Phone number is required"),
+    email: yup
+      .string()
+      .required("Email is required")
+      .email("Email must be in this format; email@email.com"),
   })
   .required();
 
@@ -105,12 +110,57 @@ export const PrintQuote = () => {
                 marginTop: "10px",
               }}
             >
+              <Box sx={{ display: "flex" }}>
+                <Box
+                  sx={{ display: "flex", flexDirection: "column", flexGrow: 1 }}
+                >
+                  <TextField
+                    id="firstname"
+                    label="First Name *"
+                    variant="outlined"
+                    margin="normal"
+                    {...register("firstname")}
+                    sx={{ flexGrow: 1, mr: 2 }}
+                  />
+
+                  <Typography
+                    variant="body2"
+                    component="span"
+                    sx={{ color: "red" }}
+                  >
+                    {errors.firstname?.message}
+                  </Typography>
+                </Box>
+
+                <Box
+                  sx={{ display: "flex", flexDirection: "column", flexGrow: 1 }}
+                >
+                  <TextField
+                    id="lastname"
+                    label="Last Name *"
+                    variant="outlined"
+                    margin="normal"
+                    {...register("lastname")}
+                    sx={{ flexGrow: 1 }}
+                  />
+
+                  <Typography
+                    variant="body2"
+                    component="span"
+                    sx={{ color: "red" }}
+                  >
+                    {errors.lastname?.message}
+                  </Typography>
+                </Box>
+              </Box>
+
               <TextField
-                id="name"
-                label="Name"
+                id="phone"
+                type="tel"
+                label="Phone *"
                 variant="outlined"
                 margin="normal"
-                {...register("name")}
+                {...register("phone")}
               />
 
               <Typography
@@ -118,12 +168,12 @@ export const PrintQuote = () => {
                 component="span"
                 sx={{ color: "red" }}
               >
-                {errors.name?.message}
+                {errors.phone?.message}
               </Typography>
 
               <TextField
                 id="email"
-                label="Email"
+                label="Email *"
                 variant="outlined"
                 margin="normal"
                 {...register("email")}
@@ -134,7 +184,7 @@ export const PrintQuote = () => {
                 component="span"
                 sx={{ color: "red" }}
               >
-                {errors.name?.message}
+                {errors.email?.message}
               </Typography>
 
               <TextField
@@ -162,7 +212,7 @@ export const PrintQuote = () => {
               </TextField>
 
               <Button variant="contained" component="label" sx={{ mt: 1 }}>
-                <FileUploadIcon sx={{ mr: 1 }} />
+                <CloudUploadIcon sx={{ mr: 1 }} />
                 Upload Design File
                 <input
                   type="file"
@@ -301,7 +351,7 @@ export const PrintQuote = () => {
           <Grid container spacing={1} sx={{ mt: 2 }}>
             <Grid item xs={12} sx={{ display: "flex" }}>
               <Box sx={{ minWidth: "100px" }}>Call or Text</Box>
-              <Box>{phoneNumber}</Box>
+              <Box>{displayPhoneNumber}</Box>
             </Grid>
             <Grid item xs={12} sx={{ display: "flex" }}>
               <Box sx={{ minWidth: "100px" }}>Email</Box>
