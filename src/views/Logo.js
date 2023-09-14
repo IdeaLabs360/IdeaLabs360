@@ -6,7 +6,6 @@ export const Logo = ({ variant, fontSize }) => {
     <Box sx={{ display: "flex" }}>
       <Typography
         variant={variant}
-        noWrap
         component="div"
         sx={{
           fontFamily: "monospace",
@@ -19,7 +18,6 @@ export const Logo = ({ variant, fontSize }) => {
 
       <Typography
         variant={variant}
-        noWrap
         component="div"
         sx={{
           fontFamily: "monospace",
@@ -33,7 +31,6 @@ export const Logo = ({ variant, fontSize }) => {
 
       <Typography
         variant={variant}
-        noWrap
         component="div"
         sx={{
           fontFamily: "monospace",
