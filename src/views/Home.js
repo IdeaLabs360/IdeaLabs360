@@ -29,6 +29,9 @@ import ElectricBoltOutlinedIcon from "@mui/icons-material/ElectricBoltOutlined";
 import { DesignHome } from "../routes/design/DesignHome";
 import { PrintHome } from "../routes/print/PrintHome";
 
+export const phoneNumber = "6125481004";
+export const email = "idealabs360@gmail.com";
+
 const images = ["1.jpg", "2.jpeg", "3.jpg"];
 
 const reviews = [
@@ -117,7 +120,7 @@ export const Home = () => {
 
       <Box
         sx={{
-          p: { xs: 0, sm: 2, md: 4, lg: 12 },
+          p: { xs: 0, sm: 2, md: 4, lg: 10 },
           bgcolor: "#0b076e0a",
           display: "flex",
           justifyContent: "center",
@@ -182,11 +185,13 @@ export const Home = () => {
             md={6}
             sx={{ display: "flex", justifyContent: "center" }}
           >
-            <Box>
+            <Box sx={{ display: "flex", alignItems: "center" }}>
               <CardMedia
+                autoPlay
+                muted
+                loop
                 component="video"
                 image={"/video/vase_timelapse.mp4"}
-                controls
               />
             </Box>
           </Grid>
@@ -267,7 +272,7 @@ export const Home = () => {
             sx={{ display: "flex" }}
           >
             <Button
-              onClick={() => window.open("tel:6513576817", "_self")}
+              onClick={() => window.open(`tel:${phoneNumber}`, "_self")}
               variant="contained"
               sx={{
                 bgcolor: "icon.primary",
@@ -277,7 +282,7 @@ export const Home = () => {
               }}
             >
               <PhoneIcon sx={{ mr: 2 }} />
-              +1 (651) 357-6817
+              {phoneNumber}
             </Button>
           </Grid>
 
@@ -291,7 +296,7 @@ export const Home = () => {
             <Button
               onClick={() =>
                 window.open(
-                  "mailto:idealabs360@gmail.com?subject=IdeaLabs360 - Quote Request",
+                  `mailto:${email}?subject=IdeaLabs360 - Quote Request`,
                   "_self"
                 )
               }

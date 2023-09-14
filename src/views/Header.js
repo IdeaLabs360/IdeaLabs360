@@ -16,6 +16,7 @@ import LightbulbRoundedIcon from "@mui/icons-material/LightbulbRounded";
 import PhoneIcon from "@mui/icons-material/Phone";
 import EmailIcon from "@mui/icons-material/Email";
 import { Logo } from "./Logo";
+import { email, phoneNumber } from "./Home";
 
 const pages = [
   {
@@ -177,7 +178,7 @@ export const Header = () => {
 
           <Box sx={{}}>
             <IconButton
-              onClick={() => window.open("tel:6513576817", "_self")}
+              onClick={() => window.open(`tel:${phoneNumber}`, "_self")}
               variant="contained"
               sx={{ mr: 1.5 }}
             >
@@ -187,7 +188,7 @@ export const Header = () => {
             <IconButton
               onClick={() =>
                 window.open(
-                  "mailto:idealabs360@gmail.com?subject=IdeaLabs360 - Quote Request",
+                  `mailto:${email}?subject=IdeaLabs360 - Quote Request`,
                   "_self"
                 )
               }

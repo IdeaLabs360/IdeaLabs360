@@ -5,6 +5,7 @@ import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 // import { Facebook, Instagram, Twitter } from "@mui/icons-material";
 import { Box } from "@mui/material";
+import { email, phoneNumber } from "./Home";
 
 export const Footer = () => {
   return (
@@ -36,10 +37,10 @@ export const Footer = () => {
               Contact Us
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              Email: idealabs360@gmail.com
+              Email: {email}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              Phone: +1 651 357 6817
+              Phone: {phoneNumber}
             </Typography>
           </Grid>
 
