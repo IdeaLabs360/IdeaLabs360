@@ -20,16 +20,20 @@ import {
 } from "@mui/material";
 import Divider from "@mui/material/Divider";
 import CircularProgress from "@mui/material/CircularProgress";
-import FileUploadIcon from "@mui/icons-material/FileUpload";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 import apiConfig from "../../config/apiConfig";
-import { email, materials, phoneNumber } from "../../views/Home";
+import { displayPhoneNumber, email, materials } from "../../views/Home";
 
 const schema = yup
   .object({
-    name: yup.string().required(),
-    email: yup.string().email().required(),
+    name: yup.string().required("Name is required"),
+    phone: yup.string().required("Phone number is required"),
+    email: yup
+      .string()
+      .required("Email is required")
+      .email("Email must be in this format; email@email.com"),
   })
   .required();
 
@@ -48,13 +52,14 @@ export const PrintQuote = () => {
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) });
 
-  const onSubmit = async ({ name, email, material, details }) => {
+  const onSubmit = async ({ name, phone, email, material, details }) => {
     const formData = new FormData();
     formData.append("name", name);
+    formData.append("phone", phone);
     formData.append("email", email);
     formData.append("material", material);
 
-    formData.append("type", "Print");
+    formData.append("type", "PRINT");
 
     for (const file of files) {
       formData.append("file", file);
@@ -107,35 +112,34 @@ export const PrintQuote = () => {
             >
               <TextField
                 id="name"
-                label="Name"
+                label="Name *"
                 variant="outlined"
                 margin="normal"
+                error={!!errors.name?.message}
+                helperText={errors.name?.message}
                 {...register("name")}
               />
 
-              <Typography
-                variant="body2"
-                component="span"
-                sx={{ color: "red" }}
-              >
-                {errors.name?.message}
-              </Typography>
+              <TextField
+                id="phone"
+                type="tel"
+                label="Phone *"
+                variant="outlined"
+                margin="normal"
+                error={!!errors.phone?.message}
+                helperText={errors.phone?.message}
+                {...register("phone")}
+              />
 
               <TextField
                 id="email"
-                label="Email"
+                label="Email *"
                 variant="outlined"
                 margin="normal"
+                error={!!errors.email?.message}
+                helperText={errors.email?.message}
                 {...register("email")}
               />
-
-              <Typography
-                variant="body2"
-                component="span"
-                sx={{ color: "red" }}
-              >
-                {errors.name?.message}
-              </Typography>
 
               <TextField
                 select
@@ -162,7 +166,7 @@ export const PrintQuote = () => {
               </TextField>
 
               <Button variant="contained" component="label" sx={{ mt: 1 }}>
-                <FileUploadIcon sx={{ mr: 1 }} />
+                <CloudUploadIcon sx={{ mr: 1 }} />
                 Upload Design File
                 <input
                   type="file"
@@ -301,7 +305,7 @@ export const PrintQuote = () => {
           <Grid container spacing={1} sx={{ mt: 2 }}>
             <Grid item xs={12} sx={{ display: "flex" }}>
               <Box sx={{ minWidth: "100px" }}>Call or Text</Box>
-              <Box>{phoneNumber}</Box>
+              <Box>{displayPhoneNumber}</Box>
             </Grid>
             <Grid item xs={12} sx={{ display: "flex" }}>
               <Box sx={{ minWidth: "100px" }}>Email</Box>

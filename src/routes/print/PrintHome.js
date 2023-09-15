@@ -50,9 +50,17 @@ export const PrintHome = () => {
           <Typography
             component="div"
             variant="body1"
+            sx={{ textAlign: "center", fontWeight: "600" }}
+          >
+            Upload your design files
+          </Typography>
+
+          <Typography
+            component="div"
+            variant="body1"
             sx={{ pb: 2, textAlign: "center", fontWeight: "600" }}
           >
-            Get Pricing, lead times, and design feedback
+            get pricing, lead times, and design feedback
           </Typography>
 
           {/* Supported materials */}

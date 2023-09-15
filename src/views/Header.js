@@ -94,7 +94,7 @@ export const Header = () => {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page.name} onClick={page.action}>
+                <MenuItem key={`link-${page.name}`} onClick={page.action}>
                   <Typography
                     textAlign="center"
                     sx={{
@@ -112,7 +112,6 @@ export const Header = () => {
           </Box>
 
           <Box
-            noWrap
             sx={{
               display: { xs: "flex", md: "none" },
               alignItems: "center",
@@ -135,7 +134,6 @@ export const Header = () => {
           {/* MD */}
 
           <Box
-            noWrap
             component="div"
             sx={{
               display: { xs: "none", md: "flex" },
@@ -161,7 +159,7 @@ export const Header = () => {
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
               <Button
-                key={page.name}
+                key={`link-${page.name}`}
                 onClick={page.action}
                 sx={{
                   color: "black",

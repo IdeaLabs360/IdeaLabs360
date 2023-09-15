@@ -5,7 +5,7 @@ import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 // import { Facebook, Instagram, Twitter } from "@mui/icons-material";
 import { Box } from "@mui/material";
-import { email, phoneNumber } from "./Home";
+import { displayPhoneNumber, email } from "./Home";
 
 export const Footer = () => {
   return (
@@ -40,7 +40,7 @@ export const Footer = () => {
               Email: {email}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              Phone: {phoneNumber}
+              Phone: {displayPhoneNumber}
             </Typography>
           </Grid>
 
