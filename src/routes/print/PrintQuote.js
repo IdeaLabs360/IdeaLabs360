@@ -28,8 +28,7 @@ import { displayPhoneNumber, email, materials } from "../../views/Home";
 
 const schema = yup
   .object({
-    firstname: yup.string().required("First name is required"),
-    lastname: yup.string().required("Last name is required"),
+    name: yup.string().required("Name is required"),
     phone: yup.string().required("Phone number is required"),
     email: yup
       .string()
@@ -53,13 +52,14 @@ export const PrintQuote = () => {
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) });
 
-  const onSubmit = async ({ name, email, material, details }) => {
+  const onSubmit = async ({ name, phone, email, material, details }) => {
     const formData = new FormData();
     formData.append("name", name);
+    formData.append("phone", phone);
     formData.append("email", email);
     formData.append("material", material);
 
-    formData.append("type", "Print");
+    formData.append("type", "PRINT");
 
     for (const file of files) {
       formData.append("file", file);
@@ -110,49 +110,15 @@ export const PrintQuote = () => {
                 marginTop: "10px",
               }}
             >
-              <Box sx={{ display: "flex" }}>
-                <Box
-                  sx={{ display: "flex", flexDirection: "column", flexGrow: 1 }}
-                >
-                  <TextField
-                    id="firstname"
-                    label="First Name *"
-                    variant="outlined"
-                    margin="normal"
-                    {...register("firstname")}
-                    sx={{ flexGrow: 1, mr: 2 }}
-                  />
-
-                  <Typography
-                    variant="body2"
-                    component="span"
-                    sx={{ color: "red" }}
-                  >
-                    {errors.firstname?.message}
-                  </Typography>
-                </Box>
-
-                <Box
-                  sx={{ display: "flex", flexDirection: "column", flexGrow: 1 }}
-                >
-                  <TextField
-                    id="lastname"
-                    label="Last Name *"
-                    variant="outlined"
-                    margin="normal"
-                    {...register("lastname")}
-                    sx={{ flexGrow: 1 }}
-                  />
-
-                  <Typography
-                    variant="body2"
-                    component="span"
-                    sx={{ color: "red" }}
-                  >
-                    {errors.lastname?.message}
-                  </Typography>
-                </Box>
-              </Box>
+              <TextField
+                id="name"
+                label="Name *"
+                variant="outlined"
+                margin="normal"
+                error={!!errors.name?.message}
+                helperText={errors.name?.message}
+                {...register("name")}
+              />
 
               <TextField
                 id="phone"
@@ -160,32 +126,20 @@ export const PrintQuote = () => {
                 label="Phone *"
                 variant="outlined"
                 margin="normal"
+                error={!!errors.phone?.message}
+                helperText={errors.phone?.message}
                 {...register("phone")}
               />
-
-              <Typography
-                variant="body2"
-                component="span"
-                sx={{ color: "red" }}
-              >
-                {errors.phone?.message}
-              </Typography>
 
               <TextField
                 id="email"
                 label="Email *"
                 variant="outlined"
                 margin="normal"
+                error={!!errors.email?.message}
+                helperText={errors.email?.message}
                 {...register("email")}
               />
-
-              <Typography
-                variant="body2"
-                component="span"
-                sx={{ color: "red" }}
-              >
-                {errors.email?.message}
-              </Typography>
 
               <TextField
                 select

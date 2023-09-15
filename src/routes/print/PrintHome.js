@@ -60,7 +60,7 @@ export const PrintHome = () => {
             variant="body1"
             sx={{ pb: 2, textAlign: "center", fontWeight: "600" }}
           >
-            get Pricing, lead times, and design feedback
+            get pricing, lead times, and design feedback
           </Typography>
 
           {/* Supported materials */}
