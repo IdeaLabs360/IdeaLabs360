@@ -33,7 +33,7 @@ export const phoneNumber = "6125481004";
 export const displayPhoneNumber = "(612) 548-1004";
 export const email = "idealabs360@gmail.com";
 
-const images = ["1.jpg", "2.jpeg", "3.jpg"];
+const images = ["4.jpg", "3.jpg", "1.jpg", "2.jpeg"];
 
 const reviews = [
   {

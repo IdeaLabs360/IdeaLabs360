@@ -12,7 +12,6 @@ import {
   Typography,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import LightbulbRoundedIcon from "@mui/icons-material/LightbulbRounded";
 import PhoneIcon from "@mui/icons-material/Phone";
 import EmailIcon from "@mui/icons-material/Email";
 import { Logo } from "./Logo";
@@ -119,13 +118,6 @@ export const Header = () => {
               textDecoration: "none",
             }}
           >
-            <LightbulbRoundedIcon
-              sx={{
-                display: { xs: "flex", md: "none" },
-                fontSize: "medium",
-                mr: 1,
-              }}
-            />
             <Link href="/" sx={{ color: "inherit", textDecoration: "none" }}>
               <Logo variant={"h6"} fontSize={"1.35rem"} />
             </Link>
@@ -142,12 +134,6 @@ export const Header = () => {
               textDecoration: "none",
             }}
           >
-            <LightbulbRoundedIcon
-              sx={{
-                display: { xs: "none", md: "flex" },
-                mr: 1,
-              }}
-            />
             <Link
               href="/"
               sx={{ mr: 2, color: "inherit", textDecoration: "none" }}
