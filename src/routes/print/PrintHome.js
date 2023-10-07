@@ -78,7 +78,7 @@ export const PrintHome = () => {
             component="div"
             sx={{ pt: 0.5, color: "#566573", textAlign: "center" }}
           >
-            STL | OBJ | X3D | 3MF files
+            STL | OBJ | AMF files
           </Typography>
 
           {/* Quote button */}
