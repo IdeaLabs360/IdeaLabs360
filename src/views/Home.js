@@ -94,7 +94,8 @@ const CreateQuoteMotto = (icon, contentTitle, content) => {
   );
 };
 
-export const materials = ["PLA", "PETG", "ABS", "ASA", "TPU", "Nylon"];
+export const materials = ["PLA", "PETG", "ABS", "TPU"];
+export const colors = ["White", "Black", "Red"];
 
 export const Home = () => {
   const [serviceTab, setServiceTab] = React.useState(0);

@@ -6,8 +6,6 @@ import * as yup from "yup";
 import axios from "axios";
 import {
   Button,
-  Card,
-  CardContent,
   Container,
   FormControl,
   Grid,
@@ -102,7 +100,9 @@ export const PrintQuote = () => {
         </Typography>
 
         {location?.state?.uploadedFiles?.map((file) => (
-          <PrintQuoteFile file={file} />
+          <Box sx={{ mb: 2 }}>
+            <PrintQuoteFile file={file} />
+          </Box>
         ))}
       </Container>
 
