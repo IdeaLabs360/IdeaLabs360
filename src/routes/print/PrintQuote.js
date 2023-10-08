@@ -1,10 +1,13 @@
 import * as React from "react";
+import { useLocation } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import axios from "axios";
 import {
   Button,
+  Card,
+  CardContent,
   Container,
   FormControl,
   Grid,
@@ -25,6 +28,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 
 import apiConfig from "../../config/apiConfig";
 import { displayPhoneNumber, email, materials } from "../../views/Home";
+import { PrintQuoteFile } from "./PrintQuoteFile";
 
 const schema = yup
   .object({
@@ -51,6 +55,10 @@ export const PrintQuote = () => {
     handleSubmit,
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) });
+
+  const location = useLocation();
+
+  console.log("uploaded files", location.state.uploadedFiles);
 
   const onSubmit = async ({ name, phone, email, material, details }) => {
     const formData = new FormData();
@@ -84,6 +92,20 @@ export const PrintQuote = () => {
 
   return (
     <>
+      <Container maxWidth="md">
+        <Typography
+          variant="h5"
+          component="div"
+          sx={{ my: 3, fontSize: "2.0rem", fontWeight: "bold" }}
+        >
+          Quote
+        </Typography>
+
+        {location?.state?.uploadedFiles?.map((file) => (
+          <PrintQuoteFile file={file} />
+        ))}
+      </Container>
+
       <Grid container spacing={0} sx={{ display: "flex" }}>
         <Grid item xs={12} sx={{ flexGrow: 1, marginTop: "30px" }}>
           <Container maxWidth="md">

@@ -1,9 +1,13 @@
+import * as React from "react";
+import { useNavigate } from "react-router-dom";
 import { Box, Button, Typography } from "@mui/material";
 import LockIcon from "@mui/icons-material/Lock";
 import BackupIcon from "@mui/icons-material/Backup";
 import { materials } from "../../views/Home";
 
 export const PrintHome = () => {
+  const navigate = useNavigate();
+
   return (
     <Box
       sx={{
@@ -84,8 +88,8 @@ export const PrintHome = () => {
           {/* Quote button */}
           <Box sx={{ py: 2, display: "flex", justifyContent: "center" }}>
             <Button
-              onClick={() => window.open("/#/print/quote", "_self")}
               variant="contained"
+              component="label"
               sx={{
                 py: 1.5,
                 px: 3,
@@ -96,7 +100,18 @@ export const PrintHome = () => {
               }}
             >
               <BackupIcon sx={{ mr: 2 }} />
-              Start Your Free Quote
+              Start Your Instant Quote
+              <input
+                type="file"
+                multiple
+                hidden
+                onClick={(e) => (e.target.value = null)}
+                onChange={(e) => {
+                  navigate("/print/quote", {
+                    state: { uploadedFiles: [...e.target.files] },
+                  });
+                }}
+              />
             </Button>
           </Box>
 
