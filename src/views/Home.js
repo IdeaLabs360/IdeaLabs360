@@ -29,6 +29,10 @@ import ElectricBoltOutlinedIcon from "@mui/icons-material/ElectricBoltOutlined";
 import { DesignHome } from "../routes/design/DesignHome";
 import { PrintHome } from "../routes/print/PrintHome";
 
+export const quantities = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+export const materials = ["PLA", "PETG", "ABS", "TPU"];
+export const colors = ["White", "Black", "Red"];
+
 export const phoneNumber = "6125481004";
 export const displayPhoneNumber = "(612) 548-1004";
 export const email = "idealabs360@gmail.com";
@@ -93,9 +97,6 @@ const CreateQuoteMotto = (icon, contentTitle, content) => {
     </Card>
   );
 };
-
-export const materials = ["PLA", "PETG", "ABS", "TPU"];
-export const colors = ["White", "Black", "Red"];
 
 export const Home = () => {
   const [serviceTab, setServiceTab] = React.useState(0);
