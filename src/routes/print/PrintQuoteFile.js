@@ -83,6 +83,10 @@ export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
     updateQuote(id, updatedQuote);
   };
 
+  const remove = () => {
+    updateQuote(id, null);
+  };
+
   return (
     <>
       <Paper elevation={2} sx={{ px: 3, py: 2 }}>
@@ -93,7 +97,7 @@ export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
           </Typography>
 
           <IconButton
-            onClick={() => {}}
+            onClick={remove}
             variant="contained"
             sx={{
               mr: 1,
