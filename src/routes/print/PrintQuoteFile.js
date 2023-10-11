@@ -16,10 +16,16 @@ import Divider from "@mui/material/Divider";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 import apiConfig from "../../config/apiConfig";
-import { colors, materials, quantities } from "../../views/Home";
+import { colors, materials, quantities, units } from "../../views/Home";
 
 export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
-  const [estimate, setEstimate] = React.useState(0);
+  const [unit, setUnit] = React.useState("mm");
+  const [width, setWidth] = React.useState(0.0);
+  const [length, setLength] = React.useState(0.0);
+  const [height, setHeight] = React.useState(0.0);
+
+  const [priceEach, setPriceEach] = React.useState(0);
+  const [priceTotal, setPriceTotal] = React.useState(0);
   const [isLoading, setIsLoading] = React.useState(false);
 
   const {
@@ -49,16 +55,23 @@ export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
 
     try {
       const formData = new FormData();
-      formData.append("file", quote.file);
+      formData.append("quantity", getValues("quantity"));
       formData.append("material", getValues("material"));
       formData.append("color", getValues("color"));
+      formData.append("file", quote.file);
 
       const url = `${apiConfig.api.baseUrl}/v1/estimate`;
       const response = await axios.post(url, formData);
 
       if (response.status === 200) {
-        const estimate = await response.data.estimate;
-        setEstimate(estimate);
+        const data = await response.data;
+
+        setWidth(data.width);
+        setLength(data.length);
+        setHeight(data.height);
+
+        setPriceEach(data.price_each);
+        setPriceTotal(data.price_total);
       } else {
       }
 
@@ -81,10 +94,34 @@ export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
     };
 
     updateQuote(id, updatedQuote);
+
+    getEstimate();
   };
 
   const remove = () => {
     updateQuote(id, null);
+  };
+
+  const createDetails = (label, value) => {
+    return (
+      <Box sx={{ display: "flex" }}>
+        <Typography
+          variant="body"
+          component="div"
+          sx={{ mr: 1, width: "60px", fontWeight: "bold" }}
+        >
+          {label}
+        </Typography>
+
+        <Typography
+          variant="body"
+          component="div"
+          sx={{ mr: 1, fontSize: "0.8rem" }}
+        >
+          {value}
+        </Typography>
+      </Box>
+    );
   };
 
   return (
@@ -115,64 +152,62 @@ export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
         {/* Configured Details */}
         <Box sx={{ mt: 2, mb: 1, fontSize: "0.9rem" }}>
           <Grid container spacing={2}>
-            <Grid item xs={6}>
+            <Grid item xs={8}>
               <Grid container spacing={1}>
                 <Grid item xs={12}>
-                  <Typography
-                    variant="body"
-                    component="label"
-                    sx={{ mr: 1, fontWeight: "bold" }}
-                  >
-                    Size:
-                  </Typography>
-                  12mm 12mm 12mm
+                  {createDetails("Tech", "FDM 3D Printing")}
                 </Grid>
 
                 <Grid item xs={12}>
-                  <Typography
-                    variant="body"
-                    component="label"
-                    sx={{ mr: 1, fontWeight: "bold" }}
-                  >
-                    Tech:
-                  </Typography>
-                  FDM 3D Printing
+                  {createDetails(
+                    "Size",
+                    `${width}${unit} x ${length}${unit} x ${height}${unit}`
+                  )}
                 </Grid>
 
                 <Grid item xs={12}>
-                  <Typography
-                    variant="body"
-                    component="label"
-                    sx={{ mr: 1, fontWeight: "bold" }}
-                  >
-                    Material:
-                  </Typography>
-
-                  <select {...register("material")}>
-                    {materials.map((material, index) => (
-                      <option key={`material-option-${index}`} value={material}>
-                        {material}
-                      </option>
-                    ))}
-                  </select>
+                  {createDetails(
+                    "Unit",
+                    <select
+                      {...register("unit")}
+                      onChange={(e) => setUnit(e.target.value)}
+                    >
+                      {units.map((unit, index) => (
+                        <option key={`unit-option-${index}`} value={unit}>
+                          {unit}
+                        </option>
+                      ))}
+                    </select>
+                  )}
                 </Grid>
 
                 <Grid item xs={12}>
-                  <Typography
-                    variant="body"
-                    component="label"
-                    sx={{ mr: 3.4, fontWeight: "bold" }}
-                  >
-                    Color:
-                  </Typography>
+                  {createDetails(
+                    "Material",
+                    <select {...register("material")}>
+                      {materials.map((material, index) => (
+                        <option
+                          key={`material-option-${index}`}
+                          value={material}
+                        >
+                          {material}
+                        </option>
+                      ))}
+                    </select>
+                  )}
+                </Grid>
 
-                  <select {...register("color")}>
-                    {colors.map((color, index) => (
-                      <option key={`color-option-${index}`} value={color}>
-                        {color}
-                      </option>
-                    ))}
-                  </select>
+                <Grid item xs={12}>
+                  {createDetails(
+                    "Color",
+                    <select {...register("color")}>
+                      {colors.map((color, index) => (
+                        <option key={`color-option-${index}`} value={color}>
+                          {color}
+                        </option>
+                      ))}
+                    </select>
+                  )}
                 </Grid>
 
                 {isDirty && (
@@ -205,7 +240,7 @@ export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
               </Grid>
             </Grid>
 
-            <Grid item xs={6}>
+            <Grid item xs={4}>
               <Box sx={{ display: "flex", flexDirection: "column" }}>
                 {/* Quantity */}
                 <TextField
@@ -250,7 +285,7 @@ export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
                       component="div"
                       sx={{ mr: 1, color: "gray" }}
                     >
-                      ${estimate} x {quantity} =
+                      ${priceEach} x {quantity} =
                     </Typography>
 
                     <Typography
@@ -258,7 +293,7 @@ export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
                       component="div"
                       sx={{ fontSize: "1.5rem", fontWeight: "600" }}
                     >
-                      ${estimate * quantity}
+                      ${priceTotal}
                     </Typography>
                   </Box>
                 )}

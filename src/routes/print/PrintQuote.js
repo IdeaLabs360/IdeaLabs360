@@ -2,41 +2,40 @@ import * as React from "react";
 import { useLocation } from "react-router-dom";
 
 import axios from "axios";
-import { loadStripe } from "@stripe/stripe-js";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 
 import {
   Button,
   Container,
+  FormControl,
   Grid,
   Box,
-  Modal,
-  Paper,
+  TextField,
   Typography,
 } from "@mui/material";
-import Divider from "@mui/material/Divider";
+import LockIcon from "@mui/icons-material/Lock";
 
-import { displayPhoneNumber, email } from "../../views/Home";
 import { PrintQuoteFile } from "./PrintQuoteFile";
 import apiConfig from "../../config/apiConfig";
 
-const stripePromise = loadStripe(
-  "pk_test_51NvNSiFoMfdWQhxnqVYO2uHw9ky2XTb54Oh7q4YctPtudSgLCyVWIEUZFnqC5hdANwm6aD4wWi5WSLnepCA5F0Ho00JKCsScV1",
-  {
-    betas: ["embedded_checkout_beta_1"],
-  }
-);
+const schema = yup
+  .object({
+    // name: yup.string().required("Name is required"),
+  })
+  .required();
 
 export const PrintQuote = () => {
-  const [open, setOpen] = React.useState(false);
-  const [success] = React.useState(false);
-  const [clientSecret, setClientSecret] = React.useState("");
-
-  // const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-
   const [quotes, setQuotes] = React.useState([]);
 
   const location = useLocation();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ resolver: yupResolver(schema) });
 
   const updateQuote = (id, quote) => {
     const newQuotes = [...quotes];
@@ -50,13 +49,30 @@ export const PrintQuote = () => {
     setQuotes(newQuotes);
   };
 
-  const createSession = async () => {
+  const createSession = async ({
+    name,
+    company,
+    street,
+    city,
+    state,
+    zipcode,
+  }) => {
     try {
       const formData = new FormData();
+      for (const quote of quotes) {
+        formData.append("quantity", quote.quantity);
+        formData.append("material", quote.material);
+        formData.append("color", quote.color);
+        formData.append("file", quote.file);
+      }
 
-      const url = `${apiConfig.api.baseUrl}/v1/payment`;
+      const url = `${apiConfig.api.baseUrl}/v1/checkout`;
       const response = await axios.post(url, formData);
-    } catch (err) {}
+
+      window.location.href = await response.data.checkout_link;
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   React.useEffect(() => {
@@ -74,121 +90,115 @@ export const PrintQuote = () => {
   }, []);
 
   return (
-    <>
-      <Container maxWidth="md">
-        <Typography
-          variant="h5"
-          component="div"
-          sx={{ my: 3, fontSize: "2.0rem", fontWeight: "bold" }}
-        >
-          Quote
-        </Typography>
-
-        <Grid container spacing={1}>
-          <Grid item xs={8}>
-            {quotes.map((quote, index) => (
-              <Box key={`quote_${index}`} sx={{ mb: 2 }}>
-                <PrintQuoteFile
-                  id={index}
-                  quote={quote}
-                  updateQuote={updateQuote}
-                />
-              </Box>
-            ))}
-          </Grid>
-
-          <Grid item xs={4}>
-            <Paper elevation={0} sx={{ px: 3, py: 2 }}>
-              <Box>
-                <Button
-                  variant="contained"
-                  component="label"
-                  onClick={() => {
-                    createSession();
-                  }}
-                  sx={{
-                    py: 1.5,
-                    px: 3,
-                    bgcolor: "icon.primary",
-                    textTransform: "none",
-                    textAlign: "center",
-                    fontWeight: "700",
-                  }}
-                >
-                  Checkout
-                </Button>
-              </Box>
-            </Paper>
-          </Grid>
-        </Grid>
-      </Container>
-
-      {/* Status Modal */}
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
+    <Container maxWidth="md">
+      <Typography
+        variant="h5"
+        component="div"
+        sx={{ my: 3, fontSize: "2.0rem", fontWeight: "bold" }}
       >
-        <Box
-          sx={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            maxWidth: 500,
-            bgcolor: "background.paper",
-            borderRadius: "5px",
-            boxShadow: 24,
-            px: 6,
-            py: 4,
-          }}
-        >
-          <Typography
-            id="modal-modal-title"
-            variant="h6"
-            component="div"
-            sx={{
-              mb: "16px",
-              color: "#595e6c",
-              fontSize: "1.5rem",
-              fontWeight: "bold",
-            }}
-          >
-            {success ? <>Request submitted</> : <>Something went wrong</>}
-          </Typography>
+        Quote
+      </Typography>
 
-          <Divider />
+      <Grid container spacing={2}>
+        <Grid item xs={8}>
+          {quotes.map((quote, index) => (
+            <Box key={`quote_${index}`} sx={{ mb: 2 }}>
+              <PrintQuoteFile
+                id={index}
+                quote={quote}
+                updateQuote={updateQuote}
+              />
+            </Box>
+          ))}
+        </Grid>
 
-          <Typography id="modal-modal-description" sx={{ my: 2 }}>
-            {success ? (
-              <>
-                Thank you for submitting a request. We will be in touch with you
-                within one business day.
-              </>
-            ) : (
-              <>
-                An issue occurred while submitting the request. Please make
-                another attempt or contact us using the information provided
-                below. We apologize for the inconvenience.
-              </>
-            )}
-          </Typography>
+        <Grid item xs={4}>
+          <FormControl sx={{ display: "flex", flexDirection: "column" }}>
+            <TextField
+              id="name"
+              label="Name *"
+              variant="outlined"
+              margin="dense"
+              size="small"
+              error={!!errors.name?.message}
+              helperText={errors.name?.message}
+              {...register("name")}
+              sx={{ mt: 0 }}
+            />
 
-          <Divider />
+            <TextField
+              id="company"
+              label="Company"
+              variant="outlined"
+              margin="dense"
+              size="small"
+              error={!!errors.company?.message}
+              helperText={errors.company?.message}
+              {...register("company")}
+            />
 
-          <Grid container spacing={1} sx={{ mt: 2 }}>
-            <Grid item xs={12} sx={{ display: "flex" }}>
-              <Box sx={{ minWidth: "100px" }}>Call or Text</Box>
-              <Box>{displayPhoneNumber}</Box>
-            </Grid>
-            <Grid item xs={12} sx={{ display: "flex" }}>
-              <Box sx={{ minWidth: "100px" }}>Email</Box>
-              <Box>{email}</Box>
-            </Grid>
-          </Grid>
-        </Box>
-      </Modal>
-    </>
+            <TextField
+              id="street"
+              label="Street *"
+              variant="outlined"
+              margin="dense"
+              size="small"
+              error={!!errors.street?.message}
+              helperText={errors.street?.message}
+              {...register("street")}
+            />
+
+            <TextField
+              id="city"
+              label="City *"
+              variant="outlined"
+              margin="dense"
+              size="small"
+              error={!!errors.city?.message}
+              helperText={errors.city?.message}
+              {...register("city")}
+            />
+
+            <TextField
+              id="state"
+              label="State *"
+              variant="outlined"
+              margin="dense"
+              size="small"
+              error={!!errors.state?.message}
+              helperText={errors.state?.message}
+              {...register("state")}
+            />
+
+            <TextField
+              id="zipcode"
+              label="Zipcode *"
+              variant="outlined"
+              margin="dense"
+              size="small"
+              error={!!errors.zipcode?.message}
+              helperText={errors.zipcode?.message}
+              {...register("zipcode")}
+            />
+
+            <Button
+              variant="contained"
+              onClick={handleSubmit(createSession)}
+              sx={{
+                mt: 2,
+                py: 1,
+                bgcolor: "icon.primary",
+                textTransform: "none",
+                textAlign: "center",
+                fontWeight: "700",
+              }}
+            >
+              <LockIcon sx={{ mr: 0.5, fontSize: "1.1rem" }} />
+              Checkout
+            </Button>
+          </FormControl>
+        </Grid>
+      </Grid>
+    </Container>
   );
 };
