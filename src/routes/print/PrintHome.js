@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Box, Button, Typography } from "@mui/material";
 import LockIcon from "@mui/icons-material/Lock";
 import BackupIcon from "@mui/icons-material/Backup";
-import { materials } from "../../views/Home";
+import { materials } from "../../constants/constants";
 
 export const PrintHome = () => {
   const navigate = useNavigate();

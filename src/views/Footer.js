@@ -5,7 +5,7 @@ import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 // import { Facebook, Instagram, Twitter } from "@mui/icons-material";
 import { Box } from "@mui/material";
-import { displayPhoneNumber, email } from "./Home";
+import { displayPhoneNumber, email } from "../constants/constants";
 
 export const Footer = () => {
   return (

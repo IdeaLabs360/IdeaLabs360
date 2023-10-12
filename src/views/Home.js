@@ -28,17 +28,12 @@ import ElectricBoltOutlinedIcon from "@mui/icons-material/ElectricBoltOutlined";
 
 import { DesignHome } from "../routes/design/DesignHome";
 import { PrintHome } from "../routes/print/PrintHome";
-
-export const quantities = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-export const materials = ["PLA", "PETG", "ABS", "TPU"];
-export const colors = ["White", "Black", "Red"];
-export const units = ["mm", "in"];
-
-export const phoneNumber = "6125481004";
-export const displayPhoneNumber = "(612) 548-1004";
-export const email = "idealabs360@gmail.com";
-
-const images = ["4.jpg", "3.jpg", "1.jpg", "2.jpeg"];
+import {
+  displayPhoneNumber,
+  email,
+  images,
+  phoneNumber,
+} from "../constants/constants";
 
 const reviews = [
   {

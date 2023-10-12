@@ -16,7 +16,12 @@ import Divider from "@mui/material/Divider";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 import apiConfig from "../../config/apiConfig";
-import { colors, materials, quantities, units } from "../../views/Home";
+import {
+  colors,
+  materials,
+  quantities,
+  units,
+} from "../../constants/constants";
 
 export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
   const [unit, setUnit] = React.useState("mm");

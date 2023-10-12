@@ -23,7 +23,7 @@ import FileUploadIcon from "@mui/icons-material/FileUpload";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 import apiConfig from "../../config/apiConfig";
-import { displayPhoneNumber, email } from "../../views/Home";
+import { displayPhoneNumber, email } from "../../constants/constants";
 
 const schema = yup
   .object({

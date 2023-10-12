@@ -22,7 +22,18 @@ import apiConfig from "../../config/apiConfig";
 
 const schema = yup
   .object({
-    // name: yup.string().required("Name is required"),
+    name: yup.string().required("Name is required"),
+    street: yup.string().required("Street is required"),
+    city: yup.string().required("City is required"),
+    state: yup
+      .string()
+      .length(2, "State must be in short the form; MN")
+      .required("State is required"),
+    zipcode: yup
+      .string()
+      .length(5, "Zipcode must be 5 digits")
+      .matches(/^\d+$/, "Zipcode must be a number")
+      .required("Zipcode is required"),
   })
   .required();
 
@@ -59,11 +70,29 @@ export const PrintQuote = () => {
   }) => {
     try {
       const formData = new FormData();
+
+      formData.append("company", company);
+      formData.append("name", name);
+      formData.append("street", street);
+      formData.append("city", city);
+      formData.append("state", state);
+      formData.append("zipcode", zipcode);
+
       for (const quote of quotes) {
         formData.append("quantity", quote.quantity);
         formData.append("material", quote.material);
         formData.append("color", quote.color);
         formData.append("file", quote.file);
+
+        formData.append(
+          "items",
+          JSON.stringify({
+            quantity: quote.quantity,
+            material: quote.material,
+            color: quote.color,
+            file: quote.file,
+          })
+        );
       }
 
       const url = `${apiConfig.api.baseUrl}/v1/checkout`;
@@ -115,18 +144,6 @@ export const PrintQuote = () => {
         <Grid item xs={4}>
           <FormControl sx={{ display: "flex", flexDirection: "column" }}>
             <TextField
-              id="name"
-              label="Name *"
-              variant="outlined"
-              margin="dense"
-              size="small"
-              error={!!errors.name?.message}
-              helperText={errors.name?.message}
-              {...register("name")}
-              sx={{ mt: 0 }}
-            />
-
-            <TextField
               id="company"
               label="Company"
               variant="outlined"
@@ -135,6 +152,18 @@ export const PrintQuote = () => {
               error={!!errors.company?.message}
               helperText={errors.company?.message}
               {...register("company")}
+              sx={{ mt: 0 }}
+            />
+
+            <TextField
+              id="name"
+              label="Name *"
+              variant="outlined"
+              margin="dense"
+              size="small"
+              error={!!errors.name?.message}
+              helperText={errors.name?.message}
+              {...register("name")}
             />
 
             <TextField

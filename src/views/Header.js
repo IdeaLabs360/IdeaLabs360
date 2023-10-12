@@ -15,7 +15,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import PhoneIcon from "@mui/icons-material/Phone";
 import EmailIcon from "@mui/icons-material/Email";
 import { Logo } from "./Logo";
-import { email, phoneNumber } from "./Home";
+import { email, phoneNumber } from "../constants/constants";
 
 const pages = [
   {
