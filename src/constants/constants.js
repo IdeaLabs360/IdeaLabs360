@@ -50,6 +50,9 @@ export const statesInUSA = [
   { name: "Wisconsin", abbreviation: "WI" },
   { name: "Wyoming", abbreviation: "WY" },
 ];
+
+export const statesInUSAShort = statesInUSA.map((state) => state.abbreviation);
+
 export const quantities = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 export const materials = ["PLA", "PETG", "ABS", "TPU"];
 export const colors = ["White", "Black", "Red"];

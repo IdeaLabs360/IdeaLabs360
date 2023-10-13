@@ -9,6 +9,7 @@ import { Header } from "./views/Header";
 import { Footer } from "./views/Footer";
 import { PrintQuote } from "./routes/print/PrintQuote";
 import { DesignQuote } from "./routes/design/DesignQuote";
+import { Success } from "./views/Success";
 
 const theme = createTheme({
   palette: {
@@ -61,6 +62,10 @@ const router = createHashRouter([
   {
     path: "/print/quote",
     element: <PrintQuote />,
+  },
+  {
+    path: "/return",
+    element: <Success />,
   },
 ]);
 

@@ -14,11 +14,14 @@ import {
   Box,
   TextField,
   Typography,
+  CircularProgress,
+  MenuItem,
 } from "@mui/material";
 import LockIcon from "@mui/icons-material/Lock";
 
 import { PrintQuoteFile } from "./PrintQuoteFile";
 import apiConfig from "../../config/apiConfig";
+import { statesInUSAShort } from "../../constants/constants";
 
 const schema = yup
   .object({
@@ -39,6 +42,7 @@ const schema = yup
 
 export const PrintQuote = () => {
   const [quotes, setQuotes] = React.useState([]);
+  const [isLoading, setIsLoading] = React.useState(false);
 
   const location = useLocation();
 
@@ -68,6 +72,8 @@ export const PrintQuote = () => {
     state,
     zipcode,
   }) => {
+    setIsLoading(true);
+
     try {
       const formData = new FormData();
 
@@ -102,6 +108,8 @@ export const PrintQuote = () => {
     } catch (err) {
       console.log(err);
     }
+
+    setIsLoading(false);
   };
 
   React.useEffect(() => {
@@ -118,8 +126,16 @@ export const PrintQuote = () => {
     // eslint-disable-next-line
   }, []);
 
+  // TODO: show something or redirect to home page when there are no items
+  // React.useEffect(() => {
+  //   if (quotes.length === 0) {
+  //     console.log("*** Empty items ***");
+  //     // window.location.href = "/";
+  //   }
+  // }, [quotes]);
+
   return (
-    <Container maxWidth="md">
+    <Container maxWidth="lg">
       <Typography
         variant="h5"
         component="div"
@@ -129,7 +145,7 @@ export const PrintQuote = () => {
       </Typography>
 
       <Grid container spacing={2}>
-        <Grid item xs={8}>
+        <Grid item md={8} sm={8} xs={12}>
           {quotes.map((quote, index) => (
             <Box key={`quote_${index}`} sx={{ mb: 2 }}>
               <PrintQuoteFile
@@ -141,7 +157,7 @@ export const PrintQuote = () => {
           ))}
         </Grid>
 
-        <Grid item xs={4}>
+        <Grid item md={4} sm={4} xs={12}>
           <FormControl sx={{ display: "flex", flexDirection: "column" }}>
             <TextField
               id="company"
@@ -189,15 +205,23 @@ export const PrintQuote = () => {
             />
 
             <TextField
+              select
               id="state"
               label="State *"
               variant="outlined"
               margin="dense"
               size="small"
+              defaultValue=""
               error={!!errors.state?.message}
               helperText={errors.state?.message}
               {...register("state")}
-            />
+            >
+              {statesInUSAShort.map((state, index) => (
+                <MenuItem key={`state-option-${index}`} value={state}>
+                  {state}
+                </MenuItem>
+              ))}
+            </TextField>
 
             <TextField
               id="zipcode"
@@ -222,8 +246,17 @@ export const PrintQuote = () => {
                 fontWeight: "700",
               }}
             >
-              <LockIcon sx={{ mr: 0.5, fontSize: "1.1rem" }} />
-              Checkout
+              {isLoading ? (
+                <>
+                  Processing...
+                  <CircularProgress size={25} sx={{ ml: 2, color: "white" }} />
+                </>
+              ) : (
+                <>
+                  <LockIcon sx={{ mr: 0.5, fontSize: "1.1rem" }} />
+                  Checkout
+                </>
+              )}
             </Button>
           </FormControl>
         </Grid>

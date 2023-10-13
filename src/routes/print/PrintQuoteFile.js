@@ -157,7 +157,7 @@ export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
         {/* Configured Details */}
         <Box sx={{ mt: 2, mb: 1, fontSize: "0.9rem" }}>
           <Grid container spacing={2}>
-            <Grid item xs={8}>
+            <Grid item md={8} sm={8} xs={12}>
               <Grid container spacing={1}>
                 <Grid item xs={12}>
                   {createDetails("Tech", "FDM 3D Printing")}
@@ -245,7 +245,7 @@ export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
               </Grid>
             </Grid>
 
-            <Grid item xs={4}>
+            <Grid item md={4} sm={4} xs={12}>
               <Box sx={{ display: "flex", flexDirection: "column" }}>
                 {/* Quantity */}
                 <TextField
