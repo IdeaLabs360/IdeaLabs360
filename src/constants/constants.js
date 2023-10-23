@@ -63,3 +63,5 @@ export const displayPhoneNumber = "(612) 548-1004";
 export const email = "idealabs360@gmail.com";
 
 export const images = ["4.jpg", "3.jpg", "1.jpg", "2.jpeg"];
+
+export const unknownErrorMessage = "Oops. Something went wrong!!!";

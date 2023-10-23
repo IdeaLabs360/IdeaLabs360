@@ -7,17 +7,18 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
 import {
+  Autocomplete,
+  Box,
   Button,
+  CircularProgress,
   Container,
   FormControl,
   Grid,
-  Box,
   TextField,
   Typography,
-  CircularProgress,
-  MenuItem,
 } from "@mui/material";
 import LockIcon from "@mui/icons-material/Lock";
+import BackupIcon from "@mui/icons-material/Backup";
 
 import { PrintQuoteFile } from "./PrintQuoteFile";
 import apiConfig from "../../config/apiConfig";
@@ -134,6 +135,19 @@ export const PrintQuote = () => {
   //   }
   // }, [quotes]);
 
+  const addQuote = (file) => {
+    if (file !== null && file.length === 1) {
+      const newQuote = {
+        quantity: 1,
+        material: "PLA",
+        color: "Black",
+        file: file[0],
+      };
+
+      setQuotes([...quotes, newQuote]);
+    }
+  };
+
   return (
     <Container maxWidth="lg">
       <Typography
@@ -141,20 +155,46 @@ export const PrintQuote = () => {
         component="div"
         sx={{ my: 3, fontSize: "2.0rem", fontWeight: "bold" }}
       >
-        Quote
+        Quotes
       </Typography>
 
       <Grid container spacing={2}>
         <Grid item md={8} sm={8} xs={12}>
-          {quotes.map((quote, index) => (
-            <Box key={`quote_${index}`} sx={{ mb: 2 }}>
-              <PrintQuoteFile
-                id={index}
-                quote={quote}
-                updateQuote={updateQuote}
-              />
+          <Box>
+            {quotes.map((quote, index) => (
+              <Box key={`quote_${index}`} sx={{ mb: 2 }}>
+                <PrintQuoteFile
+                  id={index}
+                  quote={quote}
+                  updateQuote={updateQuote}
+                />
+              </Box>
+            ))}
+
+            <Box sx={{ display: "flex", justifyContent: "center" }}>
+              <Button
+                variant="contained"
+                component="label"
+                sx={{
+                  py: 1.5,
+                  px: 3,
+                  bgcolor: "icon.primary",
+                  textTransform: "none",
+                  textAlign: "center",
+                  fontWeight: "700",
+                }}
+              >
+                <BackupIcon sx={{ mr: 2 }} />
+                Add Another File
+                <input
+                  type="file"
+                  hidden
+                  onClick={(e) => (e.target.value = null)}
+                  onChange={(e) => addQuote(e.target.files)}
+                />
+              </Button>
             </Box>
-          ))}
+          </Box>
         </Grid>
 
         <Grid item md={4} sm={4} xs={12}>
@@ -204,24 +244,20 @@ export const PrintQuote = () => {
               {...register("city")}
             />
 
-            <TextField
-              select
+            <Autocomplete
+              disablePortal
               id="state"
-              label="State *"
-              variant="outlined"
-              margin="dense"
-              size="small"
-              defaultValue=""
-              error={!!errors.state?.message}
-              helperText={errors.state?.message}
-              {...register("state")}
-            >
-              {statesInUSAShort.map((state, index) => (
-                <MenuItem key={`state-option-${index}`} value={state}>
-                  {state}
-                </MenuItem>
-              ))}
-            </TextField>
+              options={statesInUSAShort}
+              sx={{
+                my: 1,
+                bgcolor: "white",
+                color: "black",
+                "&:hover": { bgcolor: "white" },
+              }}
+              renderInput={(params) => (
+                <TextField {...params} label="State *" {...register("state")} />
+              )}
+            />
 
             <TextField
               id="zipcode"
@@ -237,6 +273,7 @@ export const PrintQuote = () => {
             <Button
               variant="contained"
               onClick={handleSubmit(createSession)}
+              disabled={quotes?.length === 0}
               sx={{
                 mt: 2,
                 py: 1,

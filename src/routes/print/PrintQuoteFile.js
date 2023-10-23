@@ -2,15 +2,15 @@ import * as React from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import {
-  Button,
-  Grid,
   Box,
+  Button,
+  CircularProgress,
+  Grid,
   IconButton,
-  Typography,
+  MenuItem,
   Paper,
   TextField,
-  MenuItem,
-  CircularProgress,
+  Typography,
 } from "@mui/material";
 import Divider from "@mui/material/Divider";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -21,6 +21,7 @@ import {
   materials,
   quantities,
   units,
+  unknownErrorMessage,
 } from "../../constants/constants";
 
 export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
@@ -31,7 +32,9 @@ export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
 
   const [priceEach, setPriceEach] = React.useState(0);
   const [priceTotal, setPriceTotal] = React.useState(0);
+
   const [isLoading, setIsLoading] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState(null);
 
   const {
     watch,
@@ -77,12 +80,22 @@ export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
 
         setPriceEach(data.price_each);
         setPriceTotal(data.price_total);
-      } else {
-      }
 
-      // setSuccess(response.status === 200);
+        setErrorMessage(null);
+      } else {
+        setErrorMessage(unknownErrorMessage);
+      }
     } catch (err) {
-      // setSuccess(false);
+      console.log(err);
+
+      switch (err?.response?.status) {
+        case 400:
+          setErrorMessage(err?.response?.data);
+          break;
+
+        default:
+          setErrorMessage(unknownErrorMessage);
+      }
     }
 
     setIsLoading(false);
@@ -109,11 +122,11 @@ export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
 
   const createDetails = (label, value) => {
     return (
-      <Box sx={{ display: "flex" }}>
+      <Box>
         <Typography
           variant="body"
           component="div"
-          sx={{ mr: 1, width: "60px", fontWeight: "bold" }}
+          sx={{ mr: 1, mb: 1, width: "60px", fontWeight: "bold" }}
         >
           {label}
         </Typography>
@@ -127,6 +140,71 @@ export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
         </Typography>
       </Box>
     );
+  };
+
+  const displayLoadingSpinner = () => {
+    return (
+      <Box
+        sx={{
+          mt: 1,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "end",
+        }}
+      >
+        <CircularProgress />
+      </Box>
+    );
+  };
+
+  const displayPrice = () => {
+    if (errorMessage) {
+      return (
+        <Box
+          sx={{
+            mt: 2,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "end",
+          }}
+        >
+          <Typography
+            variant="body"
+            component="div"
+            sx={{ mr: 1, color: "red" }}
+          >
+            {errorMessage}
+          </Typography>
+        </Box>
+      );
+    } else {
+      return (
+        <Box
+          sx={{
+            mt: 2,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "end",
+          }}
+        >
+          <Typography
+            variant="body"
+            component="div"
+            sx={{ mr: 1, color: "gray" }}
+          >
+            ${priceEach} x {quantity} =
+          </Typography>
+
+          <Typography
+            variant="body"
+            component="div"
+            sx={{ fontSize: "1.5rem", fontWeight: "600" }}
+          >
+            ${priceTotal}
+          </Typography>
+        </Box>
+      );
+    }
   };
 
   return (
@@ -157,7 +235,7 @@ export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
         {/* Configured Details */}
         <Box sx={{ mt: 2, mb: 1, fontSize: "0.9rem" }}>
           <Grid container spacing={2}>
-            <Grid item md={8} sm={8} xs={12}>
+            <Grid item md={4} sm={4} xs={12}>
               <Grid container spacing={1}>
                 <Grid item xs={12}>
                   {createDetails("Tech", "FDM 3D Printing")}
@@ -166,30 +244,67 @@ export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
                 <Grid item xs={12}>
                   {createDetails(
                     "Size",
-                    `${width}${unit} x ${length}${unit} x ${height}${unit}`
+                    <Box>
+                      <Box>
+                        {`${width}${unit} x ${length}${unit} x ${height}${unit}`}
+                      </Box>
+
+                      <Box sx={{ mt: 1 }}>
+                        <select
+                          {...register("unit")}
+                          onChange={(e) => setUnit(e.target.value)}
+                          style={{
+                            width: "100px",
+                            height: "30px",
+                          }}
+                        >
+                          {units.map((unit, index) => (
+                            <option key={`unit-option-${index}`} value={unit}>
+                              {unit}
+                            </option>
+                          ))}
+                        </select>
+                      </Box>
+                    </Box>
                   )}
                 </Grid>
+              </Grid>
+            </Grid>
 
-                <Grid item xs={12}>
+            <Grid item md={4} sm={4} xs={12}>
+              <Grid container spacing={1}>
+                <Grid item xs={6}>
                   {createDetails(
-                    "Unit",
+                    "Quantity",
                     <select
-                      {...register("unit")}
-                      onChange={(e) => setUnit(e.target.value)}
+                      {...register("quantity")}
+                      style={{
+                        width: "100px",
+                        height: "30px",
+                      }}
                     >
-                      {units.map((unit, index) => (
-                        <option key={`unit-option-${index}`} value={unit}>
-                          {unit}
+                      {quantities.map((quantity, index) => (
+                        <option
+                          key={`quantity-option-${index}`}
+                          value={quantity}
+                        >
+                          {quantity}
                         </option>
                       ))}
                     </select>
                   )}
                 </Grid>
 
-                <Grid item xs={12}>
+                <Grid item xs={6}>
                   {createDetails(
                     "Material",
-                    <select {...register("material")}>
+                    <select
+                      {...register("material")}
+                      style={{
+                        width: "100px",
+                        height: "30px",
+                      }}
+                    >
                       {materials.map((material, index) => (
                         <option
                           key={`material-option-${index}`}
@@ -202,10 +317,16 @@ export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
                   )}
                 </Grid>
 
-                <Grid item xs={12}>
+                <Grid item xs={6}>
                   {createDetails(
                     "Color",
-                    <select {...register("color")}>
+                    <select
+                      {...register("color")}
+                      style={{
+                        width: "100px",
+                        height: "30px",
+                      }}
+                    >
                       {colors.map((color, index) => (
                         <option key={`color-option-${index}`} value={color}>
                           {color}
@@ -214,97 +335,44 @@ export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
                     </select>
                   )}
                 </Grid>
-
-                {isDirty && (
-                  <Grid item xs={12} sx={{ mt: 1 }}>
-                    <Button
-                      variant="outlined"
-                      onClick={() => reset()}
-                      sx={{
-                        p: 0,
-                        mr: 1,
-                        color: "secondary",
-                        textTransform: "none",
-                      }}
-                    >
-                      Cancel
-                    </Button>
-                    <Button
-                      variant="contained"
-                      onClick={handleSubmit(save)}
-                      sx={{
-                        p: 0,
-                        color: "secondary",
-                        textTransform: "none",
-                      }}
-                    >
-                      Save
-                    </Button>
-                  </Grid>
-                )}
               </Grid>
             </Grid>
 
             <Grid item md={4} sm={4} xs={12}>
               <Box sx={{ display: "flex", flexDirection: "column" }}>
-                {/* Quantity */}
-                <TextField
-                  select
-                  label="Quantity"
-                  variant="outlined"
-                  margin="dense"
-                  size="small"
-                  value={quantity}
-                  {...register("quantity")}
-                >
-                  {quantities.map((quantity, index) => (
-                    <MenuItem key={`quantity-option-${index}`} value={quantity}>
-                      {quantity}
-                    </MenuItem>
-                  ))}
-                </TextField>
-
                 {/* estimate */}
-                {isLoading ? (
-                  <Box
-                    sx={{
-                      mt: 1,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "end",
-                    }}
-                  >
-                    <CircularProgress />
-                  </Box>
-                ) : (
-                  <Box
-                    sx={{
-                      mt: 2,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "end",
-                    }}
-                  >
-                    <Typography
-                      variant="body"
-                      component="div"
-                      sx={{ mr: 1, color: "gray" }}
-                    >
-                      ${priceEach} x {quantity} =
-                    </Typography>
-
-                    <Typography
-                      variant="body"
-                      component="div"
-                      sx={{ fontSize: "1.5rem", fontWeight: "600" }}
-                    >
-                      ${priceTotal}
-                    </Typography>
-                  </Box>
-                )}
+                {isLoading ? displayLoadingSpinner() : displayPrice()}
               </Box>
             </Grid>
           </Grid>
+
+          {isDirty && (
+            <Box sx={{ mt: 3 }}>
+              <Button
+                variant="outlined"
+                onClick={() => reset()}
+                sx={{
+                  p: 0,
+                  mr: 1,
+                  color: "secondary",
+                  textTransform: "none",
+                }}
+              >
+                Cancel
+              </Button>
+              <Button
+                variant="contained"
+                onClick={handleSubmit(save)}
+                sx={{
+                  p: 0,
+                  color: "secondary",
+                  textTransform: "none",
+                }}
+              >
+                Save
+              </Button>
+            </Box>
+          )}
         </Box>
 
         {/*  */}

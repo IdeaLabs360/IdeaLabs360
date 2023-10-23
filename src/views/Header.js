@@ -164,7 +164,14 @@ export const Header = () => {
             <IconButton
               onClick={() => window.open(`tel:${phoneNumber}`, "_self")}
               variant="contained"
-              sx={{ mr: 1.5 }}
+              sx={{
+                mr: 1.5,
+                color: "#FFFFFF",
+                backgroundColor: "#4A91BF",
+                "&:hover": {
+                  backgroundColor: "#175E8C",
+                },
+              }}
             >
               <PhoneIcon sx={{ fontSize: "medium" }} />
             </IconButton>
@@ -177,6 +184,13 @@ export const Header = () => {
                 )
               }
               variant="contained"
+              sx={{
+                color: "#FFFFFF",
+                backgroundColor: "#4A91BF",
+                "&:hover": {
+                  backgroundColor: "#175E8C",
+                },
+              }}
             >
               <EmailIcon sx={{ fontSize: "medium" }} />
             </IconButton>
