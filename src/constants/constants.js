@@ -53,15 +53,17 @@ export const statesInUSA = [
 
 export const statesInUSAShort = statesInUSA.map((state) => state.abbreviation);
 
-export const quantities = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-export const materials = ["PLA", "PETG", "ABS", "TPU"];
-export const colors = ["White", "Black", "Red"];
-export const units = ["mm", "in"];
+export const QUANTITIES = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+export const MATERIALS = ["PLA", "PETG", "ABS", "TPU"];
+export const COLORS = ["White", "Black", "Red"];
 
-export const phoneNumber = "6125481004";
-export const displayPhoneNumber = "(612) 548-1004";
-export const email = "idealabs360@gmail.com";
+export const PHONE_NUMBER = "6125481004";
+export const DISPLAY_PHONE_NUMBER = "(612) 548-1004";
+export const EMAIL = "idealabs360@gmail.com";
 
-export const images = ["4.jpg", "3.jpg", "1.jpg", "2.jpeg"];
+export const IMAGES = ["4.jpg", "3.jpg", "1.jpg", "2.jpeg"];
 
-export const unknownErrorMessage = "Oops. Something went wrong!!!";
+export const UNKNOWN_ERROR_MESSAGE = "Oops. Something went wrong!!!";
+
+export const MAX_PRINTER_SIZE_MM = 290;
+export const MAX_PRINTER_SIZE_IN = 11.5;

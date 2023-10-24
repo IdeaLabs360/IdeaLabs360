@@ -29,10 +29,10 @@ import ElectricBoltOutlinedIcon from "@mui/icons-material/ElectricBoltOutlined";
 import { DesignHome } from "../routes/design/DesignHome";
 import { PrintHome } from "../routes/print/PrintHome";
 import {
-  displayPhoneNumber,
-  email,
-  images,
-  phoneNumber,
+  DISPLAY_PHONE_NUMBER,
+  EMAIL,
+  IMAGES,
+  PHONE_NUMBER,
 } from "../constants/constants";
 
 const reviews = [
@@ -250,7 +250,7 @@ export const Home = () => {
 
       <Box sx={{ mb: 4 }}>
         <Slider {...settings}>
-          {images.map((image, index) => (
+          {IMAGES.map((image, index) => (
             <Box key={`image-${index}`}>
               <img width="100%" height="100%" src={`./img/${image}`} alt="" />
             </Box>
@@ -276,7 +276,7 @@ export const Home = () => {
             sx={{ display: "flex" }}
           >
             <Button
-              onClick={() => window.open(`tel:${phoneNumber}`, "_self")}
+              onClick={() => window.open(`tel:${PHONE_NUMBER}`, "_self")}
               variant="contained"
               sx={{
                 bgcolor: "icon.primary",
@@ -286,7 +286,7 @@ export const Home = () => {
               }}
             >
               <PhoneIcon sx={{ mr: 2 }} />
-              {displayPhoneNumber}
+              {DISPLAY_PHONE_NUMBER}
             </Button>
           </Grid>
 
@@ -300,7 +300,7 @@ export const Home = () => {
             <Button
               onClick={() =>
                 window.open(
-                  `mailto:${email}?subject=IdeaLabs360 - Quote Request`,
+                  `mailto:${EMAIL}?subject=IdeaLabs360 - Quote Request`,
                   "_self"
                 )
               }

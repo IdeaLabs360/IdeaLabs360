@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Box, Button, Typography } from "@mui/material";
 import LockIcon from "@mui/icons-material/Lock";
 import BackupIcon from "@mui/icons-material/Backup";
-import { materials } from "../../constants/constants";
+import { MATERIALS } from "../../constants/constants";
 
 export const PrintHome = () => {
   const navigate = useNavigate();
@@ -73,7 +73,7 @@ export const PrintHome = () => {
             variant="body2"
             sx={{ color: "#566573", textAlign: "center" }}
           >
-            {materials.join(" | ")} materials
+            {MATERIALS.join(" | ")} materials
           </Typography>
 
           {/* Files supported */}

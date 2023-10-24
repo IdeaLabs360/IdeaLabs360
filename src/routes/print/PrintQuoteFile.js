@@ -5,10 +5,18 @@ import {
   Box,
   Button,
   CircularProgress,
+  Dialog,
+  DialogActions,
+  DialogTitle,
+  DialogContent,
+  FormControl,
+  FormControlLabel,
   Grid,
   IconButton,
   MenuItem,
   Paper,
+  Radio,
+  RadioGroup,
   TextField,
   Typography,
 } from "@mui/material";
@@ -17,18 +25,22 @@ import DeleteIcon from "@mui/icons-material/Delete";
 
 import apiConfig from "../../config/apiConfig";
 import {
-  colors,
-  materials,
-  quantities,
-  units,
-  unknownErrorMessage,
+  COLORS,
+  MATERIALS,
+  MAX_PRINTER_SIZE_IN,
+  MAX_PRINTER_SIZE_MM,
+  QUANTITIES,
+  UNKNOWN_ERROR_MESSAGE,
 } from "../../constants/constants";
 
 export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
+  const [open, setOpen] = React.useState(false);
+
   const [unit, setUnit] = React.useState("mm");
   const [width, setWidth] = React.useState(0.0);
   const [length, setLength] = React.useState(0.0);
   const [height, setHeight] = React.useState(0.0);
+  const [isLargePart, setIsLargePart] = React.useState(false);
 
   const [priceEach, setPriceEach] = React.useState(0);
   const [priceTotal, setPriceTotal] = React.useState(0);
@@ -36,13 +48,21 @@ export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
   const [isLoading, setIsLoading] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState(null);
 
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   const {
     watch,
     reset,
     register,
     getValues,
     handleSubmit,
-    formState: { isDirty },
+    // formState: { isDirty },
   } = useForm({
     defaultValues: {
       quantity: quote.quantity,
@@ -52,11 +72,29 @@ export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
   });
 
   const quantity = watch("quantity");
+  const material = watch("material");
+  const color = watch("color");
 
   React.useEffect(() => {
     getEstimate();
     // eslint-disable-next-line
   }, []);
+
+  React.useEffect(() => {
+    const isLargeInIn =
+      width > MAX_PRINTER_SIZE_IN ||
+      height > MAX_PRINTER_SIZE_IN ||
+      length > MAX_PRINTER_SIZE_IN;
+
+    const isLargeInMM =
+      width > MAX_PRINTER_SIZE_MM ||
+      height > MAX_PRINTER_SIZE_MM ||
+      length > MAX_PRINTER_SIZE_MM;
+
+    setIsLargePart(
+      (unit === "mm" && isLargeInMM) || (unit === "in" && isLargeInIn)
+    );
+  }, [unit, height, length, width]);
 
   const getEstimate = async () => {
     setIsLoading(true);
@@ -83,7 +121,7 @@ export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
 
         setErrorMessage(null);
       } else {
-        setErrorMessage(unknownErrorMessage);
+        setErrorMessage(UNKNOWN_ERROR_MESSAGE);
       }
     } catch (err) {
       console.log(err);
@@ -94,7 +132,7 @@ export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
           break;
 
         default:
-          setErrorMessage(unknownErrorMessage);
+          setErrorMessage(UNKNOWN_ERROR_MESSAGE);
       }
     }
 
@@ -102,6 +140,8 @@ export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
   };
 
   const save = ({ quantity, material, color }) => {
+    handleClose();
+
     reset({ quantity, material, color });
 
     const updatedQuote = {
@@ -122,20 +162,16 @@ export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
 
   const createDetails = (label, value) => {
     return (
-      <Box>
+      <Box sx={{ mb: 1, display: "flex" }}>
         <Typography
           variant="body"
           component="div"
-          sx={{ mr: 1, mb: 1, width: "60px", fontWeight: "bold" }}
+          sx={{ mr: 1, fontWeight: "bold" }}
         >
           {label}
         </Typography>
 
-        <Typography
-          variant="body"
-          component="div"
-          sx={{ mr: 1, fontSize: "0.8rem" }}
-        >
+        <Typography variant="body" component="div" sx={{ fontSize: "0.8rem" }}>
           {value}
         </Typography>
       </Box>
@@ -146,7 +182,7 @@ export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
     return (
       <Box
         sx={{
-          mt: 1,
+          width: "100%",
           display: "flex",
           alignItems: "center",
           justifyContent: "end",
@@ -160,31 +196,23 @@ export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
   const displayPrice = () => {
     if (errorMessage) {
       return (
-        <Box
-          sx={{
-            mt: 2,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "end",
-          }}
-        >
-          <Typography
-            variant="body"
-            component="div"
-            sx={{ mr: 1, color: "red" }}
-          >
-            {errorMessage}
-          </Typography>
-        </Box>
+        <Typography variant="body" component="div" sx={{ mr: 1, color: "red" }}>
+          {errorMessage}
+        </Typography>
+      );
+    } else if (isLargePart) {
+      return (
+        <Typography variant="body" component="div" sx={{ mr: 1 }}>
+          Part is too large. Please reachout to us for a quote.
+        </Typography>
       );
     } else {
       return (
         <Box
           sx={{
-            mt: 2,
             display: "flex",
-            alignItems: "center",
-            justifyContent: "end",
+            flexDirection: "column",
+            alignItems: "end",
           }}
         >
           <Typography
@@ -192,13 +220,21 @@ export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
             component="div"
             sx={{ mr: 1, color: "gray" }}
           >
-            ${priceEach} x {quantity} =
+            ${priceEach} each
           </Typography>
 
           <Typography
             variant="body"
             component="div"
-            sx={{ fontSize: "1.5rem", fontWeight: "600" }}
+            sx={{ mr: 1, color: "gray" }}
+          >
+            x {quantity}
+          </Typography>
+
+          <Typography
+            variant="body"
+            component="div"
+            sx={{ mt: 1, fontSize: "1.5rem", fontWeight: "600" }}
           >
             ${priceTotal}
           </Typography>
@@ -211,7 +247,7 @@ export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
     <>
       <Paper elevation={2} sx={{ px: 3, py: 2 }}>
         {/* Title */}
-        <Box sx={{ mb: 2, display: "flex" }}>
+        <Box sx={{ mb: 1, display: "flex" }}>
           <Typography component="div" variant="h6" sx={{ flexGrow: 1 }}>
             {quote.file.name}
           </Typography>
@@ -220,7 +256,6 @@ export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
             onClick={remove}
             variant="contained"
             sx={{
-              mr: 1,
               bgcolor: "white",
               color: "black",
               "&:hover": { bgcolor: "white" },
@@ -235,148 +270,191 @@ export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
         {/* Configured Details */}
         <Box sx={{ mt: 2, mb: 1, fontSize: "0.9rem" }}>
           <Grid container spacing={2}>
-            <Grid item md={4} sm={4} xs={12}>
-              <Grid container spacing={1}>
-                <Grid item xs={12}>
-                  {createDetails("Tech", "FDM 3D Printing")}
-                </Grid>
-
-                <Grid item xs={12}>
-                  {createDetails(
-                    "Size",
-                    <Box>
-                      <Box>
-                        {`${width}${unit} x ${length}${unit} x ${height}${unit}`}
-                      </Box>
-
-                      <Box sx={{ mt: 1 }}>
-                        <select
-                          {...register("unit")}
-                          onChange={(e) => setUnit(e.target.value)}
-                          style={{
-                            width: "100px",
-                            height: "30px",
-                          }}
-                        >
-                          {units.map((unit, index) => (
-                            <option key={`unit-option-${index}`} value={unit}>
-                              {unit}
-                            </option>
-                          ))}
-                        </select>
-                      </Box>
-                    </Box>
-                  )}
-                </Grid>
-              </Grid>
-            </Grid>
-
-            <Grid item md={4} sm={4} xs={12}>
-              <Grid container spacing={1}>
-                <Grid item xs={6}>
-                  {createDetails(
-                    "Quantity",
-                    <select
-                      {...register("quantity")}
-                      style={{
-                        width: "100px",
-                        height: "30px",
-                      }}
-                    >
-                      {quantities.map((quantity, index) => (
-                        <option
-                          key={`quantity-option-${index}`}
-                          value={quantity}
-                        >
-                          {quantity}
-                        </option>
-                      ))}
-                    </select>
-                  )}
-                </Grid>
-
-                <Grid item xs={6}>
-                  {createDetails(
-                    "Material",
-                    <select
-                      {...register("material")}
-                      style={{
-                        width: "100px",
-                        height: "30px",
-                      }}
-                    >
-                      {materials.map((material, index) => (
-                        <option
-                          key={`material-option-${index}`}
-                          value={material}
-                        >
-                          {material}
-                        </option>
-                      ))}
-                    </select>
-                  )}
-                </Grid>
-
-                <Grid item xs={6}>
-                  {createDetails(
-                    "Color",
-                    <select
-                      {...register("color")}
-                      style={{
-                        width: "100px",
-                        height: "30px",
-                      }}
-                    >
-                      {colors.map((color, index) => (
-                        <option key={`color-option-${index}`} value={color}>
-                          {color}
-                        </option>
-                      ))}
-                    </select>
-                  )}
-                </Grid>
-              </Grid>
-            </Grid>
-
-            <Grid item md={4} sm={4} xs={12}>
-              <Box sx={{ display: "flex", flexDirection: "column" }}>
-                {/* estimate */}
-                {isLoading ? displayLoadingSpinner() : displayPrice()}
-              </Box>
-            </Grid>
-          </Grid>
-
-          {isDirty && (
-            <Box sx={{ mt: 3 }}>
-              <Button
-                variant="outlined"
-                onClick={() => reset()}
-                sx={{
-                  p: 0,
-                  mr: 1,
-                  color: "secondary",
-                  textTransform: "none",
-                }}
-              >
-                Cancel
-              </Button>
+            <Grid item md={7} xs={12}>
               <Button
                 variant="contained"
-                onClick={handleSubmit(save)}
-                sx={{
-                  p: 0,
-                  color: "secondary",
-                  textTransform: "none",
-                }}
+                onClick={handleClickOpen}
+                sx={{ mb: 1, px: 1, py: 0.5 }}
               >
-                Save
+                Configure Part
               </Button>
-            </Box>
-          )}
+
+              <Box sx={{ pl: 2, borderLeft: "5px solid gray" }}>
+                {createDetails("Quantity", quantity)}
+
+                {createDetails(
+                  "Dimensions",
+                  <Box>
+                    {`${width}${unit} x ${length}${unit} x ${height}${unit}`}
+
+                    <RadioGroup
+                      row
+                      value={unit}
+                      onChange={(e) => setUnit(e.target.value)}
+                    >
+                      <FormControlLabel
+                        value="mm"
+                        control={<Radio size="small" />}
+                        label={
+                          <Box component="label" sx={{ fontSize: "0.8rem" }}>
+                            mm
+                          </Box>
+                        }
+                      />
+
+                      <FormControlLabel
+                        value="in"
+                        control={<Radio size="small" />}
+                        label={
+                          <Box component="label" sx={{ fontSize: "0.8rem" }}>
+                            in
+                          </Box>
+                        }
+                      />
+                    </RadioGroup>
+                  </Box>
+                )}
+
+                {createDetails("Tech", "FDM 3D Printing")}
+
+                {createDetails("Material", material)}
+                {createDetails("Color", color)}
+              </Box>
+            </Grid>
+
+            <Grid
+              item
+              md={5}
+              xs={12}
+              sx={{ display: "flex", alignItems: "start" }}
+            >
+              {isLoading ? (
+                displayLoadingSpinner()
+              ) : (
+                <Box
+                  sx={{
+                    p: 1,
+                    width: "100%",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "end",
+                    border: "1px solid",
+                    borderRadius: "5px",
+                    borderColor: `${
+                      errorMessage ? "red" : isLargePart ? "gray" : "green"
+                    }`,
+                  }}
+                >
+                  {displayPrice()}
+                </Box>
+              )}
+            </Grid>
+          </Grid>
         </Box>
 
         {/*  */}
       </Paper>
+
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        sx={{
+          ".MuiPaper-root": {
+            px: 2,
+            py: 1,
+            width: "400px",
+          },
+        }}
+      >
+        <DialogTitle>{quote?.file?.name}</DialogTitle>
+
+        <DialogContent>
+          <FormControl sx={{ display: "flex", flexDirection: "column" }}>
+            <TextField
+              select
+              id="quantity"
+              label="Quantity"
+              variant="outlined"
+              margin="dense"
+              size="small"
+              value={quantity}
+              defaultValue={quantity}
+              {...register("quantity")}
+            >
+              {QUANTITIES.map((quantity, index) => (
+                <MenuItem key={`quantity-option-${index}`} value={quantity}>
+                  {quantity}
+                </MenuItem>
+              ))}
+            </TextField>
+
+            <TextField
+              select
+              id="material"
+              label="Material"
+              variant="outlined"
+              margin="dense"
+              size="small"
+              value={material}
+              defaultValue={material}
+              {...register("material")}
+            >
+              {MATERIALS.map((material, index) => (
+                <MenuItem key={`material-option-${index}`} value={material}>
+                  {material}
+                </MenuItem>
+              ))}
+            </TextField>
+
+            <TextField
+              select
+              id="color"
+              label="Color"
+              variant="outlined"
+              margin="dense"
+              size="small"
+              value={color}
+              defaultValue={color}
+              {...register("color")}
+            >
+              {COLORS.map((color, index) => (
+                <MenuItem key={`color-option-${index}`} value={color}>
+                  {color}
+                </MenuItem>
+              ))}
+            </TextField>
+          </FormControl>
+        </DialogContent>
+
+        <DialogActions>
+          <Button
+            variant="outlined"
+            onClick={() => {
+              handleClose();
+              reset();
+            }}
+            sx={{
+              p: 0,
+              color: "secondary",
+              textTransform: "none",
+            }}
+          >
+            Cancel
+          </Button>
+          <Button
+            autoFocus
+            variant="contained"
+            onClick={handleSubmit(save)}
+            sx={{
+              p: 0,
+              color: "secondary",
+              textTransform: "none",
+            }}
+          >
+            Save
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 };

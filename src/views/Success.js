@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Box, Container, Typography } from "@mui/material";
+import { EMAIL } from "../constants/constants";
 
 export const Success = () => {
   return (
@@ -17,7 +18,7 @@ export const Success = () => {
 
         <Box>
           If you have any questions, please email
-          <a href="mailto:orders@example.com">orders@example.com</a>.
+          <a href={EMAIL}>orders@example.com</a>.
         </Box>
       </Box>
     </Container>
