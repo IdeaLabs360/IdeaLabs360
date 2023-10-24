@@ -16,9 +16,10 @@ export const Success = () => {
       <Box>
         <Box sx={{ mb: 1 }}>We appreciate your business!</Box>
 
+        <Box sx={{ my: 1 }}>If you have any questions, please email</Box>
+
         <Box>
-          If you have any questions, please email
-          <a href={EMAIL}>orders@example.com</a>.
+          <a href={EMAIL}>{EMAIL}</a>.
         </Box>
       </Box>
     </Container>

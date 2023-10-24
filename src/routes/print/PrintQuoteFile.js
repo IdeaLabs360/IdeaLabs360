@@ -30,7 +30,6 @@ import {
   MAX_PRINTER_SIZE_IN,
   MAX_PRINTER_SIZE_MM,
   QUANTITIES,
-  UNKNOWN_ERROR_MESSAGE,
 } from "../../constants/constants";
 
 export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
@@ -121,7 +120,7 @@ export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
 
         setErrorMessage(null);
       } else {
-        setErrorMessage(UNKNOWN_ERROR_MESSAGE);
+        setErrorMessage(createUnknownErrorMessage());
       }
     } catch (err) {
       console.log(err);
@@ -132,7 +131,7 @@ export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
           break;
 
         default:
-          setErrorMessage(UNKNOWN_ERROR_MESSAGE);
+          setErrorMessage(createUnknownErrorMessage());
       }
     }
 
@@ -193,26 +192,67 @@ export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
     );
   };
 
+  const createUnknownErrorMessage = () => {
+    return (
+      <>
+        <Typography variant="h6" component="div" sx={{ color: "red" }}>
+          Somthing went wrong
+        </Typography>
+
+        <Typography variant="body" component="div" sx={{ my: 1.5 }}>
+          We couldn't get an estimate for this model. Please try again.
+        </Typography>
+
+        <Typography variant="body" component="div">
+          If the issue persists, please reachout to us.
+        </Typography>
+      </>
+    );
+  };
+
   const displayPrice = () => {
     if (errorMessage) {
       return (
-        <Typography variant="body" component="div" sx={{ mr: 1, color: "red" }}>
+        <Box
+          sx={{
+            p: 1,
+            display: "flex",
+            flexDirection: "column",
+            width: "100%",
+            border: "1px solid red",
+            borderRadius: "5px",
+          }}
+        >
           {errorMessage}
-        </Typography>
+        </Box>
       );
     } else if (isLargePart) {
       return (
-        <Typography variant="body" component="div" sx={{ mr: 1 }}>
-          Part is too large. Please reachout to us for a quote.
-        </Typography>
+        <Box
+          sx={{
+            p: 1,
+            display: "flex",
+            flexDirection: "column",
+            border: "1px solid gray",
+            borderRadius: "5px",
+          }}
+        >
+          <Typography variant="body" component="div" sx={{ mr: 1 }}>
+            Part is too large. Please reachout to us for a quote.
+          </Typography>
+        </Box>
       );
     } else {
       return (
         <Box
           sx={{
+            p: 1,
             display: "flex",
             flexDirection: "column",
             alignItems: "end",
+            width: "100%",
+            border: "1px solid green",
+            borderRadius: "5px",
           }}
         >
           <Typography
@@ -328,26 +368,26 @@ export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
               xs={12}
               sx={{ display: "flex", alignItems: "start" }}
             >
-              {isLoading ? (
-                displayLoadingSpinner()
-              ) : (
-                <Box
-                  sx={{
-                    p: 1,
-                    width: "100%",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "end",
-                    border: "1px solid",
-                    borderRadius: "5px",
-                    borderColor: `${
-                      errorMessage ? "red" : isLargePart ? "gray" : "green"
-                    }`,
-                  }}
-                >
-                  {displayPrice()}
-                </Box>
-              )}
+              {
+                isLoading
+                  ? displayLoadingSpinner()
+                  : // <Box
+                    //   sx={{
+                    //     p: 1,
+                    //     width: "100%",
+                    //     display: "flex",
+                    //     flexDirection: "column",
+                    //     alignItems: "end",
+                    //     border: "1px solid",
+                    //     borderRadius: "5px",
+                    //     borderColor: `${
+                    //       errorMessage ? "red" : isLargePart ? "gray" : "green"
+                    //     }`,
+                    //   }}
+                    // >
+                    displayPrice()
+                // </Box>
+              }
             </Grid>
           </Grid>
         </Box>
