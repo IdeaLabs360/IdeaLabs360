@@ -211,56 +211,58 @@ export const Home = () => {
               />
             </Box>
           </Grid>
-
-          <Grid
-            item
-            xs={12}
-            sm={12}
-            md={6}
-            sx={{ display: "flex", justifyContent: "center" }}
-          >
-            <Box sx={{ my: 2 }}>
-              <Box sx={{ display: "flex", justifyContent: "center" }}>
-                {reviews.map((review, index) => (
-                  <Box
-                    key={`review-${index}`}
-                    elevation={0}
-                    sx={{ maxWidth: 300, px: 2, py: 0.5 }}
-                  >
-                    <Box sx={{ color: "gold" }}>{review.stars}</Box>
-
-                    <Typography
-                      variant="body2"
-                      color="text.secondary"
-                      sx={{ my: 0.5 }}
-                    >
-                      {review.detail}
-                    </Typography>
-
-                    <Typography
-                      gutterBottom
-                      variant="body2"
-                      component="div"
-                      sx={{ fontWeight: "700" }}
-                    >
-                      {review.name}
-                    </Typography>
-                  </Box>
-                ))}
-              </Box>
-
-              <Typography
-                variant="body2"
-                component="div"
-                color="text.secondary"
-                sx={{ textAlign: "center" }}
-              >
-                Google reviews
-              </Typography>
-            </Box>
-          </Grid>
         </Grid>
       </Box>
+
+      {/* Reviews */}
+
+      <Container maxWidth="sm" sx={{ my: 4 }}>
+        <Grid container spacing={2}>
+          {reviews.map((review, index) => (
+            <Grid
+              item
+              xs={12}
+              sm={12}
+              md={6}
+              sx={{ display: "flex", justifyContent: "center" }}
+            >
+              <Box
+                key={`review-${index}`}
+                elevation={0}
+                sx={{ maxWidth: 300, px: 2, py: 0.5 }}
+              >
+                <Box sx={{ color: "gold" }}>{review.stars}</Box>
+
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  sx={{ my: 0.5 }}
+                >
+                  {review.detail}
+                </Typography>
+
+                <Typography
+                  gutterBottom
+                  variant="body2"
+                  component="div"
+                  sx={{ fontWeight: "700" }}
+                >
+                  {review.name}
+                </Typography>
+              </Box>
+            </Grid>
+          ))}
+        </Grid>
+
+        <Typography
+          variant="body2"
+          component="div"
+          color="text.secondary"
+          sx={{ mt: 2, textAlign: "center" }}
+        >
+          Google reviews
+        </Typography>
+      </Container>
 
       {/* Images */}
 
