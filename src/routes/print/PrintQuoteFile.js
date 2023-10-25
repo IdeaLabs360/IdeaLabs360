@@ -368,26 +368,7 @@ export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
               xs={12}
               sx={{ display: "flex", alignItems: "start" }}
             >
-              {
-                isLoading
-                  ? displayLoadingSpinner()
-                  : // <Box
-                    //   sx={{
-                    //     p: 1,
-                    //     width: "100%",
-                    //     display: "flex",
-                    //     flexDirection: "column",
-                    //     alignItems: "end",
-                    //     border: "1px solid",
-                    //     borderRadius: "5px",
-                    //     borderColor: `${
-                    //       errorMessage ? "red" : isLargePart ? "gray" : "green"
-                    //     }`,
-                    //   }}
-                    // >
-                    displayPrice()
-                // </Box>
-              }
+              {isLoading ? displayLoadingSpinner() : displayPrice()}
             </Grid>
           </Grid>
         </Box>

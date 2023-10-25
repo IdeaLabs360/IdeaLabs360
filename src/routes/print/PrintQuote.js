@@ -127,14 +127,6 @@ export const PrintQuote = () => {
     // eslint-disable-next-line
   }, []);
 
-  // TODO: show something or redirect to home page when there are no items
-  // React.useEffect(() => {
-  //   if (quotes.length === 0) {
-  //     console.log("*** Empty items ***");
-  //     // window.location.href = "/";
-  //   }
-  // }, [quotes]);
-
   const addQuote = (file) => {
     if (file !== null && file.length === 1) {
       const newQuote = {
