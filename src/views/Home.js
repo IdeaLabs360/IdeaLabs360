@@ -50,6 +50,22 @@ const reviews = [
       "Great Printing. Very Smart. Great Personailty. Would highly suggest working with them.",
     name: "Travis Glanzer",
   },
+  {
+    stars: (
+      <>
+        <StarIcon />
+        <StarIcon />
+        <StarIcon />
+        <StarIcon />
+        <StarIcon />
+      </>
+    ),
+    detail: `To everyone in the twin series area there is a guy out here to do a damn good job in 
+      prototype he's very reasonable nite y'all need to get with him he's excellent I don't 
+      have nothing that's bad to say about him he's a good person please look out get with 
+      him he's very reasonable thank you`,
+    name: "Thomas Smith",
+  },
 ];
 
 const TabPanel = (props) => {
