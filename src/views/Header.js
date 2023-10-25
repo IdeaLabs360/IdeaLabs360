@@ -15,7 +15,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import PhoneIcon from "@mui/icons-material/Phone";
 import EmailIcon from "@mui/icons-material/Email";
 import { Logo } from "./Logo";
-import { email, phoneNumber } from "./Home";
+import { EMAIL, PHONE_NUMBER } from "../constants/constants";
 
 const pages = [
   {
@@ -162,9 +162,16 @@ export const Header = () => {
 
           <Box sx={{}}>
             <IconButton
-              onClick={() => window.open(`tel:${phoneNumber}`, "_self")}
+              onClick={() => window.open(`tel:${PHONE_NUMBER}`, "_self")}
               variant="contained"
-              sx={{ mr: 1.5 }}
+              sx={{
+                mr: 1.5,
+                color: "#FFFFFF",
+                backgroundColor: "#4A91BF",
+                "&:hover": {
+                  backgroundColor: "#175E8C",
+                },
+              }}
             >
               <PhoneIcon sx={{ fontSize: "medium" }} />
             </IconButton>
@@ -172,11 +179,18 @@ export const Header = () => {
             <IconButton
               onClick={() =>
                 window.open(
-                  `mailto:${email}?subject=IdeaLabs360 - Quote Request`,
+                  `mailto:${EMAIL}?subject=IdeaLabs360 - Quote Request`,
                   "_self"
                 )
               }
               variant="contained"
+              sx={{
+                color: "#FFFFFF",
+                backgroundColor: "#4A91BF",
+                "&:hover": {
+                  backgroundColor: "#175E8C",
+                },
+              }}
             >
               <EmailIcon sx={{ fontSize: "medium" }} />
             </IconButton>

@@ -23,7 +23,7 @@ import FileUploadIcon from "@mui/icons-material/FileUpload";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 import apiConfig from "../../config/apiConfig";
-import { displayPhoneNumber, email } from "../../views/Home";
+import { DISPLAY_PHONE_NUMBER, EMAIL } from "../../constants/constants";
 
 const schema = yup
   .object({
@@ -280,11 +280,11 @@ export const DesignQuote = () => {
           <Grid container spacing={1} sx={{ mt: 2 }}>
             <Grid item xs={12} sx={{ display: "flex" }}>
               <Box sx={{ minWidth: "100px" }}>Call or Text</Box>
-              <Box>{displayPhoneNumber}</Box>
+              <Box>{DISPLAY_PHONE_NUMBER}</Box>
             </Grid>
             <Grid item xs={12} sx={{ display: "flex" }}>
               <Box sx={{ minWidth: "100px" }}>Email</Box>
-              <Box>{email}</Box>
+              <Box>{EMAIL}</Box>
             </Grid>
           </Grid>
         </Box>

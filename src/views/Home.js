@@ -28,12 +28,12 @@ import ElectricBoltOutlinedIcon from "@mui/icons-material/ElectricBoltOutlined";
 
 import { DesignHome } from "../routes/design/DesignHome";
 import { PrintHome } from "../routes/print/PrintHome";
-
-export const phoneNumber = "6125481004";
-export const displayPhoneNumber = "(612) 548-1004";
-export const email = "idealabs360@gmail.com";
-
-const images = ["4.jpg", "3.jpg", "1.jpg", "2.jpeg"];
+import {
+  DISPLAY_PHONE_NUMBER,
+  EMAIL,
+  IMAGES,
+  PHONE_NUMBER,
+} from "../constants/constants";
 
 const reviews = [
   {
@@ -93,8 +93,6 @@ const CreateQuoteMotto = (icon, contentTitle, content) => {
     </Card>
   );
 };
-
-export const materials = ["PLA", "PETG", "ABS", "ASA", "TPU", "Nylon"];
 
 export const Home = () => {
   const [serviceTab, setServiceTab] = React.useState(0);
@@ -252,7 +250,7 @@ export const Home = () => {
 
       <Box sx={{ mb: 4 }}>
         <Slider {...settings}>
-          {images.map((image, index) => (
+          {IMAGES.map((image, index) => (
             <Box key={`image-${index}`}>
               <img width="100%" height="100%" src={`./img/${image}`} alt="" />
             </Box>
@@ -278,7 +276,7 @@ export const Home = () => {
             sx={{ display: "flex" }}
           >
             <Button
-              onClick={() => window.open(`tel:${phoneNumber}`, "_self")}
+              onClick={() => window.open(`tel:${PHONE_NUMBER}`, "_self")}
               variant="contained"
               sx={{
                 bgcolor: "icon.primary",
@@ -288,7 +286,7 @@ export const Home = () => {
               }}
             >
               <PhoneIcon sx={{ mr: 2 }} />
-              {displayPhoneNumber}
+              {DISPLAY_PHONE_NUMBER}
             </Button>
           </Grid>
 
@@ -302,7 +300,7 @@ export const Home = () => {
             <Button
               onClick={() =>
                 window.open(
-                  `mailto:${email}?subject=IdeaLabs360 - Quote Request`,
+                  `mailto:${EMAIL}?subject=IdeaLabs360 - Quote Request`,
                   "_self"
                 )
               }

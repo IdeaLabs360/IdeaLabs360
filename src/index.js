@@ -9,6 +9,7 @@ import { Header } from "./views/Header";
 import { Footer } from "./views/Footer";
 import { PrintQuote } from "./routes/print/PrintQuote";
 import { DesignQuote } from "./routes/design/DesignQuote";
+import { Success } from "./views/Success";
 
 const theme = createTheme({
   palette: {
@@ -35,17 +36,6 @@ const theme = createTheme({
         },
       },
     },
-    MuiIconButton: {
-      styleOverrides: {
-        root: {
-          color: "#FFFFFF",
-          backgroundColor: "#4A91BF",
-          "&:hover": {
-            backgroundColor: "#175E8C",
-          },
-        },
-      },
-    },
   },
 });
 
@@ -61,6 +51,10 @@ const router = createHashRouter([
   {
     path: "/print/quote",
     element: <PrintQuote />,
+  },
+  {
+    path: "/return",
+    element: <Success />,
   },
 ]);
 
