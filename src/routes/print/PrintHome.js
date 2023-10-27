@@ -37,10 +37,9 @@ export const PrintHome = () => {
 
         <Box sx={{ mt: 2, mb: 4, color: "#676e8b" }}>
           <Typography variant="body1" component="div">
-            Upload your design files to get pricing details, lead times, and
-            design feedback. IdeaLabs360 serves as your comprehensive
-            destination for tailored manufacturing solutions, offering a
-            seamless and convenient experience.
+            Upload your design files to get pricing details. IdeaLabs360 serves
+            as your comprehensive destination for tailored manufacturing
+            solutions, offering a seamless and convenient experience.
           </Typography>
         </Box>
 
@@ -56,16 +55,14 @@ export const PrintHome = () => {
             variant="body1"
             sx={{ textAlign: "center", fontWeight: "600" }}
           >
-            Upload your design files
+            Upload your design files and get started
           </Typography>
 
           <Typography
             component="div"
             variant="body1"
             sx={{ pb: 2, textAlign: "center", fontWeight: "600" }}
-          >
-            get pricing, lead times, and design feedback
-          </Typography>
+          ></Typography>
 
           {/* Supported materials */}
           <Typography
