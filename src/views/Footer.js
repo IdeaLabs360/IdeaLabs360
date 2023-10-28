@@ -12,7 +12,6 @@ export const Footer = () => {
     <Box
       component="footer"
       sx={{
-        mt: 5,
         backgroundColor: (theme) =>
           theme.palette.mode === "light"
             ? theme.palette.grey[200]
