@@ -15,7 +15,7 @@ import {
 import BackupIcon from "@mui/icons-material/Backup";
 import SavingsIcon from "@mui/icons-material/Savings";
 import SpeedIcon from "@mui/icons-material/Speed";
-import LoopIcon from "@mui/icons-material/Loop";
+import BoltIcon from "@mui/icons-material/Bolt";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import HelpIcon from "@mui/icons-material/Help";
 
@@ -28,7 +28,7 @@ const createHeroText = (text) => {
         component="div"
         variant="body"
         sx={{
-          fontSize: { xs: "1.8rem", sm: "2.0rem", md: "2.0rem", lg: "2.3rem" },
+          fontSize: { xs: "1.5rem", sm: "2.0rem", md: "1.7rem", lg: "2.0rem" },
           fontWeight: "bold",
           lineHeight: "1.2em",
         }}
@@ -47,7 +47,7 @@ const createDescriptionText = (text) => {
         variant="body"
         sx={{
           lineHeight: "1.5em",
-          fontSize: { xs: "1.0rem", sm: "1.1rem", md: "1.1rem", lg: "1.2rem" },
+          fontSize: { xs: "1.1rem", sm: "1.1rem", md: "1.1rem", lg: "1.1rem" },
         }}
       >
         {text}
@@ -74,6 +74,7 @@ const createBenefit = (icon, title, text) => {
           variant="body"
           sx={{
             mb: 3,
+            fontSize: "1.3rem",
             fontWeight: "bold",
             lineHeight: "1.1em",
           }}
@@ -97,15 +98,18 @@ const createFAQ = (id, question, answer) => {
         aria-controls="faq-id-content"
         id={`faq-${id}`}
       >
-        <Box sx={{ mr: 1 }}>
-          <HelpIcon />
+        <Box sx={{ mr: 1, display: "flex", alignItems: "center" }}>
+          <HelpIcon sx={{ fontSize: "1.0rem" }} />
         </Box>
+
         <Typography component="div" variant="body" sx={{ fontWeight: "bold" }}>
           {question}
         </Typography>
       </AccordionSummary>
 
-      <AccordionDetails sx={{ display: "flex" }}>{answer}</AccordionDetails>
+      <AccordionDetails sx={{ ml: 3, display: "flex" }}>
+        {answer}
+      </AccordionDetails>
     </Accordion>
   );
 };
@@ -115,8 +119,9 @@ export const PrintHome = () => {
 
   return (
     <Box>
-      <Container maxWidth="lg" sx={{ py: { xs: 3, sm: 6, md: 8, lg: 10 } }}>
-        <Grid container spacing={3}>
+      {/* Homepage Hero */}
+      <Container maxWidth="lg" sx={{ py: { xs: 6, sm: 6, md: 6, lg: 8 } }}>
+        <Grid container spacing={2}>
           <Grid
             item
             xs={12}
@@ -126,21 +131,20 @@ export const PrintHome = () => {
           >
             <Box
               sx={{
-                py: { xs: 4, sm: 2, md: 3, lg: 10 },
+                // py: { xs: 4, sm: 2, md: 3, lg: 10 },
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "center",
               }}
             >
               <Box>
-                {createHeroText("Explore new possibilities")}
-                {createHeroText("Develop new products")}
-                {createHeroText("Grow your business")}
+                {createHeroText("Get Your Product to Market")}
+                {createHeroText("Faster")}
               </Box>
 
               <Box sx={{ mt: 3, mb: 4 }}>
-                {createDescriptionText("On-demand 3D printing and")}
-                {createDescriptionText("rapid prototyping")}
+                {createDescriptionText("Rapid Prototyping and On-demand")}
+                {createDescriptionText("3D Printing")}
               </Box>
 
               {/* Quote button */}
@@ -153,7 +157,7 @@ export const PrintHome = () => {
                     px: 3,
                     bgcolor: "icon.primary",
                     textAlign: "center",
-                    fontSize: "1.1rem",
+                    fontSize: "1.0rem",
                     fontWeight: "700",
                     textTransform: "none",
                   }}
@@ -218,19 +222,17 @@ export const PrintHome = () => {
                 }}
               >
                 <Typography component="div" variant="h5">
-                  Traditional prototyping is a slow and costly process, often
-                  delaying product development cycles.
+                  Tired of long and expensive prototyping cycles?
                 </Typography>
 
                 <Typography component="div" variant="body1" sx={{ my: 4 }}>
-                  Tired of long and expensive prototyping cycles? Traditional
-                  manufacturing methods can drag your product development
-                  process for months, costing you valuable time and money.
+                  Traditional manufacturing methods can drag your product
+                  development process for months, costing you valuable time and
+                  money.
                 </Typography>
 
                 <Typography component="div" variant="body1">
-                  Embrace 3D printing, your ticket to rapid prototyping. With
-                  our cutting-edge technology, you can iterate on designs
+                  With our cutting-edge technology, you can iterate on designs
                   quickly, slash time-to-market, and reduce your development
                   costs dramatically.
                 </Typography>
@@ -243,11 +245,10 @@ export const PrintHome = () => {
               md={6}
               sx={{
                 display: "flex",
-                flexDirection: "column",
                 justifyContent: "center",
               }}
             >
-              <Box sx={{ display: "flex", justifyContent: "center" }}>
+              <Box sx={{ display: "flex", alignItems: "center" }}>
                 <CardMedia
                   controls
                   component="video"
@@ -261,7 +262,7 @@ export const PrintHome = () => {
       </Box>
 
       {/* Benefits */}
-      <Container maxWidth="lg" sx={{ py: { xs: 3, sm: 6, md: 8, lg: 12 } }}>
+      <Container maxWidth="lg" sx={{ py: { xs: 6, sm: 6, md: 8, lg: 12 } }}>
         <Grid container spacing={2}>
           <Grid
             item
@@ -272,7 +273,7 @@ export const PrintHome = () => {
             {createBenefit(
               <SavingsIcon sx={{ fontSize: "3rem", color: "icon.primary" }} />,
               "Save Money",
-              `High Quality at an Affordable Price`
+              <>Get high quality parts 3D printed at an affordable price.</>
             )}
           </Grid>
 
@@ -285,7 +286,7 @@ export const PrintHome = () => {
             {createBenefit(
               <SpeedIcon sx={{ fontSize: "3rem", color: "icon.primary" }} />,
               "Accelerate Your Design Iteration",
-              `Fast Lead times`
+              <>Fast lead times and turnarounds.</>
             )}
           </Grid>
 
@@ -296,9 +297,11 @@ export const PrintHome = () => {
             sx={{ display: "flex", justifyContent: "center" }}
           >
             {createBenefit(
-              <LoopIcon sx={{ fontSize: "3rem", color: "icon.primary" }} />,
-              "Accelerate Your Design Iteration",
-              `Traditional prototyping is a slow and costly process, often delaying product development cycles.`
+              <BoltIcon sx={{ fontSize: "3rem", color: "icon.primary" }} />,
+              "Instant Quoting",
+              <>
+                Get pricing with in seconds with just a few clicks, not in days.
+              </>
             )}
           </Grid>
         </Grid>
@@ -306,7 +309,7 @@ export const PrintHome = () => {
 
       {/* Reviews */}
       <Box sx={{ bgcolor: "#0b076e0a" }}>
-        <Container maxWidth="sm" sx={{ py: { xs: 3, sm: 6, md: 8, lg: 12 } }}>
+        <Container maxWidth="md" sx={{ py: { xs: 6, sm: 6, md: 8, lg: 12 } }}>
           <Grid container spacing={2}>
             {reviews.map((review, index) => (
               <Grid
@@ -330,7 +333,7 @@ export const PrintHome = () => {
                   <Typography
                     variant="body2"
                     color="text.secondary"
-                    sx={{ mb: 2, textAlign: "center" }}
+                    sx={{ mb: 2 }}
                   >
                     "{review.detail}"
                   </Typography>
@@ -385,7 +388,7 @@ export const PrintHome = () => {
       {/* Features */}
 
       {/* FAQs */}
-      <Container maxWidth="lg" sx={{ py: { xs: 3, sm: 6, md: 8, lg: 12 } }}>
+      <Container maxWidth="md" sx={{ py: { xs: 8, sm: 6, md: 8, lg: 12 } }}>
         <Box
           sx={{
             display: "flex",
@@ -403,9 +406,76 @@ export const PrintHome = () => {
             FAQs
           </Typography>
 
-          <Container maxWidth="md" sx={{ mt: 1 }}>
+          <Container maxWidth="md" sx={{ mt: 2 }}>
             {createFAQ(
               1,
+              "What is 3D printing, and how does it work?",
+              <Box>
+                <Typography component="p" variant="body1">
+                  3D printing, also known as additive manufacturing, is a
+                  technology that creates three-dimensional objects layer by
+                  layer from a digital model.
+                </Typography>
+
+                <Typography component="p" variant="body1" sx={{ my: 1 }}>
+                  It works by depositing material, such as plastic, metal, or
+                  resin, one layer at a time, fusing or solidifying each layer
+                  to build the final product. This process allows for the
+                  creation of complex geometries and customized designs.
+                </Typography>
+              </Box>
+            )}
+            {createFAQ(
+              2,
+              "How do I place an order for 3D printing services?",
+              <Box>
+                <Typography component="p" variant="body1">
+                  Simply upload your design files, configure them as needed,
+                  enter your shipping address, and proceed to checkout.
+                </Typography>
+
+                <Typography component="p" variant="body1" sx={{ my: 1 }}>
+                  If your model happens to be too big or the file type is not
+                  supported, please reachout to us.
+                </Typography>
+
+                <Typography component="p" variant="body1" sx={{ my: 1 }}>
+                  Place your order by clicking the button below.
+                </Typography>
+
+                <Box sx={{ mt: 2, display: "flex" }}>
+                  <Button
+                    variant="contained"
+                    component="label"
+                    sx={{
+                      py: 1,
+                      px: 2,
+                      bgcolor: "icon.primary",
+                      textAlign: "center",
+                      fontSize: "0.9rem",
+                      fontWeight: "700",
+                      textTransform: "none",
+                    }}
+                  >
+                    <BackupIcon sx={{ mr: 2 }} />
+                    Get Your Instant Quote
+                    <input
+                      type="file"
+                      multiple
+                      hidden
+                      onClick={(e) => (e.target.value = null)}
+                      onChange={(e) => {
+                        navigate("/print/quote", {
+                          state: { uploadedFiles: [...e.target.files] },
+                        });
+                      }}
+                    />
+                  </Button>
+                </Box>
+              </Box>
+            )}
+            {createFAQ(
+              3,
               "When will I receive my 3D printed part?",
               <Box>
                 <Typography component="p" variant="body1">
@@ -433,11 +503,95 @@ export const PrintHome = () => {
                 </Typography>
               </Box>
             )}
-            {createFAQ(2, "Question", "Answer")}
-            {createFAQ(2, "Question", "Answer")}
+            {createFAQ(
+              4,
+              "Can you help with design and prototyping services?",
+              <Box>
+                <Typography component="p" variant="body1">
+                  Yes, we offer comprehensive design and prototyping services to
+                  help bring your ideas to life. We can work closely with you to
+                  refine your concept, optimize it for 3D printing, and create
+                  detailed prototypes.
+                </Typography>
+
+                <Typography component="p" variant="body1" sx={{ my: 1 }}>
+                  Whether you have a rough sketch, a 2D drawing, or just an
+                  idea, we can assist in the entire design and prototyping
+                  process, ensuring your project meets your specifications and
+                  is ready for production. Please reach out to our us to discuss
+                  your design and prototyping needs, and we'll be happy to
+                  assist you.
+                </Typography>
+              </Box>
+            )}
           </Container>
         </Box>
       </Container>
+
+      <Box sx={{ bgcolor: "#0b076e0a" }}>
+        <Container maxWidth="md" sx={{ py: 8 }}>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Typography
+              gutterBottom
+              variant="h5"
+              component="div"
+              sx={{
+                fontSize: "2.0rem",
+                fontWeight: "700",
+                lineHeight: "0.9em",
+              }}
+            >
+              Ready to Get Started?
+            </Typography>
+
+            <Typography
+              gutterBottom
+              variant="body"
+              component="div"
+              sx={{ mt: 0.5, textAlign: "center" }}
+            >
+              Utilize our advanced technology to save both time and money
+            </Typography>
+
+            <Box sx={{ display: "flex", mt: 4 }}>
+              <Button
+                variant="contained"
+                component="label"
+                sx={{
+                  py: 1.5,
+                  px: 3,
+                  bgcolor: "icon.primary",
+                  textAlign: "center",
+                  fontSize: "1.0rem",
+                  fontWeight: "700",
+                  textTransform: "none",
+                }}
+              >
+                <BackupIcon sx={{ mr: 2 }} />
+                Start Your Instant Quote
+                <input
+                  type="file"
+                  multiple
+                  hidden
+                  onClick={(e) => (e.target.value = null)}
+                  onChange={(e) => {
+                    navigate("/print/quote", {
+                      state: { uploadedFiles: [...e.target.files] },
+                    });
+                  }}
+                />
+              </Button>
+            </Box>
+          </Box>
+        </Container>
+      </Box>
     </Box>
   );
 };
