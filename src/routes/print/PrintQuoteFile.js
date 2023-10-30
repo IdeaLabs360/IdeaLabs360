@@ -285,7 +285,7 @@ export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
 
   return (
     <>
-      <Paper elevation={2} sx={{ px: 3, py: 2 }}>
+      <Paper elevation={1} sx={{ px: 3, py: 2 }}>
         {/* Title */}
         <Box sx={{ mb: 1, display: "flex" }}>
           <Typography component="div" variant="h6" sx={{ flexGrow: 1 }}>
