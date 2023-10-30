@@ -141,11 +141,11 @@ export const PrintQuote = () => {
   };
 
   return (
-    <Container maxWidth="lg">
+    <Container maxWidth="lg" sx={{ py: { xs: 6, sm: 6, md: 8, lg: 12 } }}>
       <Typography
         variant="h5"
         component="div"
-        sx={{ my: 3, fontSize: "2.0rem", fontWeight: "bold" }}
+        sx={{ mb: 3, fontSize: "2.0rem", fontWeight: "bold" }}
       >
         Quotes
       </Typography>
