@@ -22,12 +22,13 @@ import {
   Typography,
 } from "@mui/material";
 import BackupIcon from "@mui/icons-material/Backup";
-import SavingsIcon from "@mui/icons-material/Savings";
-import SpeedIcon from "@mui/icons-material/Speed";
 import BoltIcon from "@mui/icons-material/Bolt";
+import CheckIcon from "@mui/icons-material/Check";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import HelpIcon from "@mui/icons-material/Help";
-import CheckIcon from "@mui/icons-material/Check";
+import LockIcon from "@mui/icons-material/Lock";
+import SavingsIcon from "@mui/icons-material/Savings";
+import SpeedIcon from "@mui/icons-material/Speed";
 
 import { reviews } from "../../views/Home";
 import { IMAGES } from "../../constants/constants";
@@ -163,7 +164,7 @@ export const PrintHome = () => {
                 </Box>
 
                 {/* Quote button */}
-                <Box sx={{ display: "flex" }}>
+                <Box sx={{ display: "flex", flexDirection: "column" }}>
                   <Button
                     variant="contained"
                     component="label"
@@ -191,6 +192,30 @@ export const PrintHome = () => {
                       }}
                     />
                   </Button>
+
+                  {/* Security info */}
+                  <Box
+                    sx={{
+                      mt: 1.5,
+                      display: "flex",
+                      justifyContent: "center",
+                      color: "#ABB2B9",
+                    }}
+                  >
+                    <LockIcon sx={{ mr: 1, fontSize: "1.1rem" }} />
+
+                    <Typography
+                      variant="body2"
+                      component="div"
+                      sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
+                      All uploads are secure and confidential.
+                    </Typography>
+                  </Box>
                 </Box>
 
                 {/* Results */}
@@ -230,7 +255,7 @@ export const PrintHome = () => {
                 justifyContent: { xs: "center", md: "start" },
               }}
             >
-              <Box sx={{ mt: { xs: 6, md: 0 }, width: 350 }}>
+              <Box sx={{ mt: { xs: 6, md: 0 }, width: 400 }}>
                 <CardMedia
                   component="img"
                   image={"/img/main.png"}
@@ -239,6 +264,134 @@ export const PrintHome = () => {
               </Box>
             </Grid>
           </Grid>
+        </Container>
+      </Box>
+
+      {/* Benefits */}
+      <Box>
+        <Container maxWidth="lg" sx={{ py: { xs: 6, sm: 6, md: 8, lg: 12 } }}>
+          <Grid container spacing={2}>
+            <Grid
+              item
+              xs={12}
+              md={4}
+              sx={{ display: "flex", justifyContent: "center" }}
+            >
+              {createBenefit(
+                <SavingsIcon
+                  sx={{ fontSize: "3rem", color: "icon.primary" }}
+                />,
+                "Save Money",
+                <>Get high quality parts 3D printed at an affordable price.</>
+              )}
+            </Grid>
+
+            <Grid
+              item
+              xs={12}
+              md={4}
+              sx={{ display: "flex", justifyContent: "center" }}
+            >
+              {createBenefit(
+                <SpeedIcon sx={{ fontSize: "3rem", color: "icon.primary" }} />,
+                "Accelerate Your Design Iteration",
+                <>Fast lead times and turnarounds.</>
+              )}
+            </Grid>
+
+            <Grid
+              item
+              xs={12}
+              md={4}
+              sx={{ display: "flex", justifyContent: "center" }}
+            >
+              {createBenefit(
+                <BoltIcon sx={{ fontSize: "3rem", color: "icon.primary" }} />,
+                "Instant Quoting",
+                <>
+                  Get pricing with in seconds with just a few clicks, not in
+                  days.
+                </>
+              )}
+            </Grid>
+          </Grid>
+        </Container>
+      </Box>
+
+      {/* Reviews */}
+      <Box sx={{ bgcolor: "#0b076e0a" }}>
+        <Container maxWidth="md" sx={{ py: { xs: 6, sm: 6, md: 8, lg: 12 } }}>
+          <Grid container spacing={2}>
+            {reviews.map((review, index) => (
+              <Grid
+                item
+                xs={12}
+                md={6}
+                sx={{ display: "flex", justifyContent: "center" }}
+              >
+                <Box
+                  key={`review-${index}`}
+                  sx={{
+                    maxWidth: 350,
+                    p: 1,
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    sx={{ mb: 2 }}
+                  >
+                    "{review.detail}"
+                  </Typography>
+
+                  <Typography
+                    gutterBottom
+                    variant="body2"
+                    component="div"
+                    sx={{ fontWeight: "700", lineHeight: "0.9em" }}
+                  >
+                    {review.name}
+                  </Typography>
+
+                  <Box sx={{ display: "flex", justifyContent: "center" }}>
+                    {review.stars}
+                  </Box>
+                </Box>
+              </Grid>
+            ))}
+          </Grid>
+
+          <Box
+            sx={{
+              mt: 2,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <CardMedia
+              component="img"
+              image={"/img/googleImage.png"}
+              sx={{ width: "90px", objectFit: "cover" }}
+            />
+
+            <Typography
+              variant="body2"
+              component="div"
+              color="text.secondary"
+              sx={{
+                ml: 1,
+                textAlign: "center",
+                fontSize: "1.4rem",
+              }}
+            >
+              Reviews
+            </Typography>
+          </Box>
         </Container>
       </Box>
 
@@ -425,134 +578,6 @@ export const PrintHome = () => {
             </Box>
           ))}
         </Slider>
-      </Box>
-
-      {/* Benefits */}
-      <Box>
-        <Container maxWidth="lg" sx={{ py: { xs: 6, sm: 6, md: 8, lg: 12 } }}>
-          <Grid container spacing={2}>
-            <Grid
-              item
-              xs={12}
-              md={4}
-              sx={{ display: "flex", justifyContent: "center" }}
-            >
-              {createBenefit(
-                <SavingsIcon
-                  sx={{ fontSize: "3rem", color: "icon.primary" }}
-                />,
-                "Save Money",
-                <>Get high quality parts 3D printed at an affordable price.</>
-              )}
-            </Grid>
-
-            <Grid
-              item
-              xs={12}
-              md={4}
-              sx={{ display: "flex", justifyContent: "center" }}
-            >
-              {createBenefit(
-                <SpeedIcon sx={{ fontSize: "3rem", color: "icon.primary" }} />,
-                "Accelerate Your Design Iteration",
-                <>Fast lead times and turnarounds.</>
-              )}
-            </Grid>
-
-            <Grid
-              item
-              xs={12}
-              md={4}
-              sx={{ display: "flex", justifyContent: "center" }}
-            >
-              {createBenefit(
-                <BoltIcon sx={{ fontSize: "3rem", color: "icon.primary" }} />,
-                "Instant Quoting",
-                <>
-                  Get pricing with in seconds with just a few clicks, not in
-                  days.
-                </>
-              )}
-            </Grid>
-          </Grid>
-        </Container>
-      </Box>
-
-      {/* Reviews */}
-      <Box sx={{ bgcolor: "#0b076e0a" }}>
-        <Container maxWidth="md" sx={{ py: { xs: 6, sm: 6, md: 8, lg: 12 } }}>
-          <Grid container spacing={2}>
-            {reviews.map((review, index) => (
-              <Grid
-                item
-                xs={12}
-                md={6}
-                sx={{ display: "flex", justifyContent: "center" }}
-              >
-                <Box
-                  key={`review-${index}`}
-                  sx={{
-                    maxWidth: 350,
-                    p: 1,
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    sx={{ mb: 2 }}
-                  >
-                    "{review.detail}"
-                  </Typography>
-
-                  <Typography
-                    gutterBottom
-                    variant="body2"
-                    component="div"
-                    sx={{ fontWeight: "700", lineHeight: "0.9em" }}
-                  >
-                    {review.name}
-                  </Typography>
-
-                  <Box sx={{ display: "flex", justifyContent: "center" }}>
-                    {review.stars}
-                  </Box>
-                </Box>
-              </Grid>
-            ))}
-          </Grid>
-
-          <Box
-            sx={{
-              mt: 2,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <CardMedia
-              component="img"
-              image={"/img/googleImage.png"}
-              sx={{ width: "90px", objectFit: "cover" }}
-            />
-
-            <Typography
-              variant="body2"
-              component="div"
-              color="text.secondary"
-              sx={{
-                ml: 1,
-                textAlign: "center",
-                fontSize: "1.4rem",
-              }}
-            >
-              Reviews
-            </Typography>
-          </Box>
-        </Container>
       </Box>
 
       {/* Features */}
