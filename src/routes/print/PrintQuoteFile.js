@@ -31,6 +31,7 @@ import {
   MAX_PRINTER_SIZE_MM,
   QUANTITIES,
 } from "../../constants/constants";
+import { ModelViewer } from "../../common/model/ModelViewer";
 
 export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
   const [open, setOpen] = React.useState(false);
@@ -196,7 +197,7 @@ export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
     return (
       <>
         <Typography variant="h6" component="div" sx={{ color: "red" }}>
-          Somthing went wrong
+          Something went wrong
         </Typography>
 
         <Typography variant="body" component="div" sx={{ my: 1.5 }}>
@@ -248,8 +249,8 @@ export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
           sx={{
             p: 1,
             display: "flex",
-            flexDirection: "column",
-            alignItems: "end",
+            justifyContent: "end",
+            alignItems: "center",
             width: "100%",
             border: "1px solid green",
             borderRadius: "5px",
@@ -258,7 +259,7 @@ export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
           <Typography
             variant="body"
             component="div"
-            sx={{ mr: 1, color: "gray" }}
+            sx={{ mr: 1, color: "gray", fontSize: "1.1rem" }}
           >
             ${priceEach} each
           </Typography>
@@ -266,7 +267,7 @@ export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
           <Typography
             variant="body"
             component="div"
-            sx={{ mr: 1, color: "gray" }}
+            sx={{ mr: 1, color: "gray", fontSize: "1.2rem" }}
           >
             x {quantity}
           </Typography>
@@ -274,9 +275,9 @@ export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
           <Typography
             variant="body"
             component="div"
-            sx={{ mt: 1, fontSize: "1.5rem", fontWeight: "600" }}
+            sx={{ fontSize: "1.5rem", fontWeight: "600" }}
           >
-            ${priceTotal}
+            = ${priceTotal}
           </Typography>
         </Box>
       );
@@ -310,65 +311,78 @@ export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
         {/* Configured Details */}
         <Box sx={{ mt: 2, mb: 1, fontSize: "0.9rem" }}>
           <Grid container spacing={2}>
-            <Grid item md={7} xs={12}>
-              <Button
-                variant="contained"
-                onClick={handleClickOpen}
-                sx={{ mb: 1, px: 1, py: 0.5 }}
-              >
-                Configure Part
-              </Button>
-
-              <Box sx={{ pl: 2, borderLeft: "5px solid gray" }}>
-                {createDetails("Quantity", quantity)}
-
-                {createDetails(
-                  "Dimensions",
-                  <Box>
-                    {`${width}${unit} x ${length}${unit} x ${height}${unit}`}
-
-                    <RadioGroup
-                      row
-                      value={unit}
-                      onChange={(e) => setUnit(e.target.value)}
-                    >
-                      <FormControlLabel
-                        value="mm"
-                        control={<Radio size="small" />}
-                        label={
-                          <Box component="label" sx={{ fontSize: "0.8rem" }}>
-                            mm
-                          </Box>
-                        }
-                      />
-
-                      <FormControlLabel
-                        value="in"
-                        control={<Radio size="small" />}
-                        label={
-                          <Box component="label" sx={{ fontSize: "0.8rem" }}>
-                            in
-                          </Box>
-                        }
-                      />
-                    </RadioGroup>
-                  </Box>
-                )}
-
-                {createDetails("Tech", "FDM 3D Printing")}
-
-                {createDetails("Material", material)}
-                {createDetails("Color", color)}
-              </Box>
+            <Grid item xs={12} md={5} sx={{ display: "flex" }}>
+              <ModelViewer file={quote.file} color={color} />
             </Grid>
 
-            <Grid
-              item
-              md={5}
-              xs={12}
-              sx={{ display: "flex", alignItems: "start" }}
-            >
-              {isLoading ? displayLoadingSpinner() : displayPrice()}
+            <Grid item xs={12} md={7}>
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <Button
+                    variant="contained"
+                    onClick={handleClickOpen}
+                    sx={{ mb: 2, px: 1, py: 0.5 }}
+                  >
+                    Configure Part
+                  </Button>
+
+                  <Box sx={{ pl: 2, borderLeft: "5px solid gray" }}>
+                    {createDetails("Quantity", quantity)}
+
+                    {createDetails(
+                      "Dimensions",
+                      <Box>
+                        {`${width}${unit} x ${length}${unit} x ${height}${unit}`}
+
+                        <RadioGroup
+                          row
+                          value={unit}
+                          onChange={(e) => setUnit(e.target.value)}
+                        >
+                          <FormControlLabel
+                            value="mm"
+                            control={<Radio size="small" />}
+                            label={
+                              <Box
+                                component="label"
+                                sx={{ fontSize: "0.8rem" }}
+                              >
+                                mm
+                              </Box>
+                            }
+                          />
+
+                          <FormControlLabel
+                            value="in"
+                            control={<Radio size="small" />}
+                            label={
+                              <Box
+                                component="label"
+                                sx={{ fontSize: "0.8rem" }}
+                              >
+                                in
+                              </Box>
+                            }
+                          />
+                        </RadioGroup>
+                      </Box>
+                    )}
+
+                    {createDetails("Tech", "FDM 3D Printing")}
+
+                    {createDetails("Material", material)}
+                    {createDetails("Color", color)}
+                  </Box>
+                </Grid>
+
+                <Grid
+                  item
+                  xs={12}
+                  sx={{ display: "flex", alignItems: "start" }}
+                >
+                  {isLoading ? displayLoadingSpinner() : displayPrice()}
+                </Grid>
+              </Grid>
             </Grid>
           </Grid>
         </Box>
@@ -383,7 +397,7 @@ export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
           ".MuiPaper-root": {
             px: 2,
             py: 1,
-            width: "400px",
+            width: "500px",
           },
         }}
       >
