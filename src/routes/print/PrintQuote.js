@@ -1,5 +1,4 @@
 import * as React from "react";
-import { useLocation } from "react-router-dom";
 
 import axios from "axios";
 import { useForm } from "react-hook-form";
@@ -12,6 +11,7 @@ import {
   Button,
   CircularProgress,
   Container,
+  Divider,
   FormControl,
   Grid,
   TextField,
@@ -20,8 +20,8 @@ import {
 import LockIcon from "@mui/icons-material/Lock";
 import BackupIcon from "@mui/icons-material/Backup";
 
-import { PrintQuoteFile } from "./PrintQuoteFile";
 import apiConfig from "../../config/apiConfig";
+import { PrintQuoteFile } from "./PrintQuoteFile";
 import { statesInUSAShort } from "../../constants/constants";
 
 const schema = yup
@@ -44,8 +44,6 @@ const schema = yup
 export const PrintQuote = () => {
   const [quotes, setQuotes] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(false);
-
-  const location = useLocation();
 
   const {
     register,
@@ -113,20 +111,6 @@ export const PrintQuote = () => {
     setIsLoading(false);
   };
 
-  React.useEffect(() => {
-    const quotes = location.state.uploadedFiles?.map((file) => {
-      return {
-        quantity: 1,
-        material: "PLA",
-        color: "Black",
-        file: file,
-      };
-    });
-
-    setQuotes(quotes);
-    // eslint-disable-next-line
-  }, []);
-
   const addQuote = (file) => {
     if (file !== null && file.length === 1) {
       const newQuote = {
@@ -141,17 +125,47 @@ export const PrintQuote = () => {
   };
 
   return (
-    <Container maxWidth="lg" sx={{ py: { xs: 6, sm: 6, md: 8, lg: 12 } }}>
-      <Typography
-        variant="h5"
-        component="div"
-        sx={{ mb: 3, fontSize: "2.0rem", fontWeight: "bold" }}
-      >
-        Quotes
-      </Typography>
-
+    <Container maxWidth="lg" sx={{ py: 6 }}>
       <Grid container spacing={2}>
         <Grid item md={8} sm={8} xs={12}>
+          <Box sx={{ display: "flex", flexDirection: "column" }}>
+            <Typography
+              variant="h5"
+              component="div"
+              sx={{
+                fontSize: { xs: "1.4rem", md: "2.0rem" },
+                fontWeight: "bold",
+              }}
+            >
+              Upload Design Files to Get Started
+            </Typography>
+
+            <Box sx={{ my: 1, display: "flex" }}>
+              <Typography variant="body1" component="div" sx={{ mr: 1 }}>
+                Supported file types:
+              </Typography>
+
+              <Typography
+                variant="body1"
+                component="div"
+                sx={{ color: "icon.primary" }}
+              >
+                STL, OBJ
+              </Typography>
+            </Box>
+
+            <Typography
+              variant="body2"
+              component="div"
+              sx={{ mb: 3, color: "gray", fontStyle: "italic" }}
+            >
+              Please reachout to us if you have a file that is not currently
+              supported.
+            </Typography>
+          </Box>
+
+          <Divider sx={{ mb: 3 }} />
+
           <Box>
             {quotes.map((quote, index) => (
               <Box key={`quote_${index}`} sx={{ mb: 2 }}>
@@ -163,7 +177,14 @@ export const PrintQuote = () => {
               </Box>
             ))}
 
-            <Box sx={{ display: "flex", justifyContent: "center" }}>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
               <Button
                 variant="contained"
                 component="label"
@@ -177,7 +198,7 @@ export const PrintQuote = () => {
                 }}
               >
                 <BackupIcon sx={{ mr: 2 }} />
-                Add Another File
+                Upload Design File(s)
                 <input
                   type="file"
                   hidden
@@ -185,6 +206,30 @@ export const PrintQuote = () => {
                   onChange={(e) => addQuote(e.target.files)}
                 />
               </Button>
+
+              {/* Security info */}
+              <Box
+                sx={{
+                  mt: 1,
+                  display: "flex",
+                  justifyContent: "center",
+                  color: "#ABB2B9",
+                }}
+              >
+                <LockIcon sx={{ mr: 1, fontSize: "1.1rem" }} />
+
+                <Typography
+                  variant="body2"
+                  component="div"
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  All uploads are secure and confidential.
+                </Typography>
+              </Box>
             </Box>
           </Box>
         </Grid>

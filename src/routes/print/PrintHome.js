@@ -26,7 +26,6 @@ import BoltIcon from "@mui/icons-material/Bolt";
 import CheckIcon from "@mui/icons-material/Check";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import HelpIcon from "@mui/icons-material/Help";
-import LockIcon from "@mui/icons-material/Lock";
 import SavingsIcon from "@mui/icons-material/Savings";
 import SpeedIcon from "@mui/icons-material/Speed";
 
@@ -164,58 +163,30 @@ export const PrintHome = () => {
                 </Box>
 
                 {/* Quote button */}
-                <Box sx={{ display: "flex", flexDirection: "column" }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "start",
+                  }}
+                >
                   <Button
                     variant="contained"
                     component="label"
+                    onClick={() => navigate("/print/quote")}
                     sx={{
-                      py: 1.5,
-                      px: 3,
+                      py: 2,
+                      px: 4,
                       bgcolor: "icon.primary",
                       textAlign: "center",
                       fontSize: { xs: "0.9rem", md: "1.0rem" },
                       fontWeight: "700",
-                      textTransform: "none",
+                      textTransform: "uppercase",
+                      letterSpacing: "0.1em",
                     }}
                   >
-                    <BackupIcon sx={{ mr: 2 }} />
-                    Start Your Instant Quote
-                    <input
-                      type="file"
-                      multiple
-                      hidden
-                      onClick={(e) => (e.target.value = null)}
-                      onChange={(e) => {
-                        navigate("/print/quote", {
-                          state: { uploadedFiles: [...e.target.files] },
-                        });
-                      }}
-                    />
+                    Get Started
                   </Button>
-
-                  {/* Security info */}
-                  <Box
-                    sx={{
-                      mt: 1.5,
-                      display: "flex",
-                      justifyContent: "center",
-                      color: "#ABB2B9",
-                    }}
-                  >
-                    <LockIcon sx={{ mr: 1, fontSize: "1.1rem" }} />
-
-                    <Typography
-                      variant="body2"
-                      component="div"
-                      sx={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
-                    >
-                      All uploads are secure and confidential.
-                    </Typography>
-                  </Box>
                 </Box>
 
                 {/* Results */}
@@ -755,29 +726,19 @@ export const PrintHome = () => {
               <Button
                 variant="contained"
                 component="label"
+                onClick={() => navigate("/print/quote")}
                 sx={{
-                  py: 1.5,
-                  px: 3,
+                  py: 2,
+                  px: 4,
                   bgcolor: "icon.primary",
                   textAlign: "center",
-                  fontSize: "1.0rem",
+                  fontSize: { xs: "0.9rem", md: "1.0rem" },
                   fontWeight: "700",
-                  textTransform: "none",
+                  textTransform: "uppercase",
+                  letterSpacing: "0.1em",
                 }}
               >
-                <BackupIcon sx={{ mr: 2 }} />
-                Start Your Instant Quote
-                <input
-                  type="file"
-                  multiple
-                  hidden
-                  onClick={(e) => (e.target.value = null)}
-                  onChange={(e) => {
-                    navigate("/print/quote", {
-                      state: { uploadedFiles: [...e.target.files] },
-                    });
-                  }}
-                />
+                Get Started
               </Button>
             </Box>
           </Box>
