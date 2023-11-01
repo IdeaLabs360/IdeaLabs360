@@ -140,27 +140,13 @@ export const PrintQuote = () => {
               Upload Design Files to Get Started
             </Typography>
 
-            <Box sx={{ my: 1, display: "flex" }}>
-              <Typography variant="body1" component="div" sx={{ mr: 1 }}>
-                Supported file types:
-              </Typography>
-
-              <Typography
-                variant="body1"
-                component="div"
-                sx={{ color: "icon.primary" }}
-              >
-                STL, OBJ
-              </Typography>
-            </Box>
-
             <Typography
               variant="body2"
               component="div"
-              sx={{ mb: 3, color: "gray", fontStyle: "italic" }}
+              sx={{ mt: 1, mb: 2, color: "gray", fontStyle: "italic" }}
             >
-              Please reachout to us if you have a file that is not currently
-              supported.
+              Please reachout to us if you have model files that is not
+              currently supported.
             </Typography>
           </Box>
 
@@ -177,40 +163,59 @@ export const PrintQuote = () => {
               </Box>
             ))}
 
+            {/* <Box sx={{ display: "flex", justifyContent: "center" }}> */}
             <Box
               sx={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
+                px: 6,
+                py: 2,
+                border: "1px dashed #676e8b78",
+                borderRadius: "5px",
+                bgcolor: "#0b076e0a",
               }}
             >
-              <Button
-                variant="contained"
-                component="label"
-                sx={{
-                  py: 1.5,
-                  px: 3,
-                  bgcolor: "icon.primary",
-                  textTransform: "none",
-                  textAlign: "center",
-                  fontWeight: "700",
-                }}
+              <Typography
+                component="div"
+                variant="body1"
+                sx={{ textAlign: "center" }}
               >
-                <BackupIcon sx={{ mr: 2 }} />
-                Upload Design File(s)
-                <input
-                  type="file"
-                  hidden
-                  onClick={(e) => (e.target.value = null)}
-                  onChange={(e) => addQuote(e.target.files)}
-                />
-              </Button>
+                Upload design files get pricing
+              </Typography>
 
+              {/* Files supported */}
+              <Typography
+                variant="body2"
+                component="div"
+                sx={{ pt: 0.5, color: "#566573", textAlign: "center" }}
+              >
+                STL | OBJ | files
+              </Typography>
+              {/* Quote button */}
+              <Box sx={{ py: 1, display: "flex", justifyContent: "center" }}>
+                <Button
+                  variant="contained"
+                  component="label"
+                  sx={{
+                    py: 1.5,
+                    px: 3,
+                    bgcolor: "icon.primary",
+                    textTransform: "none",
+                    textAlign: "center",
+                    fontWeight: "700",
+                  }}
+                >
+                  <BackupIcon sx={{ mr: 2 }} />
+                  Upload Design File(s)
+                  <input
+                    type="file"
+                    hidden
+                    onClick={(e) => (e.target.value = null)}
+                    onChange={(e) => addQuote(e.target.files)}
+                  />
+                </Button>
+              </Box>
               {/* Security info */}
               <Box
                 sx={{
-                  mt: 1,
                   display: "flex",
                   justifyContent: "center",
                   color: "#ABB2B9",
@@ -231,6 +236,7 @@ export const PrintQuote = () => {
                 </Typography>
               </Box>
             </Box>
+            {/* </Box> */}
           </Box>
         </Grid>
 
