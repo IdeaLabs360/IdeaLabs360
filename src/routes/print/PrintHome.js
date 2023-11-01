@@ -196,21 +196,21 @@ export const PrintHome = () => {
                       <ListItemIcon>
                         <CheckIcon sx={{ color: "green" }} />
                       </ListItemIcon>
-                      <ListItemText primary="High-quality 3D printing" />
+                      <ListItemText primary="Free Scanned Model Cleanup" />
                     </ListItem>
 
                     <ListItem disablePadding>
                       <ListItemIcon>
                         <CheckIcon sx={{ color: "green" }} />
                       </ListItemIcon>
-                      <ListItemText primary="Affordable" />
+                      <ListItemText primary="High-quality 3D Printing" />
                     </ListItem>
 
                     <ListItem disablePadding>
                       <ListItemIcon>
                         <CheckIcon sx={{ color: "green" }} />
                       </ListItemIcon>
-                      <ListItemText primary="Fast lead-times" />
+                      <ListItemText primary="Affordable and Fast Lead-Times" />
                     </ListItem>
                   </List>
                 </Box>

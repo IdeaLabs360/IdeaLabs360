@@ -4,12 +4,6 @@ import axios from "axios";
 import {
   Box,
   Button,
-  CircularProgress,
-  Dialog,
-  DialogActions,
-  DialogTitle,
-  DialogContent,
-  FormControl,
   FormControlLabel,
   Grid,
   IconButton,
@@ -19,9 +13,12 @@ import {
   RadioGroup,
   TextField,
   Typography,
+  LinearProgress,
 } from "@mui/material";
 import Divider from "@mui/material/Divider";
 import DeleteIcon from "@mui/icons-material/Delete";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
 
 import apiConfig from "../../config/apiConfig";
 import {
@@ -29,13 +26,10 @@ import {
   MATERIALS,
   MAX_PRINTER_SIZE_IN,
   MAX_PRINTER_SIZE_MM,
-  QUANTITIES,
 } from "../../constants/constants";
 import { ModelViewer } from "../../common/model/ModelViewer";
 
 export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
-  const [open, setOpen] = React.useState(false);
-
   const [unit, setUnit] = React.useState("mm");
   const [width, setWidth] = React.useState(0.0);
   const [length, setLength] = React.useState(0.0);
@@ -48,21 +42,14 @@ export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
   const [isLoading, setIsLoading] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState(null);
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
   const {
     watch,
     reset,
     register,
+    setValue,
     getValues,
     handleSubmit,
-    // formState: { isDirty },
+    formState: { isDirty },
   } = useForm({
     defaultValues: {
       quantity: quote.quantity,
@@ -140,8 +127,6 @@ export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
   };
 
   const save = ({ quantity, material, color }) => {
-    handleClose();
-
     reset({ quantity, material, color });
 
     const updatedQuote = {
@@ -160,37 +145,9 @@ export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
     updateQuote(id, null);
   };
 
-  const createDetails = (label, value) => {
-    return (
-      <Box sx={{ mb: 1, display: "flex" }}>
-        <Typography
-          variant="body"
-          component="div"
-          sx={{ mr: 1, fontWeight: "bold" }}
-        >
-          {label}
-        </Typography>
-
-        <Typography variant="body" component="div" sx={{ fontSize: "0.8rem" }}>
-          {value}
-        </Typography>
-      </Box>
-    );
-  };
-
-  const displayLoadingSpinner = () => {
-    return (
-      <Box
-        sx={{
-          width: "100%",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "end",
-        }}
-      >
-        <CircularProgress />
-      </Box>
-    );
+  const handleQuantityChange = (value) => {
+    const curValue = getValues("quantity");
+    setValue("quantity", curValue + value, { shouldDirty: true });
   };
 
   const createUnknownErrorMessage = () => {
@@ -212,7 +169,28 @@ export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
   };
 
   const displayPrice = () => {
-    if (errorMessage) {
+    if (isLoading) {
+      return (
+        <Box
+          sx={{
+            p: 1,
+            display: "flex",
+            alignItems: "center",
+            width: "100%",
+            border: "1px solid gray",
+            borderRadius: "5px",
+          }}
+        >
+          <Typography variant="body1" component="div" sx={{ mr: 1, flex: 1 }}>
+            Getting Estimates
+          </Typography>
+
+          <Box sx={{ flex: 1, width: "100%" }}>
+            <LinearProgress />
+          </Box>
+        </Box>
+      );
+    } else if (errorMessage) {
       return (
         <Box
           sx={{
@@ -314,32 +292,82 @@ export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
             <Grid
               item
               xs={12}
-              md={5}
+              md={6}
               sx={{
                 display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
+                alignItems: "start",
               }}
             >
               <ModelViewer file={quote.file} color={color} />
             </Grid>
 
-            <Grid item xs={12} md={7}>
+            <Grid item xs={12} md={6}>
               <Grid container spacing={2}>
                 <Grid item xs={12}>
-                  <Button
-                    variant="contained"
-                    onClick={handleClickOpen}
-                    sx={{ mb: 2, px: 1, py: 0.5 }}
-                  >
-                    Configure Part
-                  </Button>
-
                   <Box sx={{ pl: 2, borderLeft: "5px solid gray" }}>
-                    {createDetails("Quantity", quantity)}
+                    <Box
+                      sx={{
+                        mb: 1,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "end",
+                      }}
+                    >
+                      <Typography
+                        variant="body1"
+                        component="div"
+                        sx={{ mr: 1, fontWeight: "bold" }}
+                      >
+                        Quantity
+                      </Typography>
 
-                    {createDetails(
-                      "Dimensions",
+                      <Box sx={{ display: "flex", alignItems: "center" }}>
+                        <IconButton
+                          color="primary"
+                          disabled={quantity <= 1}
+                          onClick={() => handleQuantityChange(-1)}
+                        >
+                          <RemoveIcon />
+                        </IconButton>
+
+                        <Typography variant="h6">{quantity}</Typography>
+
+                        <IconButton
+                          color="primary"
+                          onClick={() => handleQuantityChange(1)}
+                        >
+                          <AddIcon />
+                        </IconButton>
+                      </Box>
+                    </Box>
+
+                    <Box sx={{ mb: 1 }}>
+                      <Typography
+                        variant="body"
+                        component="div"
+                        sx={{ mr: 1, fontWeight: "bold" }}
+                      >
+                        Tech
+                      </Typography>
+
+                      <Typography
+                        variant="body"
+                        component="div"
+                        sx={{ fontSize: "0.8rem" }}
+                      >
+                        FDM 3D Printing
+                      </Typography>
+                    </Box>
+
+                    <Box sx={{ mb: 1 }}>
+                      <Typography
+                        variant="body"
+                        component="div"
+                        sx={{ mr: 1, fontWeight: "bold" }}
+                      >
+                        Dimension
+                      </Typography>
+
                       <Box>
                         {`${width}${unit} x ${length}${unit} x ${height}${unit}`}
 
@@ -375,12 +403,88 @@ export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
                           />
                         </RadioGroup>
                       </Box>
+                    </Box>
+
+                    <TextField
+                      select
+                      fullWidth
+                      id="material"
+                      label="Material"
+                      variant="outlined"
+                      margin="dense"
+                      size="small"
+                      value={material}
+                      defaultValue={material}
+                      InputProps={{ style: { fontSize: "0.9rem" } }}
+                      {...register("material")}
+                    >
+                      {MATERIALS.map((material, index) => (
+                        <MenuItem
+                          key={`material-option-${index}`}
+                          value={material}
+                          sx={{ fontSize: "0.9rem" }}
+                        >
+                          {material}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+
+                    <TextField
+                      select
+                      fullWidth
+                      id="color"
+                      label="Color"
+                      variant="outlined"
+                      margin="dense"
+                      size="small"
+                      value={color}
+                      defaultValue={color}
+                      InputProps={{ style: { fontSize: "0.9rem" } }}
+                      {...register("color")}
+                    >
+                      {COLORS.map((color, index) => (
+                        <MenuItem
+                          key={`color-option-${index}`}
+                          value={color}
+                          sx={{ fontSize: "0.9rem" }}
+                        >
+                          {color}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                    {isDirty && (
+                      <Box
+                        sx={{ mt: 1, display: "flex", justifyContent: "end" }}
+                      >
+                        <Button
+                          variant="outlined"
+                          onClick={() => {
+                            reset();
+                          }}
+                          sx={{
+                            p: 0,
+                            mr: 0.5,
+                            color: "secondary",
+                            textTransform: "none",
+                          }}
+                        >
+                          Cancel
+                        </Button>
+
+                        <Button
+                          autoFocus
+                          variant="contained"
+                          onClick={handleSubmit(save)}
+                          sx={{
+                            p: 0,
+                            color: "secondary",
+                            textTransform: "none",
+                          }}
+                        >
+                          Save
+                        </Button>
+                      </Box>
                     )}
-
-                    {createDetails("Tech", "FDM 3D Printing")}
-
-                    {createDetails("Material", material)}
-                    {createDetails("Color", color)}
                   </Box>
                 </Grid>
 
@@ -389,7 +493,7 @@ export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
                   xs={12}
                   sx={{ display: "flex", alignItems: "start" }}
                 >
-                  {isLoading ? displayLoadingSpinner() : displayPrice()}
+                  {displayPrice()}
                 </Grid>
               </Grid>
             </Grid>
@@ -398,107 +502,6 @@ export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
 
         {/*  */}
       </Paper>
-
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        sx={{
-          ".MuiPaper-root": {
-            px: 2,
-            py: 1,
-            width: "500px",
-          },
-        }}
-      >
-        <DialogTitle>{quote?.file?.name}</DialogTitle>
-
-        <DialogContent>
-          <FormControl sx={{ display: "flex", flexDirection: "column" }}>
-            <TextField
-              select
-              id="quantity"
-              label="Quantity"
-              variant="outlined"
-              margin="dense"
-              size="small"
-              value={quantity}
-              defaultValue={quantity}
-              {...register("quantity")}
-            >
-              {QUANTITIES.map((quantity, index) => (
-                <MenuItem key={`quantity-option-${index}`} value={quantity}>
-                  {quantity}
-                </MenuItem>
-              ))}
-            </TextField>
-
-            <TextField
-              select
-              id="material"
-              label="Material"
-              variant="outlined"
-              margin="dense"
-              size="small"
-              value={material}
-              defaultValue={material}
-              {...register("material")}
-            >
-              {MATERIALS.map((material, index) => (
-                <MenuItem key={`material-option-${index}`} value={material}>
-                  {material}
-                </MenuItem>
-              ))}
-            </TextField>
-
-            <TextField
-              select
-              id="color"
-              label="Color"
-              variant="outlined"
-              margin="dense"
-              size="small"
-              value={color}
-              defaultValue={color}
-              {...register("color")}
-            >
-              {COLORS.map((color, index) => (
-                <MenuItem key={`color-option-${index}`} value={color}>
-                  {color}
-                </MenuItem>
-              ))}
-            </TextField>
-          </FormControl>
-        </DialogContent>
-
-        <DialogActions>
-          <Button
-            variant="outlined"
-            onClick={() => {
-              handleClose();
-              reset();
-            }}
-            sx={{
-              p: 0,
-              color: "secondary",
-              textTransform: "none",
-            }}
-          >
-            Cancel
-          </Button>
-          <Button
-            autoFocus
-            variant="contained"
-            onClick={handleSubmit(save)}
-            sx={{
-              p: 0,
-              color: "secondary",
-              textTransform: "none",
-            }}
-          >
-            Save
-          </Button>
-        </DialogActions>
-      </Dialog>
     </>
   );
 };
