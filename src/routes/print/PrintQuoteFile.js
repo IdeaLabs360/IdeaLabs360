@@ -311,7 +311,16 @@ export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
         {/* Configured Details */}
         <Box sx={{ mt: 2, mb: 1, fontSize: "0.9rem" }}>
           <Grid container spacing={2}>
-            <Grid item xs={12} md={5} sx={{ display: "flex" }}>
+            <Grid
+              item
+              xs={12}
+              md={5}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
               <ModelViewer file={quote.file} color={color} />
             </Grid>
 

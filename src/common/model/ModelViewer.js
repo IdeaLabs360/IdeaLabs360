@@ -89,7 +89,7 @@ const ObjModelViewer = ({ object }) => {
     <Box
       ref={containerRef}
       sx={{
-        maxWidth: 300,
+        // maxWidth: 300,
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
@@ -176,7 +176,7 @@ const STLViewer = ({ geometry }) => {
     <Box
       ref={containerRef}
       sx={{
-        // maxWidth: 220,
+        // maxWidth: 300,
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
