@@ -16,7 +16,6 @@ import {
   Grid,
   List,
   ListItem,
-  ListItemIcon,
   ListItemText,
   Paper,
   Typography,
@@ -193,23 +192,17 @@ export const PrintHome = () => {
                 <Box sx={{ mt: 3 }}>
                   <List dense>
                     <ListItem disablePadding>
-                      <ListItemIcon>
-                        <CheckIcon sx={{ color: "green" }} />
-                      </ListItemIcon>
+                      <CheckIcon sx={{ mr: 0.5, color: "green" }} />
                       <ListItemText primary="Free Scanned Model Cleanup" />
                     </ListItem>
 
                     <ListItem disablePadding>
-                      <ListItemIcon>
-                        <CheckIcon sx={{ color: "green" }} />
-                      </ListItemIcon>
+                      <CheckIcon sx={{ mr: 0.5, color: "green" }} />
                       <ListItemText primary="High-quality 3D Printing" />
                     </ListItem>
 
                     <ListItem disablePadding>
-                      <ListItemIcon>
-                        <CheckIcon sx={{ color: "green" }} />
-                      </ListItemIcon>
+                      <CheckIcon sx={{ mr: 0.5, color: "green" }} />
                       <ListItemText primary="Affordable and Fast Lead-Times" />
                     </ListItem>
                   </List>

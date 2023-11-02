@@ -118,15 +118,15 @@ const STLViewer = ({ geometry }) => {
         500
       );
 
-      const ambientLight = new THREE.AmbientLight(0xffffff, 1);
+      const ambientLight = new THREE.AmbientLight(0xffffff);
       scene.add(ambientLight);
 
-      const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-      directionalLight.position.set(0, 1, 1);
+      const directionalLight = new THREE.DirectionalLight(0xffffff);
+      directionalLight.position.set(1, 1, 1);
       scene.add(directionalLight);
 
       // Renderer
-      const renderer = new THREE.WebGLRenderer();
+      const renderer = new THREE.WebGLRenderer({ antialias: true });
       renderer.setClearColor(new THREE.Color(0xf1f2f3));
       renderer.setSize(viewWidth, viewWidth);
 
