@@ -18,21 +18,16 @@ const getFileExtension = (fileName) => {
   }
 };
 
-const ObjModelViewer = ({ object }) => {
+const ObjModelViewer = ({ file }) => {
   const containerRef = useRef();
 
   useEffect(() => {
-    if (object) {
+    let renderer = null;
+
+    if (file) {
       const viewWidth = containerRef.current.offsetWidth;
 
       const scene = new THREE.Scene();
-
-      const ambientLight = new THREE.AmbientLight(0xffffff, 1);
-      scene.add(ambientLight);
-
-      const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-      directionalLight.position.set(0, 1, 1);
-      scene.add(directionalLight);
 
       const camera = new THREE.OrthographicCamera(
         viewWidth / -8,
@@ -44,46 +39,76 @@ const ObjModelViewer = ({ object }) => {
       );
       camera.position.set(0, 0, 5);
 
+      const ambientLight = new THREE.AmbientLight(0xffffff);
+      scene.add(ambientLight);
+
+      const light1 = new THREE.DirectionalLight(0xffffff, 1); // From the front
+      light1.position.set(0, 0, 1);
+      scene.add(light1);
+
+      const light2 = new THREE.DirectionalLight(0xffffff, 1); // From the back
+      light2.position.set(0, 0, -1);
+      scene.add(light2);
+
+      const light3 = new THREE.DirectionalLight(0xffffff, 1); // From the left
+      light3.position.set(-1, 0, 0);
+      scene.add(light3);
+
+      const light4 = new THREE.DirectionalLight(0xffffff, 1); // From the right
+      light4.position.set(1, 0, 0);
+      scene.add(light4);
+
       // Renderer
-      const renderer = new THREE.WebGLRenderer();
-      renderer.setClearColor(new THREE.Color(0xf1f2f3));
+      renderer = new THREE.WebGLRenderer({ antialias: true });
+      renderer.setClearColor(new THREE.Color("gray"));
       renderer.setSize(viewWidth, viewWidth);
 
       containerRef.current.innerHTML = "";
       containerRef.current.appendChild(renderer.domElement);
 
-      // Center model to scene
-      const box = new THREE.Box3().setFromObject(object);
-      const center = box.getCenter(new THREE.Vector3());
-      const size = box.getSize(new THREE.Vector3());
+      const loader = new OBJLoader();
+      loader.load(URL.createObjectURL(file), (model) => {
+        console.log("*** OBJ Loaded ***", file.name, model);
 
-      object.position.sub(center);
+        // Center model to scene
+        const box = new THREE.Box3().setFromObject(model);
+        const center = box.getCenter(new THREE.Vector3());
+        const size = box.getSize(new THREE.Vector3());
 
-      scene.add(object);
+        model.position.sub(center);
 
-      // Calculate the distance from the center of the model to the camera
-      const distance = Math.max(size.x, size.y, size.z) * 2;
+        scene.add(model);
 
-      // Set the camera's position outside the model's bounding box
-      camera.position.copy(center).add(new THREE.Vector3(0, 0, distance));
-      camera.lookAt(center);
+        // Calculate the distance from the center of the model to the camera
+        const distance = Math.max(size.x, size.y, size.z) * 2;
 
-      const controls = new OrbitControls(camera, renderer.domElement);
+        // Set the camera's position outside the model's bounding box
+        camera.position.copy(center).add(new THREE.Vector3(0, 0, distance));
+        camera.lookAt(center);
 
-      controls.enablePan = true;
-      controls.enableZoom = true;
+        const controls = new OrbitControls(camera, renderer.domElement);
 
-      // controls.target.copy(center);
-      controls.addEventListener("change", () => renderer.render(scene, camera));
+        controls.enablePan = true;
+        controls.enableZoom = true;
 
-      const animate = () => {
-        requestAnimationFrame(animate);
-        renderer.render(scene, camera);
-      };
+        // controls.target.copy(center);
+        controls.addEventListener("change", () =>
+          renderer.render(scene, camera)
+        );
 
-      animate();
+        const animate = () => {
+          requestAnimationFrame(animate);
+          renderer.render(scene, camera);
+        };
+
+        animate();
+      });
     }
-  });
+
+    return () => {
+      renderer?.dispose();
+    };
+  }, [file]);
 
   return (
     <Box
@@ -100,11 +125,13 @@ const ObjModelViewer = ({ object }) => {
   );
 };
 
-const STLViewer = ({ geometry }) => {
+const STLViewer = ({ file }) => {
   const containerRef = useRef();
 
   useEffect(() => {
-    if (geometry) {
+    let renderer = null;
+
+    if (file) {
       const viewWidth = containerRef.current.offsetWidth;
 
       const scene = new THREE.Scene();
@@ -121,56 +148,79 @@ const STLViewer = ({ geometry }) => {
       const ambientLight = new THREE.AmbientLight(0xffffff);
       scene.add(ambientLight);
 
-      const directionalLight = new THREE.DirectionalLight(0xffffff);
-      directionalLight.position.set(1, 1, 1);
-      scene.add(directionalLight);
+      const light1 = new THREE.DirectionalLight(0xffffff, 1); // From the front
+      light1.position.set(0, 0, 1);
+      scene.add(light1);
+
+      const light2 = new THREE.DirectionalLight(0xffffff, 1); // From the back
+      light2.position.set(0, 0, -1);
+      scene.add(light2);
+
+      const light3 = new THREE.DirectionalLight(0xffffff, 1); // From the left
+      light3.position.set(-1, 0, 0);
+      scene.add(light3);
+
+      const light4 = new THREE.DirectionalLight(0xffffff, 1); // From the right
+      light4.position.set(1, 0, 0);
+      scene.add(light4);
 
       // Renderer
       const renderer = new THREE.WebGLRenderer({ antialias: true });
-      renderer.setClearColor(new THREE.Color(0xf1f2f3));
+      renderer.setClearColor(new THREE.Color("gray"));
       renderer.setSize(viewWidth, viewWidth);
 
       containerRef.current.innerHTML = "";
       containerRef.current.appendChild(renderer.domElement);
 
-      const material = new THREE.MeshPhysicalMaterial({
-        color: "white",
-        roughness: 0.5,
+      const loader = new STLLoader();
+      loader.load(URL.createObjectURL(file), (model) => {
+        console.log("*** STL Loaded ***", file.name, model);
+
+        const material = new THREE.MeshPhysicalMaterial({
+          color: 0xffffff,
+          roughness: 0.35,
+        });
+
+        const mesh = new THREE.Mesh(model, material);
+
+        // Center model to scene
+        const box = new THREE.Box3().setFromObject(mesh);
+        const center = box.getCenter(new THREE.Vector3());
+        const size = box.getSize(new THREE.Vector3());
+
+        mesh.position.sub(center);
+
+        scene.add(mesh);
+
+        // Calculate the distance from the center of the model to the camera
+        const distance = Math.max(size.x, size.y, size.z) * 2;
+
+        // Set the camera's position outside the model's bounding box
+        camera.position.copy(center).add(new THREE.Vector3(0, 0, distance));
+        camera.lookAt(center);
+
+        const controls = new OrbitControls(camera, renderer.domElement);
+        controls.enablePan = true;
+        controls.enableZoom = true;
+        controls.enableRotate = true;
+
+        controls.addEventListener("change", () =>
+          renderer.render(scene, camera)
+        );
+
+        const animate = () => {
+          requestAnimationFrame(animate);
+          renderer.render(scene, camera);
+        };
+
+        animate();
       });
-
-      const mesh = new THREE.Mesh(geometry, material);
-
-      // Center model to scene
-      const box = new THREE.Box3().setFromObject(mesh);
-      const center = box.getCenter(new THREE.Vector3());
-      const size = box.getSize(new THREE.Vector3());
-
-      mesh.position.sub(center);
-
-      scene.add(mesh);
-
-      // Calculate the distance from the center of the model to the camera
-      const distance = Math.max(size.x, size.y, size.z) * 2;
-
-      // Set the camera's position outside the model's bounding box
-      camera.position.copy(center).add(new THREE.Vector3(0, 0, distance));
-      camera.lookAt(center);
-
-      const controls = new OrbitControls(camera, renderer.domElement);
-
-      controls.enablePan = true;
-      controls.enableZoom = true;
-
-      controls.addEventListener("change", () => renderer.render(scene, camera));
-
-      const animate = () => {
-        requestAnimationFrame(animate);
-        renderer.render(scene, camera);
-      };
-
-      animate();
     }
-  }, [geometry]);
+
+    return () => {
+      renderer?.dispose();
+    };
+  }, [file]);
 
   return (
     <Box
@@ -189,44 +239,22 @@ const STLViewer = ({ geometry }) => {
 
 export const ModelViewer = ({ file, color }) => {
   const [modelType, setModelType] = useState(null);
-  const [geometry, setGeometry] = useState(null);
 
   useEffect(() => {}, []);
 
   useEffect(() => {
     if (file) {
-      let loader = null;
-
       const fileExtension = getFileExtension(file.name);
       setModelType(fileExtension);
-
-      switch (fileExtension) {
-        case "stl":
-          loader = new STLLoader();
-          loader.load(URL.createObjectURL(file), (geometry) => {
-            setGeometry(geometry);
-          });
-
-          break;
-
-        case "obj":
-          loader = new OBJLoader();
-          loader.load(URL.createObjectURL(file), (geometry) => {
-            setGeometry(geometry);
-          });
-          break;
-
-        default:
-      }
     }
   }, [file]);
 
   switch (modelType) {
     case "stl":
-      return <STLViewer geometry={geometry} color={color} />;
+      return <STLViewer file={file} color={color} />;
 
     case "obj":
-      return <ObjModelViewer object={geometry} color={color} />;
+      return <ObjModelViewer file={file} color={color} />;
 
     default:
       return <></>;
