@@ -37,6 +37,20 @@ export const reviews = [
       him he's very reasonable thank you`,
     name: "Thomas Smith",
   },
+  {
+    stars: (
+      <>
+        <ReviewStar />
+        <ReviewStar />
+        <ReviewStar />
+        <ReviewStar />
+        <ReviewStar />
+      </>
+    ),
+    detail: `The statuettes I order were very good and I am very pleased with the results 
+    which came fast by mail and I will even give them away as Christmas gifts !!`,
+    name: "Mario Fontenla",
+  },
 ];
 
 const TabPanel = (props) => {

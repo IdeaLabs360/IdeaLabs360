@@ -150,10 +150,16 @@ export const PrintHome = () => {
               md={6}
               sx={{
                 display: "flex",
-                justifyContent: { xs: "center" },
+                justifyContent: { xs: "center", md: "end" },
               }}
             >
-              <Box sx={{ display: "flex", flexDirection: "column" }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                }}
+              >
                 <Box>{createHeroText("3D Print Your Designs")}</Box>
 
                 <Box sx={{ my: 4 }}>
@@ -179,8 +185,6 @@ export const PrintHome = () => {
                       bgcolor: "icon.primary",
                       textAlign: "center",
                       fontSize: { xs: "0.9rem", md: "1.0rem" },
-                      fontWeight: "700",
-                      textTransform: "uppercase",
                       letterSpacing: "0.1em",
                     }}
                   >
@@ -290,7 +294,7 @@ export const PrintHome = () => {
               <Grid
                 item
                 xs={12}
-                md={6}
+                md={4}
                 sx={{ display: "flex", justifyContent: "center" }}
               >
                 <Box
