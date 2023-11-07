@@ -163,12 +163,14 @@ export const ModelViewer = ({ file, color }) => {
 
   useEffect(() => {
     const viewWidth = containerRef.current.offsetWidth;
+    const viewHeight = viewWidth;
+
     setViewWidth(viewWidth);
     setViewHeight(viewWidth);
 
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setClearColor(new THREE.Color(0x899499));
-    renderer.setSize(viewWidth, viewWidth);
+    renderer.setSize(viewWidth, viewHeight);
     setRenderer(renderer);
 
     return () => {
@@ -177,9 +179,6 @@ export const ModelViewer = ({ file, color }) => {
   }, []);
 
   useEffect(() => {
-    const viewWidth = containerRef.current.offsetWidth;
-    const viewHeight = viewWidth;
-
     if (file && viewWidth) {
       const fileExtension = getFileExtension(file.name);
 
@@ -204,9 +203,10 @@ export const ModelViewer = ({ file, color }) => {
         // maxWidth: 300,
         display: "flex",
         flexDirection: "column",
-        justifyContent: "center",
+        justifyContent: "start",
         alignItems: "center",
         width: "100%",
+        height: "100%",
       }}
     />
   );
