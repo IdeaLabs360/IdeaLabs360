@@ -6,18 +6,12 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
 import {
-  Autocomplete,
   Box,
   Button,
-  CircularProgress,
   Container,
   Divider,
   FormControl,
-  Grid,
-  List,
-  ListItem,
   Radio,
-  RadioGroup,
   TextField,
   Typography,
 } from "@mui/material";
@@ -27,7 +21,6 @@ import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 
 import apiConfig from "../../config/apiConfig";
 import { PrintQuoteFile } from "./PrintQuoteFile";
-import { statesInUSAShort } from "../../constants/constants";
 
 const schema = yup
   .object({
@@ -58,14 +51,14 @@ export const PrintQuote = () => {
   };
 
   const [step, setStep] = React.useState(1);
-  const [total, setTotal] = React.useState(0);
+  const [subtotal, setSubtotal] = React.useState(0);
 
   const [rates, setRates] = React.useState([]);
   const [selectedRateId, setSelectedRateId] = React.useState();
 
   const [quotes, setQuotes] = React.useState([]);
   const [address, setAddress] = React.useState(defaultAddress);
-  const [isLoading, setIsLoading] = React.useState(false);
+  const [, /*isLoading*/ setIsLoading] = React.useState(false);
 
   const {
     register,
@@ -74,11 +67,11 @@ export const PrintQuote = () => {
   } = useForm({ resolver: yupResolver(schema) });
 
   React.useEffect(() => {
-    const total = quotes.reduce((acc, quote) => {
+    const subtotal = quotes.reduce((acc, quote) => {
       return acc + (quote?.priceTotal ?? 0);
     }, 0);
 
-    setTotal(total);
+    setSubtotal(subtotal);
   }, [quotes]);
 
   const postRequest = async (url, formData) => {
@@ -286,12 +279,28 @@ export const PrintQuote = () => {
     setQuotes(newQuotes);
   };
 
-  const ratesControlProps = (rateId) => ({
-    checked: selectedRateId === rateId,
+  const ratesControlProps = (object_id) => ({
+    checked: selectedRateId === object_id,
     onChange: (event) => setSelectedRateId(event.target.value),
-    value: rateId,
+    value: object_id,
     name: "shipping-rate-radio-button",
   });
+
+  const getRateAmount = () => {
+    const rate = rates.find((rate) => rate.object_id === selectedRateId);
+
+    if (rate) {
+      return `$${rate.amount?.toFixed(2)}`;
+    } else {
+      return "Calculated later";
+    }
+  };
+
+  const getTotal = () => {
+    const rate = rates.find((rate) => rate.object_id === selectedRateId);
+    const total = (rate?.amount ?? 0) + subtotal;
+    return total.toFixed(2);
+  };
 
   const Panel = (props) => {
     const { children, value, index, ...other } = props;
@@ -313,48 +322,34 @@ export const PrintQuote = () => {
     );
   };
 
-  const createSummaryLine = (label, value) => {
-    return (
-      <Box sx={{ mb: 0.5, display: "flex", color: "gray" }}>
-        <Typography variant="body2" component="div" sx={{ flex: "1" }}>
-          {label}
-        </Typography>
-
-        <Typography variant="body2" component="div" sx={{ margin: "auto" }}>
-          {value}
-        </Typography>
-      </Box>
-    );
-  };
-
   return (
-    <Container maxWidth="md" sx={{ py: 6 }}>
+    <Container maxWidth="lg" sx={{ py: 6 }}>
       {/* Step 1: Add design files */}
-      <Panel index={1} value={step}>
-        <Box sx={{ display: "flex", flexDirection: "column" }}>
-          <Typography
-            variant="h5"
-            component="div"
-            sx={{
-              fontSize: { xs: "1.4rem", md: "2.0rem" },
-              fontWeight: "bold",
-            }}
-          >
-            Upload Design Files to Get Started
-          </Typography>
+      <Box sx={{ display: "flex" }}>
+        <Box sx={{ p: 2, flex: 2 }}>
+          <Panel index={1} value={step}>
+            <Box sx={{ display: "flex", flexDirection: "column" }}>
+              <Typography
+                variant="h5"
+                component="div"
+                sx={{
+                  fontSize: { xs: "1.4rem", md: "2.0rem" },
+                  fontWeight: "bold",
+                }}
+              >
+                Upload Design Files to Get Started
+              </Typography>
 
-          <Typography
-            variant="body2"
-            component="div"
-            sx={{ mt: 1, mb: 2, color: "gray", fontStyle: "italic" }}
-          >
-            Please reachout to us if you have model files that is not currently
-            supported.
-          </Typography>
-        </Box>
+              <Typography
+                variant="body2"
+                component="div"
+                sx={{ mt: 1, mb: 2, color: "gray", fontStyle: "italic" }}
+              >
+                Please reachout to us if you have model files that is not
+                currently supported.
+              </Typography>
+            </Box>
 
-        <Grid container spacing={2}>
-          <Grid item md={8} xs={12}>
             <Box>
               <Box
                 sx={{
@@ -442,81 +437,32 @@ export const PrintQuote = () => {
                 </Box>
               ))}
             </Box>
-          </Grid>
 
-          <Grid item md={4} xs={12}>
-            <Box sx={{ p: 2 }}>
-              {quotes.map((quote, index) => (
-                <Box key={`quote_${index}`}>
-                  {createSummaryLine(
-                    quote.file.name,
-                    `$${quote?.priceTotal?.toFixed(2)}`
-                  )}
-                </Box>
-              ))}
-
-              <Divider sx={{ my: 2 }} />
-
-              {createSummaryLine("Subtotal", `$${total.toFixed(2)}`)}
-              {createSummaryLine("Shipping", "Calculated later")}
-              {createSummaryLine("Estimated Tax", "$1.52")}
-
-              <Divider sx={{ my: 2 }} />
-
-              <Box sx={{ mb: 0.5, display: "flex" }}>
-                <Typography
-                  variant="body1"
-                  component="div"
-                  sx={{ flex: "1", fontSize: "1.0rem" }}
-                >
-                  Total
-                </Typography>
-
-                <Typography
-                  variant="body2"
-                  component="div"
-                  sx={{ margin: "auto", fontSize: "1.5rem" }}
-                >
-                  ${total.toFixed(2)}
-                </Typography>
-              </Box>
-
-              <Box sx={{ mt: 1, display: "flex", justifyContent: "end" }}>
-                <Button
-                  variant="contained"
-                  onClick={() => setStep(2)}
-                  disabled={quotes?.length === 0}
-                  sx={{
-                    mt: 2,
-                    px: 5,
-                    py: 1.5,
-                    bgcolor: "icon.primary",
-                    textTransform: "none",
-                    textAlign: "center",
-                    // fontSize: "1.0rem",
-                    // fontWeight: "700",
-                  }}
-                >
-                  Continue To Checkout
-                </Button>
-              </Box>
+            <Box sx={{ mt: 1, display: "flex", justifyContent: "end" }}>
+              <Button
+                variant="contained"
+                onClick={() => setStep(2)}
+                disabled={quotes?.length === 0}
+                sx={{
+                  mt: 2,
+                  px: 5,
+                  py: 1.5,
+                  bgcolor: "icon.primary",
+                  textTransform: "none",
+                  textAlign: "center",
+                }}
+              >
+                Continue To Checkout
+              </Button>
             </Box>
-          </Grid>
-        </Grid>
-      </Panel>
+          </Panel>
 
-      {/* Step 2: Shipping */}
-      <Panel value={step} index={2}>
-        <Grid container spacing={2}>
-          <Grid item md={8} xs={12} sx={{ px: { xs: 0, md: 8 } }}>
+          {/* Step 2: Shipping */}
+          <Panel value={step} index={2}>
             <Typography
               variant="h5"
               component="div"
-              sx={{
-                mb: 2,
-                fontSize: "1.4rem",
-                // fontWeight: "bold",
-              }}
+              sx={{ mb: 2, fontSize: "1.4rem" }}
             >
               Shipping Information
             </Typography>
@@ -635,55 +581,17 @@ export const PrintQuote = () => {
                 </Button>
               </Box>
             </FormControl>
-          </Grid>
+          </Panel>
 
-          <Grid item md={4} xs={12}>
-            {quotes.map((quote, index) => (
-              <Box key={`quote_${index}`}>
-                {createSummaryLine(quote.file.name, `$${quote.priceTotal}`)}
-              </Box>
-            ))}
-
-            <Divider sx={{ my: 2 }} />
-
-            {createSummaryLine("Subtotal", `$${total.toFixed(2)}`)}
-            {createSummaryLine("Shipping", "Calculated later")}
-            {createSummaryLine("Estimated Tax", "$1.52")}
-
-            <Divider sx={{ my: 2 }} />
-
-            <Box sx={{ mb: 0.5, display: "flex" }}>
-              <Typography
-                variant="body1"
-                component="div"
-                sx={{ flex: "1", fontSize: "1.0rem" }}
-              >
-                Total
-              </Typography>
-
-              <Typography
-                variant="body2"
-                component="div"
-                sx={{ margin: "auto", fontSize: "1.5rem" }}
-              >
-                ${total.toFixed(2)}
-              </Typography>
-            </Box>
-          </Grid>
-        </Grid>
-      </Panel>
-
-      {/* Step 3: Summary and Checkout */}
-      <Panel value={step} index={3}>
-        <Grid container spacing={2}>
-          <Grid item md={8} xs={12} sx={{ px: { xs: 0, md: 8 } }}>
+          {/* Step 3: Summary and Checkout */}
+          <Panel value={step} index={3}>
             <Box
               sx={{
                 p: 2,
                 display: "flex",
                 alignItems: "center",
                 borderRadius: "5px",
-                border: "1px solid gray",
+                border: "1px solid lightgray",
               }}
             >
               <Typography
@@ -713,36 +621,30 @@ export const PrintQuote = () => {
               Shipping Method
             </Typography>
 
-            <Box>
-              <RadioGroup>
-                {rates.map((rate) => (
-                  <Box
-                    sx={{
-                      p: 0.5,
-                      my: 1,
-                      display: "flex",
-                      alignItems: "center",
-                      borderRadius: "5px",
-                      border: "1px solid gray",
-                    }}
-                  >
-                    <Radio {...ratesControlProps(rate.objectId)} />
+            {rates.map((rate) => (
+              <Box
+                onClick={() => setSelectedRateId(rate.object_id)}
+                sx={{
+                  p: 0.5,
+                  my: 1,
+                  display: "flex",
+                  alignItems: "center",
+                  borderRadius: "5px",
+                  border: "1px solid lightgray",
+                  cursor: "pointer",
+                }}
+              >
+                <Radio {...ratesControlProps(rate.object_id)} />
 
-                    <Typography
-                      variant="body2"
-                      component="div"
-                      sx={{ flex: 1 }}
-                    >
-                      {`${rate.provider} ${rate.serviceLevel}`}
-                    </Typography>
+                <Typography variant="body2" component="div" sx={{ flex: 1 }}>
+                  {`${rate.provider} ${rate.service_level}`}
+                </Typography>
 
-                    <Typography variant="body2" component="div" sx={{ pr: 2 }}>
-                      ${rate.rate}
-                    </Typography>
-                  </Box>
-                ))}
-              </RadioGroup>
-            </Box>
+                <Typography variant="body2" component="div" sx={{ pr: 2 }}>
+                  ${rate.amount.toFixed(2)}
+                </Typography>
+              </Box>
+            ))}
 
             <Box sx={{ display: "flex", justifyContent: "space-between" }}>
               <Button
@@ -773,43 +675,77 @@ export const PrintQuote = () => {
                 Proceed to Payment
               </Button>
             </Box>
-          </Grid>
+          </Panel>
+        </Box>
 
-          <Grid item md={4} xs={12}>
-            {quotes.map((quote, index) => (
-              <Box key={`quote_${index}`}>
-                {createSummaryLine(quote.file.name, `$${quote.priceTotal}`)}
+        {/* Price Summary */}
+        <Box sx={{ p: 2, flex: 1 }}>
+          {quotes.map((quote, index) =>
+            quote.priceTotal ? (
+              <Box
+                key={`quote_${index}`}
+                sx={{ mb: 0.5, display: "flex", color: "gray" }}
+              >
+                <Typography variant="body2" component="div" sx={{ flex: "1" }}>
+                  {quote.file.name}
+                </Typography>
+
+                <Typography
+                  variant="body2"
+                  component="div"
+                  sx={{ margin: "auto" }}
+                >
+                  ${quote?.priceTotal?.toFixed(2)}
+                </Typography>
               </Box>
-            ))}
+            ) : (
+              <></>
+            )
+          )}
 
-            <Divider sx={{ my: 2 }} />
+          <Divider sx={{ my: 2 }} />
 
-            {createSummaryLine("Subtotal", `$${total.toFixed(2)}`)}
-            {createSummaryLine("Shipping", "Calculated later")}
-            {createSummaryLine("Estimated Tax", "$1.52")}
+          <Box sx={{ mb: 0.5, display: "flex", color: "gray" }}>
+            <Typography variant="body2" component="div" sx={{ flex: "1" }}>
+              Subtotal
+            </Typography>
 
-            <Divider sx={{ my: 2 }} />
+            <Typography variant="body2" component="div" sx={{ margin: "auto" }}>
+              ${subtotal.toFixed(2)}
+            </Typography>
+          </Box>
 
-            <Box sx={{ mb: 0.5, display: "flex" }}>
-              <Typography
-                variant="body1"
-                component="div"
-                sx={{ flex: "1", fontSize: "1.0rem" }}
-              >
-                Total
-              </Typography>
+          <Box sx={{ mb: 0.5, display: "flex", color: "gray" }}>
+            <Typography variant="body2" component="div" sx={{ flex: "1" }}>
+              Shipping
+            </Typography>
 
-              <Typography
-                variant="body2"
-                component="div"
-                sx={{ margin: "auto", fontSize: "1.5rem" }}
-              >
-                ${total.toFixed(2)}
-              </Typography>
-            </Box>
-          </Grid>
-        </Grid>
-      </Panel>
+            <Typography variant="body2" component="div" sx={{ margin: "auto" }}>
+              {getRateAmount()}
+            </Typography>
+          </Box>
+
+          <Divider sx={{ my: 2 }} />
+
+          <Box sx={{ mb: 0.5, display: "flex" }}>
+            <Typography
+              variant="body1"
+              component="div"
+              sx={{ flex: "1", fontSize: "1.0rem" }}
+            >
+              Total
+            </Typography>
+
+            <Typography
+              variant="body2"
+              component="div"
+              sx={{ margin: "auto", fontSize: "1.5rem" }}
+            >
+              ${getTotal()}
+            </Typography>
+          </Box>
+        </Box>
+      </Box>
     </Container>
   );
 };
