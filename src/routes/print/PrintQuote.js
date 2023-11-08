@@ -33,8 +33,8 @@ const schema = yup
     firstname: yup.string().required("First name is required"),
     lastname: yup.string().required("Last name is required"),
     street: yup.string().required("Street is required"),
-    city: yup.string().required("City is required"),
-    state: yup
+    city_: yup.string().required("City is required"),
+    state_ppp: yup
       .string()
       .length(2, "State must be in short the form; MN")
       .required("State is required"),
@@ -47,30 +47,31 @@ const schema = yup
   .required();
 
 export const PrintQuote = () => {
-  const defaultAddress = {
-    company: "",
-    name: "",
-    street: "",
-    city: "",
-    state: "",
-    zipcode: "",
-  };
+  console.log("*** reloaded ***");
 
-  const [step, setStep] = React.useState(1);
+  const [step, setStep] = React.useState(2);
   const [subtotal, setSubtotal] = React.useState(0);
 
   const [rates, setRates] = React.useState([]);
+  const [sessionId, setSessionId] = React.useState(null);
   const [selectedRateId, setSelectedRateId] = React.useState();
 
   const [quotes, setQuotes] = React.useState([]);
-  const [address, setAddress] = React.useState(defaultAddress);
   const [isLoading, setIsLoading] = React.useState(false);
 
   const {
+    watch,
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) });
+
+  const firstname = watch("firstname");
+  const lastname = watch("lastname");
+  const street = watch("street");
+  const city = watch("city_");
+  const state = watch("state");
+  const zipcode = watch("zipcode");
 
   React.useEffect(() => {
     const subtotal = quotes.reduce((acc, quote) => {
@@ -141,89 +142,41 @@ export const PrintQuote = () => {
     state,
     zipcode,
   }) => {
-    const currentAddress = {
-      company,
-      firstname,
-      lastname,
-      street,
-      city,
-      state,
-      zipcode,
-    };
-
-    console.log("getting shipping", currentAddress);
-
     const formData = new FormData();
-    formData.append("company", currentAddress.company);
-    formData.append("firstname", currentAddress.firstname);
-    formData.append("lastname", currentAddress.lastname);
-    formData.append("street", currentAddress.street);
-    formData.append("city", currentAddress.city);
-    formData.append("state", currentAddress.state);
-    formData.append("zipcode", currentAddress.zipcode);
+    formData.append("company", company);
+    formData.append("firstname", firstname);
+    formData.append("lastname", lastname);
+    formData.append("street", street);
+    formData.append("city", city);
+    formData.append("state", state);
+    formData.append("zipcode", zipcode);
 
     for (const quote of quotes) {
       formData.append("quantity", quote.quantity);
       formData.append("material", quote.material);
       formData.append("color", quote.color);
       formData.append("file", quote.file);
-
-      formData.append(
-        "items",
-        JSON.stringify({
-          quantity: quote.quantity,
-          material: quote.material,
-          color: quote.color,
-          file: quote.file,
-        })
-      );
     }
 
-    const url = `${apiConfig.api.baseUrl}/v1/shipping/rate`;
+    const url = `${apiConfig.api.baseUrl}/v1/checkout/shipping/rate`;
 
     const result = await postRequest(url, formData);
 
-    setRates(result?.data ?? []);
-    setAddress(currentAddress);
+    const sessionId = result?.data?.session_id;
+    const rates = result?.data?.shipping_rates ?? [];
+
+    setSessionId(sessionId);
+    setRates(rates);
     setStep(3);
   };
 
-  const createSession = async ({
-    name,
-    company,
-    street,
-    city,
-    state,
-    zipcode,
-  }) => {
+  const createSession = async () => {
     setIsLoading(true);
 
     try {
       const formData = new FormData();
-
-      formData.append("company", company);
-      formData.append("name", name);
-      formData.append("street", street);
-      formData.append("city", city);
-      formData.append("state", state);
-      formData.append("zipcode", zipcode);
-
-      for (const quote of quotes) {
-        formData.append("quantity", quote.quantity);
-        formData.append("material", quote.material);
-        formData.append("color", quote.color);
-        formData.append("file", quote.file);
-
-        formData.append(
-          "items",
-          JSON.stringify({
-            quantity: quote.quantity,
-            material: quote.material,
-            color: quote.color,
-            file: quote.file,
-          })
-        );
-      }
+      formData.append("session_id", sessionId);
+      formData.append("selected_shipping_rate", selectedRateId);
 
       const url = `${apiConfig.api.baseUrl}/v1/checkout`;
       const response = await axios.post(url, formData);
@@ -563,14 +516,14 @@ export const PrintQuote = () => {
               />
 
               <TextField
-                id="city"
+                id="city_"
                 label="City *"
                 variant="outlined"
                 margin="dense"
                 size="small"
-                error={!!errors.city?.message}
+                error={!!errors.city_?.message}
                 helperText={errors.city?.message}
-                {...register("city")}
+                {...register("city_")}
               />
 
               <TextField
@@ -651,11 +604,11 @@ export const PrintQuote = () => {
 
               <Box sx={{ ml: 4, flex: 1 }}>
                 <Typography variant="body2" component="div" sx={{}}>
-                  {`${address.firstname} ${address.lastname}`}
+                  {`${firstname} ${lastname}`}
                 </Typography>
 
                 <Typography variant="body2" component="div" sx={{}}>
-                  {`${address.street}, ${address.state}, ${address.state}, ${address.zipcode}`}
+                  {`${street}, ${city}, ${state}, ${zipcode}`}
                 </Typography>
               </Box>
 
@@ -732,7 +685,7 @@ export const PrintQuote = () => {
 
               <Button
                 variant="contained"
-                onClick={() => createSession()}
+                onClick={handleSubmit(createSession)}
                 disabled={quotes?.length === 0}
                 sx={{
                   py: 1,

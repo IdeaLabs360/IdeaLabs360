@@ -292,6 +292,7 @@ export const PrintHome = () => {
           <Grid container spacing={2}>
             {reviews.map((review, index) => (
               <Grid
+                key={`review-${index}`}
                 item
                 xs={12}
                 md={4}
