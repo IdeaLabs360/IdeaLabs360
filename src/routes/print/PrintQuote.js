@@ -6,8 +6,12 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
 import {
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
   Box,
   Button,
+  CircularProgress,
   Container,
   Divider,
   FormControl,
@@ -17,15 +21,17 @@ import {
 } from "@mui/material";
 import LockIcon from "@mui/icons-material/Lock";
 import BackupIcon from "@mui/icons-material/Backup";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
 import apiConfig from "../../config/apiConfig";
 import { PrintQuoteFile } from "./PrintQuoteFile";
 
 const schema = yup
   .object({
-    firstName: yup.string().required("First name is required"),
-    lastName: yup.string().required("Last name is required"),
+    firstname: yup.string().required("First name is required"),
+    lastname: yup.string().required("Last name is required"),
     street: yup.string().required("Street is required"),
     city: yup.string().required("City is required"),
     state: yup
@@ -58,7 +64,7 @@ export const PrintQuote = () => {
 
   const [quotes, setQuotes] = React.useState([]);
   const [address, setAddress] = React.useState(defaultAddress);
-  const [, /*isLoading*/ setIsLoading] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(false);
 
   const {
     register,
@@ -128,8 +134,8 @@ export const PrintQuote = () => {
 
   const getShippingRates = async ({
     company,
-    firstName,
-    lastName,
+    firstname,
+    lastname,
     street,
     city,
     state,
@@ -137,8 +143,8 @@ export const PrintQuote = () => {
   }) => {
     const currentAddress = {
       company,
-      firstName,
-      lastName,
+      firstname,
+      lastname,
       street,
       city,
       state,
@@ -149,8 +155,8 @@ export const PrintQuote = () => {
 
     const formData = new FormData();
     formData.append("company", currentAddress.company);
-    formData.append("firstname", currentAddress.firstName);
-    formData.append("lastname", currentAddress.lastName);
+    formData.append("firstname", currentAddress.firstname);
+    formData.append("lastname", currentAddress.lastname);
     formData.append("street", currentAddress.street);
     formData.append("city", currentAddress.city);
     formData.append("state", currentAddress.state);
@@ -231,6 +237,8 @@ export const PrintQuote = () => {
   };
 
   const addQuote = async (file) => {
+    setIsLoading(true);
+
     if (file !== null && file.length === 1) {
       const estimate = await getEstimate(1, "PLA", file[0]);
 
@@ -250,6 +258,8 @@ export const PrintQuote = () => {
 
       setQuotes([...quotes, newQuote]);
     }
+
+    setIsLoading(false);
   };
 
   const updateQuote = async (id, updatedQuote) => {
@@ -279,6 +289,10 @@ export const PrintQuote = () => {
     setQuotes(newQuotes);
   };
 
+  const areQuotesValidForCheckout = () => {
+    return quotes?.filter((quote) => !quote.error)?.length > 0;
+  };
+
   const ratesControlProps = (object_id) => ({
     checked: selectedRateId === object_id,
     onChange: (event) => setSelectedRateId(event.target.value),
@@ -289,7 +303,7 @@ export const PrintQuote = () => {
   const getRateAmount = () => {
     const rate = rates.find((rate) => rate.object_id === selectedRateId);
 
-    if (rate) {
+    if (rate && step === 3) {
       return `$${rate.amount?.toFixed(2)}`;
     } else {
       return "Calculated later";
@@ -298,7 +312,13 @@ export const PrintQuote = () => {
 
   const getTotal = () => {
     const rate = rates.find((rate) => rate.object_id === selectedRateId);
-    const total = (rate?.amount ?? 0) + subtotal;
+
+    let total = subtotal;
+
+    if (step === 3 && rate) {
+      total += rate.amount;
+    }
+
     return total.toFixed(2);
   };
 
@@ -323,10 +343,16 @@ export const PrintQuote = () => {
   };
 
   return (
-    <Container maxWidth="lg" sx={{ py: 6 }}>
+    <Container maxWidth="lg" sx={{ py: 0 }}>
       {/* Step 1: Add design files */}
-      <Box sx={{ display: "flex" }}>
-        <Box sx={{ p: 2, flex: 2 }}>
+
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: { xs: "column-reverse", md: "row" },
+        }}
+      >
+        <Box sx={{ py: 6, px: { xs: 0, md: 2 }, flex: 2 }}>
           <Panel index={1} value={step}>
             <Box sx={{ display: "flex", flexDirection: "column" }}>
               <Typography
@@ -343,7 +369,12 @@ export const PrintQuote = () => {
               <Typography
                 variant="body2"
                 component="div"
-                sx={{ mt: 1, mb: 2, color: "gray", fontStyle: "italic" }}
+                sx={{
+                  mt: 1,
+                  mb: 2,
+                  color: "text.secondary",
+                  fontStyle: "italic",
+                }}
               >
                 Please reachout to us if you have model files that is not
                 currently supported.
@@ -383,6 +414,8 @@ export const PrintQuote = () => {
                   <Button
                     variant="contained"
                     component="label"
+                    startIcon={<BackupIcon sx={{ mr: 0.5 }} />}
+                    disabled={isLoading}
                     sx={{
                       py: 1.5,
                       px: 3,
@@ -392,8 +425,18 @@ export const PrintQuote = () => {
                       fontWeight: "700",
                     }}
                   >
-                    <BackupIcon sx={{ mr: 2 }} />
-                    Upload Design File(s)
+                    {isLoading ? (
+                      <>
+                        Uploading File
+                        <CircularProgress
+                          size={30}
+                          sx={{ ml: 2, color: "white" }}
+                        />
+                      </>
+                    ) : (
+                      "Upload Design File"
+                    )}
+
                     <input
                       type="file"
                       hidden
@@ -428,7 +471,7 @@ export const PrintQuote = () => {
               </Box>
 
               {quotes.map((quote, index) => (
-                <Box key={`quote_${index}`} sx={{ my: 2 }}>
+                <Box key={`quote_${index}`} sx={{ my: 0.5 }}>
                   <PrintQuoteFile
                     id={index}
                     quote={quote}
@@ -442,7 +485,7 @@ export const PrintQuote = () => {
               <Button
                 variant="contained"
                 onClick={() => setStep(2)}
-                disabled={quotes?.length === 0}
+                disabled={!areQuotesValidForCheckout()}
                 sx={{
                   mt: 2,
                   px: 5,
@@ -452,17 +495,18 @@ export const PrintQuote = () => {
                   textAlign: "center",
                 }}
               >
-                Continue To Checkout
+                Continue to checkout
               </Button>
             </Box>
           </Panel>
 
           {/* Step 2: Shipping */}
+
           <Panel value={step} index={2}>
             <Typography
               variant="h5"
               component="div"
-              sx={{ mb: 2, fontSize: "1.4rem" }}
+              sx={{ mb: 3, fontSize: "1.4rem" }}
             >
               Shipping Information
             </Typography>
@@ -483,27 +527,27 @@ export const PrintQuote = () => {
               <Box sx={{ display: "flex", justifyContent: "space-between" }}>
                 <TextField
                   fullWidth
-                  id="first-name"
+                  id="firstname"
                   label="First name *"
                   variant="outlined"
                   margin="dense"
                   size="small"
-                  error={!!errors.name?.message}
-                  helperText={errors.name?.message}
-                  {...register("firstName")}
+                  error={!!errors.firstname?.message}
+                  helperText={errors.firstname?.message}
+                  {...register("firstname")}
                   sx={{ mr: 2 }}
                 />
 
                 <TextField
                   fullWidth
-                  id="last-name"
+                  id="lastname"
                   label="Last name *"
                   variant="outlined"
                   margin="dense"
                   size="small"
-                  error={!!errors.name?.message}
-                  helperText={errors.name?.message}
-                  {...register("lastName")}
+                  error={!!errors.lastname?.message}
+                  helperText={errors.lastname?.message}
+                  {...register("lastname")}
                 />
               </Box>
 
@@ -551,44 +595,47 @@ export const PrintQuote = () => {
                 {...register("zipcode")}
               />
 
-              <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-                <Button
-                  variant="text"
+              <Box
+                sx={{ mt: 3, display: "flex", justifyContent: "space-between" }}
+              >
+                <Typography
+                  variant="body2"
+                  component="div"
                   onClick={() => setStep(1)}
-                  disabled={quotes?.length === 0}
                   sx={{
-                    mt: 2,
-                    py: 1,
                     color: "text.secondary",
-                    textTransform: "none",
+                    cursor: "pointer",
+                    display: "flex",
+                    alignItems: "center",
                   }}
                 >
                   <ArrowBackIosIcon sx={{ fontSize: "0.9rem" }} />
-                  Back to Quotes
-                </Button>
+                  Back to quotes
+                </Typography>
 
                 <Button
                   variant="contained"
                   onClick={handleSubmit(getShippingRates)}
                   disabled={quotes?.length === 0}
                   sx={{
-                    mt: 2,
                     py: 1,
                     textTransform: "none",
                   }}
                 >
-                  Proceed to Shipping
+                  Proceed to shipping
                 </Button>
               </Box>
             </FormControl>
           </Panel>
 
           {/* Step 3: Summary and Checkout */}
+
           <Panel value={step} index={3}>
             <Box
               sx={{
                 p: 2,
                 display: "flex",
+
                 alignItems: "center",
                 borderRadius: "5px",
                 border: "1px solid lightgray",
@@ -597,20 +644,29 @@ export const PrintQuote = () => {
               <Typography
                 variant="body2"
                 component="div"
-                sx={{ color: "gray" }}
+                sx={{ color: "text.secondary" }}
               >
                 Shipping to
               </Typography>
 
               <Box sx={{ ml: 4, flex: 1 }}>
                 <Typography variant="body2" component="div" sx={{}}>
-                  {`${address.firstName} ${address.lastName}`}
+                  {`${address.firstname} ${address.lastname}`}
                 </Typography>
 
                 <Typography variant="body2" component="div" sx={{}}>
                   {`${address.street}, ${address.state}, ${address.state}, ${address.zipcode}`}
                 </Typography>
               </Box>
+
+              <Typography
+                variant="body2"
+                component="div"
+                onClick={() => setStep(2)}
+                sx={{ color: "text.secondary", cursor: "pointer" }}
+              >
+                Edit
+              </Typography>
             </Box>
 
             <Typography
@@ -625,7 +681,7 @@ export const PrintQuote = () => {
               <Box
                 onClick={() => setSelectedRateId(rate.object_id)}
                 sx={{
-                  p: 0.5,
+                  p: 1,
                   my: 1,
                   display: "flex",
                   alignItems: "center",
@@ -636,9 +692,19 @@ export const PrintQuote = () => {
               >
                 <Radio {...ratesControlProps(rate.object_id)} />
 
-                <Typography variant="body2" component="div" sx={{ flex: 1 }}>
-                  {`${rate.provider} ${rate.service_level}`}
-                </Typography>
+                <Box sx={{ flex: 1 }}>
+                  <Typography variant="body2" component="div">
+                    {`${rate.provider} ${rate.service_level}`}
+                  </Typography>
+
+                  <Typography
+                    variant="caption"
+                    component="div"
+                    sx={{ color: "text.secondary" }}
+                  >
+                    {rate.delivery_estimate_min} business days
+                  </Typography>
+                </Box>
 
                 <Typography variant="body2" component="div" sx={{ pr: 2 }}>
                   ${rate.amount.toFixed(2)}
@@ -646,48 +712,109 @@ export const PrintQuote = () => {
               </Box>
             ))}
 
-            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-              <Button
-                variant="text"
-                onClick={() => setStep(1)}
-                disabled={quotes?.length === 0}
+            <Box
+              sx={{ mt: 3, display: "flex", justifyContent: "space-between" }}
+            >
+              <Typography
+                variant="body2"
+                component="div"
+                onClick={() => setStep(2)}
                 sx={{
-                  mt: 2,
-                  py: 1,
                   color: "text.secondary",
-                  textTransform: "none",
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
                 }}
               >
                 <ArrowBackIosIcon sx={{ fontSize: "0.9rem" }} />
                 Back to shipping information
-              </Button>
+              </Typography>
 
               <Button
                 variant="contained"
                 onClick={() => createSession()}
                 disabled={quotes?.length === 0}
                 sx={{
-                  mt: 2,
                   py: 1,
                   textTransform: "none",
                 }}
               >
-                Proceed to Payment
+                Proceed to payment
               </Button>
             </Box>
           </Panel>
         </Box>
 
         {/* Price Summary */}
-        <Box sx={{ p: 2, flex: 1 }}>
-          {quotes.map((quote, index) =>
-            quote.priceTotal ? (
-              <Box
-                key={`quote_${index}`}
-                sx={{ mb: 0.5, display: "flex", color: "gray" }}
+
+        <Box
+          sx={{
+            p: 2,
+            mt: { xs: 2, md: 0 },
+            flex: 1,
+            backgroundColor: "#fafafa",
+            borderLeft: { xs: "", md: "1px solid lightgray" },
+          }}
+        >
+          {/* xs */}
+          <Accordion
+            square
+            elevation={0}
+            disableGutters={true}
+            sx={{
+              display: { xs: "block", md: "none" },
+              backgroundColor: "#fafafa",
+            }}
+          >
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <ShoppingCartIcon sx={{ mr: 1 }} />
+
+              <Typography
+                variant="body1"
+                component="div"
+                sx={{ flex: 1, color: "text.secondary" }}
               >
+                Order summary
+              </Typography>
+
+              <Typography variant="body1" component="div" sx={{}}>
+                ${getTotal()}
+              </Typography>
+            </AccordionSummary>
+
+            <AccordionDetails sx={{}}>
+              {quotes.map((quote, index) =>
+                quote.priceTotal ? (
+                  <Box
+                    key={`quote_${index}`}
+                    sx={{ mb: 0.5, display: "flex", color: "text.secondary" }}
+                  >
+                    <Typography
+                      variant="body2"
+                      component="div"
+                      sx={{ flex: "1" }}
+                    >
+                      {quote.file.name}
+                    </Typography>
+
+                    <Typography
+                      variant="body2"
+                      component="div"
+                      sx={{ margin: "auto" }}
+                    >
+                      ${quote?.priceTotal?.toFixed(2)}
+                    </Typography>
+                  </Box>
+                ) : (
+                  <></>
+                )
+              )}
+
+              <Divider sx={{ my: 2 }} />
+
+              <Box sx={{ mb: 0.5, display: "flex", color: "text.secondary" }}>
                 <Typography variant="body2" component="div" sx={{ flex: "1" }}>
-                  {quote.file.name}
+                  Subtotal
                 </Typography>
 
                 <Typography
@@ -695,54 +822,116 @@ export const PrintQuote = () => {
                   component="div"
                   sx={{ margin: "auto" }}
                 >
-                  ${quote?.priceTotal?.toFixed(2)}
+                  ${subtotal.toFixed(2)}
                 </Typography>
               </Box>
-            ) : (
-              <></>
-            )
-          )}
 
-          <Divider sx={{ my: 2 }} />
+              <Box sx={{ mb: 0.5, display: "flex", color: "text.secondary" }}>
+                <Typography variant="body2" component="div" sx={{ flex: "1" }}>
+                  Shipping
+                </Typography>
 
-          <Box sx={{ mb: 0.5, display: "flex", color: "gray" }}>
-            <Typography variant="body2" component="div" sx={{ flex: "1" }}>
-              Subtotal
-            </Typography>
+                <Typography
+                  variant="body2"
+                  component="div"
+                  sx={{ margin: "auto" }}
+                >
+                  {getRateAmount()}
+                </Typography>
+              </Box>
 
-            <Typography variant="body2" component="div" sx={{ margin: "auto" }}>
-              ${subtotal.toFixed(2)}
-            </Typography>
-          </Box>
+              <Divider sx={{ my: 2 }} />
 
-          <Box sx={{ mb: 0.5, display: "flex", color: "gray" }}>
-            <Typography variant="body2" component="div" sx={{ flex: "1" }}>
-              Shipping
-            </Typography>
+              <Box sx={{ mb: 0.5, display: "flex" }}>
+                <Typography variant="body1" component="div" sx={{ flex: "1" }}>
+                  Total
+                </Typography>
 
-            <Typography variant="body2" component="div" sx={{ margin: "auto" }}>
-              {getRateAmount()}
-            </Typography>
-          </Box>
+                <Typography
+                  variant="body2"
+                  component="div"
+                  sx={{ margin: "auto", fontSize: "1.5rem" }}
+                >
+                  ${getTotal()}
+                </Typography>
+              </Box>
+            </AccordionDetails>
+          </Accordion>
 
-          <Divider sx={{ my: 2 }} />
+          {/* md */}
+          <Box sx={{ py: 6, display: { xs: "none", md: "block" } }}>
+            {quotes.map((quote, index) =>
+              quote.priceTotal ? (
+                <Box
+                  key={`quote_${index}`}
+                  sx={{ mb: 0.5, display: "flex", color: "text.secondary" }}
+                >
+                  <Typography
+                    variant="body2"
+                    component="div"
+                    sx={{ flex: "1" }}
+                  >
+                    {quote.file.name}
+                  </Typography>
 
-          <Box sx={{ mb: 0.5, display: "flex" }}>
-            <Typography
-              variant="body1"
-              component="div"
-              sx={{ flex: "1", fontSize: "1.0rem" }}
-            >
-              Total
-            </Typography>
+                  <Typography
+                    variant="body2"
+                    component="div"
+                    sx={{ margin: "auto" }}
+                  >
+                    ${quote?.priceTotal?.toFixed(2)}
+                  </Typography>
+                </Box>
+              ) : (
+                <></>
+              )
+            )}
 
-            <Typography
-              variant="body2"
-              component="div"
-              sx={{ margin: "auto", fontSize: "1.5rem" }}
-            >
-              ${getTotal()}
-            </Typography>
+            <Divider sx={{ my: 2 }} />
+
+            <Box sx={{ mb: 0.5, display: "flex", color: "text.secondary" }}>
+              <Typography variant="body2" component="div" sx={{ flex: "1" }}>
+                Subtotal
+              </Typography>
+
+              <Typography
+                variant="body2"
+                component="div"
+                sx={{ margin: "auto" }}
+              >
+                ${subtotal.toFixed(2)}
+              </Typography>
+            </Box>
+
+            <Box sx={{ mb: 0.5, display: "flex", color: "text.secondary" }}>
+              <Typography variant="body2" component="div" sx={{ flex: "1" }}>
+                Shipping
+              </Typography>
+
+              <Typography
+                variant="body2"
+                component="div"
+                sx={{ margin: "auto" }}
+              >
+                {getRateAmount()}
+              </Typography>
+            </Box>
+
+            <Divider sx={{ my: 2 }} />
+
+            <Box sx={{ mb: 0.5, display: "flex" }}>
+              <Typography variant="body1" component="div" sx={{ flex: "1" }}>
+                Total
+              </Typography>
+
+              <Typography
+                variant="body2"
+                component="div"
+                sx={{ margin: "auto", fontSize: "1.5rem" }}
+              >
+                ${getTotal()}
+              </Typography>
+            </Box>
           </Box>
         </Box>
       </Box>

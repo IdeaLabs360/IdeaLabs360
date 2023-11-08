@@ -1,6 +1,5 @@
 import * as React from "react";
 import { useForm } from "react-hook-form";
-import axios from "axios";
 import {
   Accordion,
   AccordionDetails,
@@ -10,13 +9,10 @@ import {
   FormControlLabel,
   Grid,
   IconButton,
-  MenuItem,
   Paper,
   Radio,
   RadioGroup,
-  TextField,
   Typography,
-  LinearProgress,
 } from "@mui/material";
 import Divider from "@mui/material/Divider";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -24,7 +20,6 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
-import apiConfig from "../../config/apiConfig";
 import {
   COLORS,
   MATERIALS,
@@ -35,13 +30,7 @@ import { ModelViewer } from "../../common/model/ModelViewer";
 
 export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
   const [unit, setUnit] = React.useState(quote?.unit ?? "mm");
-  const [width] = React.useState(0.0);
-  const [length] = React.useState(0.0);
-  const [height] = React.useState(0.0);
   const [isLargePart, setIsLargePart] = React.useState(false);
-
-  const [isLoading, setIsLoading] = React.useState(false);
-  const [errorMessage] = React.useState(null);
 
   const {
     watch,
@@ -65,23 +54,21 @@ export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
 
   React.useEffect(() => {
     const isLargeInIn =
-      width > MAX_PRINTER_SIZE_IN ||
-      height > MAX_PRINTER_SIZE_IN ||
-      length > MAX_PRINTER_SIZE_IN;
+      quote.width > MAX_PRINTER_SIZE_IN ||
+      quote.height > MAX_PRINTER_SIZE_IN ||
+      quote.length > MAX_PRINTER_SIZE_IN;
 
     const isLargeInMM =
-      width > MAX_PRINTER_SIZE_MM ||
-      height > MAX_PRINTER_SIZE_MM ||
-      length > MAX_PRINTER_SIZE_MM;
+      quote.width > MAX_PRINTER_SIZE_MM ||
+      quote.height > MAX_PRINTER_SIZE_MM ||
+      quote.length > MAX_PRINTER_SIZE_MM;
 
     setIsLargePart(
       (unit === "mm" && isLargeInMM) || (unit === "in" && isLargeInIn)
     );
-  }, [unit, height, length, width]);
+  }, [unit, quote]);
 
   const save = ({ quantity, material, color }) => {
-    setIsLoading(true);
-
     reset({ quantity, material, color });
 
     const updatedQuote = {
@@ -92,8 +79,6 @@ export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
     };
 
     updateQuote(id, updatedQuote);
-
-    setIsLoading(false);
   };
 
   const remove = () => {
@@ -105,121 +90,9 @@ export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
     setValue("quantity", curValue + value, { shouldDirty: true });
   };
 
-  const createUnknownErrorMessage = () => {
-    return (
-      <>
-        <Typography variant="h6" component="div" sx={{ color: "red" }}>
-          Something went wrong
-        </Typography>
-
-        <Typography variant="body" component="div" sx={{ my: 1.5 }}>
-          We couldn't get an estimate for this model. Please try again.
-        </Typography>
-
-        <Typography variant="body" component="div">
-          If the issue persists, please reachout to us.
-        </Typography>
-      </>
-    );
-  };
-
-  const displayPrice = () => {
-    if (isLoading) {
-      return (
-        <Box
-          sx={{
-            p: 1,
-            display: "flex",
-            alignItems: "center",
-            width: "100%",
-            border: "1px solid gray",
-            borderRadius: "5px",
-          }}
-        >
-          <Typography variant="body1" component="div" sx={{ mr: 1, flex: 1 }}>
-            Getting Estimates
-          </Typography>
-
-          <Box sx={{ flex: 1, width: "100%" }}>
-            <LinearProgress />
-          </Box>
-        </Box>
-      );
-    } else if (errorMessage) {
-      return (
-        <Box
-          sx={{
-            p: 1,
-            display: "flex",
-            flexDirection: "column",
-            width: "100%",
-            border: "1px solid red",
-            borderRadius: "5px",
-          }}
-        >
-          {errorMessage}
-        </Box>
-      );
-    } else if (isLargePart) {
-      return (
-        <Box
-          sx={{
-            p: 1,
-            display: "flex",
-            flexDirection: "column",
-            border: "1px solid gray",
-            borderRadius: "5px",
-          }}
-        >
-          <Typography variant="body" component="div" sx={{ mr: 1 }}>
-            Part is too large. Please reachout to us for a quote.
-          </Typography>
-        </Box>
-      );
-    } else {
-      return (
-        <Box
-          sx={{
-            p: 1,
-            display: "flex",
-            justifyContent: "end",
-            alignItems: "center",
-            width: "100%",
-            border: "1px solid green",
-            borderRadius: "5px",
-          }}
-        >
-          <Typography
-            variant="body"
-            component="div"
-            sx={{ mr: 1, color: "gray", fontSize: "1.1rem" }}
-          >
-            ${quote?.priceEach?.toFixed(2)} each
-          </Typography>
-
-          <Typography
-            variant="body"
-            component="div"
-            sx={{ mr: 1, color: "gray", fontSize: "1.2rem" }}
-          >
-            x {quantity}
-          </Typography>
-
-          <Typography
-            variant="body"
-            component="div"
-            sx={{ fontSize: "1.5rem", fontWeight: "600" }}
-          >
-            = ${quote?.priceTotal?.toFixed(2)}
-          </Typography>
-        </Box>
-      );
-    }
-  };
-
   return (
     <>
-      <Paper elevation={0} sx={{ px: 3, py: 2, border: "1px solid lightgray" }}>
+      <Paper elevation={0} sx={{ p: 1, border: "1px solid lightgray" }}>
         {/* Title */}
         <Box sx={{ mb: 1, display: "flex" }}>
           <Typography component="div" variant="h6" sx={{ flexGrow: 1 }}>
@@ -247,24 +120,16 @@ export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
             <Grid
               item
               xs={12}
-              md={3}
-              sx={{
-                display: "flex",
-                alignItems: "start",
-              }}
+              sm={3}
+              sx={{ display: "flex", alignItems: "start" }}
             >
               <ModelViewer file={quote.file} color={color} />
             </Grid>
 
-            <Grid item xs={12} md={9}>
+            <Grid item xs={12} sm={9}>
               <Grid container spacing={2}>
                 <Grid item xs={12}>
-                  <Box
-                    sx={{
-                      pl: { xs: 0, md: 0 },
-                      // borderLeft: { xs: "", md: "5px solid gray" },
-                    }}
-                  >
+                  <Box sx={{ pl: { xs: 0, md: 0 } }}>
                     <Box
                       sx={{
                         mb: 1,
@@ -353,72 +218,82 @@ export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
                       </Box>
                     </Box>
 
-                    <Accordion elevation={1} disableGutters={true} square>
+                    <Accordion
+                      square
+                      elevation={0}
+                      disableGutters={true}
+                      sx={{
+                        border: "1px solid #e1e1e1",
+                        backgroundColor: "#fafafa",
+                      }}
+                    >
                       <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                        <Box>
-                          <Typography
-                            variant="body"
-                            component="div"
-                            sx={{ mr: 1, fontWeight: "bold" }}
-                          >
-                            Tech
-                          </Typography>
+                        <Box sx={{ display: "flex" }}>
+                          <Box>
+                            <Typography
+                              variant="body"
+                              component="div"
+                              sx={{ mr: 1, fontWeight: "bold" }}
+                            >
+                              Tech
+                            </Typography>
 
-                          <Typography
-                            variant="body"
-                            component="div"
-                            sx={{
-                              mr: 1,
-                              fontSize: "0.8rem",
-                              fontWeight: "600",
-                            }}
-                          >
-                            FDM 3D Printing
-                          </Typography>
-                        </Box>
+                            <Typography
+                              variant="body"
+                              component="div"
+                              sx={{
+                                mr: 1,
+                                fontSize: "0.8rem",
+                                fontWeight: "600",
+                              }}
+                            >
+                              FDM 3D Printing
+                            </Typography>
+                          </Box>
 
-                        <Box>
-                          <Typography
-                            variant="body"
-                            component="div"
-                            sx={{ mr: 1, fontWeight: "bold" }}
-                          >
-                            Material
-                          </Typography>
+                          <Box>
+                            <Typography
+                              variant="body"
+                              component="div"
+                              sx={{ mr: 1, fontWeight: "bold" }}
+                            >
+                              Material
+                            </Typography>
 
-                          <Typography
-                            variant="body"
-                            component="div"
-                            sx={{
-                              mr: 1,
-                              fontSize: "0.8rem",
-                              fontWeight: "600",
-                            }}
-                          >
-                            {material}
-                          </Typography>
-                        </Box>
+                            <Typography
+                              variant="body"
+                              component="div"
+                              sx={{
+                                mr: 1,
+                                fontSize: "0.8rem",
+                                fontWeight: "600",
+                              }}
+                            >
+                              {material}
+                            </Typography>
+                          </Box>
 
-                        <Box>
-                          <Typography
-                            variant="body"
-                            component="div"
-                            sx={{ mr: 1, fontWeight: "bold" }}
-                          >
-                            Color
-                          </Typography>
+                          <Box>
+                            <Typography
+                              variant="body"
+                              component="div"
+                              sx={{ mr: 1, fontWeight: "bold" }}
+                            >
+                              Color
+                            </Typography>
 
-                          <Typography
-                            variant="body"
-                            component="div"
-                            sx={{
-                              mr: 1,
-                              fontSize: "0.8rem",
-                              fontWeight: "600",
-                            }}
-                          >
-                            {color}
-                          </Typography>
+                            <Typography
+                              variant="body"
+                              component="div"
+                              sx={{
+                                mr: 1,
+                                fontSize: "0.8rem",
+                                fontWeight: "600",
+                              }}
+                            >
+                              {color}
+                            </Typography>
+                          </Box>
                         </Box>
 
                         {!quote?.error && (
@@ -428,6 +303,7 @@ export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
                               display: "flex",
                               flexDirection: "column",
                               alignItems: "end",
+                              minWidth: 80,
                             }}
                           >
                             <Typography
@@ -451,8 +327,6 @@ export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
                             </Typography>
                           </Box>
                         )}
-
-                        {/* </Box> */}
                       </AccordionSummary>
 
                       <AccordionDetails sx={{}}>
@@ -516,6 +390,24 @@ export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
                         }}
                       >
                         {quote?.error}
+                      </Box>
+                    )}
+
+                    {isLargePart && (
+                      <Box
+                        sx={{
+                          p: 1,
+                          display: "flex",
+                          justifyContent: "end",
+                        }}
+                      >
+                        <Typography
+                          variant="body"
+                          component="div"
+                          sx={{ mr: 1 }}
+                        >
+                          Part is too large. Please reachout to us for a quote.
+                        </Typography>
                       </Box>
                     )}
 
