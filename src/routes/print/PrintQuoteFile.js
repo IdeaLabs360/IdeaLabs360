@@ -381,16 +381,14 @@ export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
                     </Accordion>
 
                     {quote?.error && (
-                      <Box
-                        sx={{
-                          p: 1,
-                          color: "red",
-                          display: "flex",
-                          justifyContent: "end",
-                        }}
+                      <Typography
+                        variant="body"
+                        component="div"
+                        color="red"
+                        sx={{ mt: 1, fontSize: "0.75rem" }}
                       >
                         {quote?.error}
-                      </Box>
+                      </Typography>
                     )}
 
                     {isLargePart && (
@@ -420,12 +418,7 @@ export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
                           onClick={() => {
                             reset();
                           }}
-                          sx={{
-                            p: 0,
-                            mr: 0.5,
-                            color: "secondary",
-                            textTransform: "none",
-                          }}
+                          sx={{ mr: 1, textTransform: "none" }}
                         >
                           Cancel
                         </Button>
@@ -434,11 +427,7 @@ export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
                           autoFocus
                           variant="contained"
                           onClick={handleSubmit(save)}
-                          sx={{
-                            p: 0,
-                            color: "secondary",
-                            textTransform: "none",
-                          }}
+                          sx={{ textTransform: "none" }}
                         >
                           Save
                         </Button>
@@ -446,14 +435,6 @@ export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
                     )}
                   </Box>
                 </Grid>
-
-                {/* <Grid
-                  item
-                  xs={12}
-                  sx={{ display: "flex", alignItems: "start" }}
-                >
-                  {displayPrice()}
-                </Grid> */}
               </Grid>
             </Grid>
           </Grid>

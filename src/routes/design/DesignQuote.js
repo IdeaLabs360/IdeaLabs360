@@ -29,7 +29,7 @@ const schema = yup
   .object({
     name: yup.string().required("Name is required"),
     phone: yup.string().required("Phone number is required"),
-    email: yup
+    state: yup
       .string()
       .required("Email is required")
       .email("Email must be in this format; email@email.com"),
@@ -131,13 +131,13 @@ export const DesignQuote = () => {
               />
 
               <TextField
-                id="email"
+                id="state"
                 label="Email *"
                 variant="outlined"
                 margin="normal"
-                error={!!errors.email?.message}
-                helperText={errors.email?.message}
-                {...register("email")}
+                error={!!errors.state?.message}
+                helperText={errors.state?.message}
+                {...register("state")}
               />
 
               <Button variant="contained" component="label" sx={{ mt: 1 }}>
