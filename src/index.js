@@ -32,7 +32,8 @@ const theme = createTheme({
       },
       styleOverrides: {
         root: {
-          textTransform: "none",
+          fontWeight: "600",
+          bgcolor: "icon.primary",
         },
       },
     },
