@@ -181,7 +181,9 @@ export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
                           component="div"
                           sx={{ fontSize: "0.8rem" }}
                         >
-                          {`${quote?.width}${unit} x ${quote?.length}${unit} x ${quote?.height}${unit}`}
+                          {`${quote?.width ?? -1}${unit} x ${
+                            quote?.length ?? -1
+                          }${unit} x ${quote?.height ?? -1}${unit}`}
                         </Typography>
 
                         <RadioGroup

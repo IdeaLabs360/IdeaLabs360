@@ -53,7 +53,7 @@ export const PrintQuote = () => {
   const [rates, setRates] = React.useState([]);
   const [address, setAddress] = React.useState({});
   const [sessionId, setSessionId] = React.useState(null);
-  const [selectedRateId, setSelectedRateId] = React.useState();
+  const [selectedRateId, setSelectedRateId] = React.useState(null);
 
   const [error, setError] = React.useState(null);
   const [quotes, setQuotes] = React.useState([]);
@@ -141,6 +141,7 @@ export const PrintQuote = () => {
     });
     setStep(3);
     setRates([]);
+    setSelectedRateId(null);
 
     const formData = new FormData();
     formData.append("company", company);
@@ -598,7 +599,8 @@ export const PrintQuote = () => {
             forward={{
               label: "Proceed to payment",
               action: () => createSession(),
-              disabled: () => !!address && rates?.length === 0,
+              disabled: () =>
+                !selectedRateId || !address || rates?.length === 0,
             }}
           >
             {address && (
