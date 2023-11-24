@@ -27,6 +27,7 @@ import {
   MAX_PRINTER_SIZE_MM,
 } from "../../constants/constants";
 import { ModelViewer } from "../../common/model/ModelViewer";
+import { ContactUsForm } from "../../common/ContactUsForm";
 
 export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
   const [unit, setUnit] = React.useState(quote?.unit ?? "mm");
@@ -382,7 +383,17 @@ export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
                       </AccordionDetails>
                     </Accordion>
 
-                    {quote?.error && (
+                    {quote?.error && true ? (
+                      <ContactUsForm
+                        title={`It seems like you have uploaded an image. 
+                                An image is not a supported file type for
+                                3D printing. But we can help turn your design
+                                to 3D printable model. Please call, email, or fill
+                                out the form below and one of our engineers will
+                                contact you promptly.`}
+                        detail="details"
+                      />
+                    ) : (
                       <Typography
                         variant="body"
                         component="div"
