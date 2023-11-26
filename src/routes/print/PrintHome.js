@@ -33,7 +33,7 @@ import { IMAGES } from "../../constants/constants";
 
 const createHeroText = (text) => {
   return (
-    <>
+    <Box sx={{ maxWidth: 400 }}>
       <Typography
         component="div"
         variant="body"
@@ -45,7 +45,7 @@ const createHeroText = (text) => {
       >
         {text}
       </Typography>
-    </>
+    </Box>
   );
 };
 
@@ -160,10 +160,14 @@ export const PrintHome = () => {
                   justifyContent: "center",
                 }}
               >
-                <Box>{createHeroText("3D Print Your Designs")}</Box>
+                <Box>
+                  {createHeroText(
+                    "3D Print Your Designs 3D Print Your Designs 3D Print Your Designs 3D Print Your Designs"
+                  )}
+                </Box>
 
                 <Box sx={{ my: 4 }}>
-                  {createDescriptionText("Rapid Prototyping and On-demand")}
+                  {createDescriptionText("3D Printing and Rapid Prototyping")}
                   {createDescriptionText("Manufacturing")}
                 </Box>
 
@@ -227,7 +231,7 @@ export const PrintHome = () => {
                 <CardMedia
                   component="img"
                   image={"/img/main.png"}
-                  sx={{ width: "100%", height: "100%", objectFit: "cover" }}
+                  sx={{ width: "100%", height: "100%", objectFit: "contain" }}
                 />
               </Box>
             </Grid>
@@ -611,29 +615,17 @@ export const PrintHome = () => {
                     <Button
                       variant="contained"
                       component="label"
+                      onClick={() => navigate("/print/quote")}
                       sx={{
-                        py: 1,
-                        px: 2,
+                        py: 2,
+                        px: 4,
                         bgcolor: "icon.primary",
                         textAlign: "center",
-                        fontSize: "0.9rem",
-                        fontWeight: "700",
-                        textTransform: "none",
+                        fontSize: { xs: "0.9rem", md: "1.0rem" },
+                        letterSpacing: "0.1em",
                       }}
                     >
-                      <BackupIcon sx={{ mr: 2 }} />
-                      Get Your Instant Quote
-                      <input
-                        type="file"
-                        multiple
-                        hidden
-                        onClick={(e) => (e.target.value = null)}
-                        onChange={(e) => {
-                          navigate("/print/quote", {
-                            state: { uploadedFiles: [...e.target.files] },
-                          });
-                        }}
-                      />
+                      Get Started
                     </Button>
                   </Box>
                 </Box>
