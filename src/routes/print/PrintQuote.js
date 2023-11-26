@@ -119,10 +119,12 @@ export const PrintQuote = () => {
     formData.append("zipcode", zipcode);
 
     for (const quote of quotes) {
-      formData.append("quantity", quote.quantity);
-      formData.append("material", quote.material);
-      formData.append("color", quote.color);
-      formData.append("file", quote.file);
+      if (!quote.error) {
+        formData.append("quantity", quote.quantity);
+        formData.append("material", quote.material);
+        formData.append("color", quote.color);
+        formData.append("file", quote.file);
+      }
     }
 
     const url = `${apiConfig.api.baseUrl}/v1/checkout/shipping/rate`;
