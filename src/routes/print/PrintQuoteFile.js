@@ -27,6 +27,7 @@ import {
   MAX_PRINTER_SIZE_MM,
 } from "../../constants/constants";
 import { ModelViewer } from "../../common/model/ModelViewer";
+import { ContactUsForm } from "../../common/ContactUsForm";
 
 export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
   const [unit, setUnit] = React.useState(quote?.unit ?? "mm");
@@ -116,144 +117,250 @@ export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
 
         {/* Configured Details */}
         <Box sx={{ mt: 2, mb: 1, fontSize: "0.9rem" }}>
-          <Grid container spacing={2}>
-            <Grid
-              item
-              xs={12}
-              sm={3}
-              sx={{ display: "flex", alignItems: "start" }}
-            >
-              <ModelViewer file={quote.file} color={color} />
-            </Grid>
+          {quote?.error ? (
+            <ContactUsForm
+              title={
+                <Box>
+                  <Typography variant="body1" component="div">
+                    Something went wrong while trying to process your request.
+                  </Typography>
 
-            <Grid item xs={12} sm={9}>
-              <Grid container spacing={2}>
-                <Grid item xs={12}>
-                  <Box sx={{ pl: { xs: 0, md: 0 } }}>
-                    <Box
-                      sx={{
-                        mb: 1,
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "end",
-                      }}
-                    >
-                      <Typography
-                        variant="body1"
-                        component="div"
-                        sx={{ mr: 1, fontWeight: "bold" }}
+                  <Typography variant="body1" container="div" sx={{ mt: 1 }}>
+                    Please call, email, or fill the form below and one of our
+                    engineers will contact you promptly to solve the issue.
+                  </Typography>
+                </Box>
+              }
+              detail={
+                "Hi IdeaLabs360 engineers, " +
+                "There was an issue processing my design file. " +
+                "I need help resolving this issue. " +
+                `File: ${quote?.file?.name}. ` +
+                "Thank you."
+              }
+            />
+          ) : (
+            <Grid container spacing={2}>
+              <Grid
+                item
+                xs={12}
+                sm={3}
+                sx={{ display: "flex", alignItems: "start" }}
+              >
+                <ModelViewer file={quote.file} color={color} />
+              </Grid>
+
+              <Grid item xs={12} sm={9}>
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <Box sx={{ pl: { xs: 0, md: 0 } }}>
+                      <Box
+                        sx={{
+                          mb: 1,
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "end",
+                        }}
                       >
-                        Quantity
-                      </Typography>
-
-                      <Box sx={{ display: "flex", alignItems: "center" }}>
-                        <IconButton
-                          color="primary"
-                          disabled={quantity <= 1}
-                          onClick={() => handleQuantityChange(-1)}
+                        <Typography
+                          variant="body1"
+                          component="div"
+                          sx={{ mr: 1, fontWeight: "bold" }}
                         >
-                          <RemoveIcon />
-                        </IconButton>
+                          Quantity
+                        </Typography>
 
-                        <Typography variant="h6">{quantity}</Typography>
+                        <Box sx={{ display: "flex", alignItems: "center" }}>
+                          <IconButton
+                            color="primary"
+                            disabled={quantity <= 1}
+                            onClick={() => handleQuantityChange(-1)}
+                          >
+                            <RemoveIcon />
+                          </IconButton>
 
-                        <IconButton
-                          color="primary"
-                          onClick={() => handleQuantityChange(1)}
-                        >
-                          <AddIcon />
-                        </IconButton>
+                          <Typography variant="h6">{quantity}</Typography>
+
+                          <IconButton
+                            color="primary"
+                            onClick={() => handleQuantityChange(1)}
+                          >
+                            <AddIcon />
+                          </IconButton>
+                        </Box>
                       </Box>
-                    </Box>
 
-                    <Box sx={{ mb: 1, display: "flex" }}>
-                      <Typography
-                        variant="body"
-                        component="div"
-                        sx={{ mr: 1, fontWeight: "bold" }}
-                      >
-                        Dimension
-                      </Typography>
-
-                      <Box>
+                      <Box sx={{ mb: 1, display: "flex" }}>
                         <Typography
                           variant="body"
                           component="div"
-                          sx={{ fontSize: "0.8rem" }}
+                          sx={{ mr: 1, fontWeight: "bold" }}
                         >
-                          {`${quote?.width ?? -1}${unit} x ${
-                            quote?.length ?? -1
-                          }${unit} x ${quote?.height ?? -1}${unit}`}
+                          Dimension
                         </Typography>
 
-                        <RadioGroup
-                          row
-                          value={unit}
-                          onChange={(e) => setUnit(e.target.value)}
-                        >
-                          <FormControlLabel
-                            value="mm"
-                            control={<Radio size="small" />}
-                            label={
-                              <Box
-                                component="label"
-                                sx={{ fontSize: "0.8rem" }}
-                              >
-                                mm
-                              </Box>
-                            }
-                          />
+                        <Box>
+                          <Typography
+                            variant="body"
+                            component="div"
+                            sx={{ fontSize: "0.8rem" }}
+                          >
+                            {`${quote?.width ?? -1}${unit} x ${
+                              quote?.length ?? -1
+                            }${unit} x ${quote?.height ?? -1}${unit}`}
+                          </Typography>
 
-                          <FormControlLabel
-                            value="in"
-                            control={<Radio size="small" />}
-                            label={
-                              <Box
-                                component="label"
-                                sx={{ fontSize: "0.8rem" }}
-                              >
-                                in
-                              </Box>
-                            }
-                          />
-                        </RadioGroup>
+                          <RadioGroup
+                            row
+                            value={unit}
+                            onChange={(e) => setUnit(e.target.value)}
+                          >
+                            <FormControlLabel
+                              value="mm"
+                              control={<Radio size="small" />}
+                              label={
+                                <Box
+                                  component="label"
+                                  sx={{ fontSize: "0.8rem" }}
+                                >
+                                  mm
+                                </Box>
+                              }
+                            />
+
+                            <FormControlLabel
+                              value="in"
+                              control={<Radio size="small" />}
+                              label={
+                                <Box
+                                  component="label"
+                                  sx={{ fontSize: "0.8rem" }}
+                                >
+                                  in
+                                </Box>
+                              }
+                            />
+                          </RadioGroup>
+                        </Box>
                       </Box>
-                    </Box>
 
-                    <Accordion
-                      square
-                      elevation={0}
-                      disableGutters={true}
-                      sx={{
-                        border: "1px solid #e1e1e1",
-                        backgroundColor: "#fafafa",
-                      }}
-                    >
-                      <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                        <Box sx={{ display: "flex" }}>
-                          <Box>
-                            <Typography
-                              variant="body"
-                              component="div"
-                              sx={{ mr: 1, fontWeight: "bold" }}
-                            >
-                              Tech
-                            </Typography>
+                      <Accordion
+                        square
+                        elevation={0}
+                        disableGutters={true}
+                        sx={{
+                          border: "1px solid #e1e1e1",
+                          backgroundColor: "#fafafa",
+                        }}
+                      >
+                        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                          <Box sx={{ display: "flex" }}>
+                            <Box>
+                              <Typography
+                                variant="body"
+                                component="div"
+                                sx={{ mr: 1, fontWeight: "bold" }}
+                              >
+                                Tech
+                              </Typography>
 
-                            <Typography
-                              variant="body"
-                              component="div"
-                              sx={{
-                                mr: 1,
-                                fontSize: "0.8rem",
-                                fontWeight: "600",
-                              }}
-                            >
-                              FDM 3D Printing
-                            </Typography>
+                              <Typography
+                                variant="body"
+                                component="div"
+                                sx={{
+                                  mr: 1,
+                                  fontSize: "0.8rem",
+                                  fontWeight: "600",
+                                }}
+                              >
+                                FDM 3D Printing
+                              </Typography>
+                            </Box>
+
+                            <Box>
+                              <Typography
+                                variant="body"
+                                component="div"
+                                sx={{ mr: 1, fontWeight: "bold" }}
+                              >
+                                Material
+                              </Typography>
+
+                              <Typography
+                                variant="body"
+                                component="div"
+                                sx={{
+                                  mr: 1,
+                                  fontSize: "0.8rem",
+                                  fontWeight: "600",
+                                }}
+                              >
+                                {material}
+                              </Typography>
+                            </Box>
+
+                            <Box>
+                              <Typography
+                                variant="body"
+                                component="div"
+                                sx={{ mr: 1, fontWeight: "bold" }}
+                              >
+                                Color
+                              </Typography>
+
+                              <Typography
+                                variant="body"
+                                component="div"
+                                sx={{
+                                  mr: 1,
+                                  fontSize: "0.8rem",
+                                  fontWeight: "600",
+                                }}
+                              >
+                                {color}
+                              </Typography>
+                            </Box>
                           </Box>
 
-                          <Box>
+                          {!quote?.error && (
+                            <Box
+                              sx={{
+                                flex: 1,
+                                display: "flex",
+                                flexDirection: "column",
+                                alignItems: "end",
+                                minWidth: 80,
+                              }}
+                            >
+                              <Typography
+                                variant="body"
+                                component="div"
+                                sx={{
+                                  mr: 1,
+                                  fontSize: "0.8rem",
+                                  fontWeight: "600",
+                                }}
+                              >
+                                ${quote?.priceEach?.toFixed(2)} ea
+                              </Typography>
+
+                              <Typography
+                                variant="body"
+                                component="div"
+                                sx={{
+                                  mr: 1,
+                                  color: "green",
+                                  fontWeight: "bold",
+                                }}
+                              >
+                                ${quote?.priceTotal?.toFixed(2)}
+                              </Typography>
+                            </Box>
+                          )}
+                        </AccordionSummary>
+
+                        <AccordionDetails sx={{}}>
+                          <Box sx={{ mb: 1, display: "flex" }}>
                             <Typography
                               variant="body"
                               component="div"
@@ -262,184 +369,96 @@ export const PrintQuoteFile = ({ id, quote, updateQuote }) => {
                               Material
                             </Typography>
 
-                            <Typography
-                              variant="body"
-                              component="div"
-                              sx={{
-                                mr: 1,
-                                fontSize: "0.8rem",
-                                fontWeight: "600",
-                              }}
+                            <select
+                              style={{ width: 80, padding: "4px" }}
+                              {...register("material")}
                             >
-                              {material}
-                            </Typography>
+                              {MATERIALS.map((material, index) => (
+                                <option
+                                  key={`material-option-${index}`}
+                                  value={material}
+                                >
+                                  {material}
+                                </option>
+                              ))}
+                            </select>
                           </Box>
 
-                          <Box>
+                          <Box sx={{ mb: 1, display: "flex" }}>
                             <Typography
                               variant="body"
                               component="div"
-                              sx={{ mr: 1, fontWeight: "bold" }}
+                              sx={{ mr: 3.5, fontWeight: "bold" }}
                             >
                               Color
                             </Typography>
 
-                            <Typography
-                              variant="body"
-                              component="div"
-                              sx={{
-                                mr: 1,
-                                fontSize: "0.8rem",
-                                fontWeight: "600",
-                              }}
+                            <select
+                              style={{ width: 80, padding: "4px" }}
+                              {...register("color")}
                             >
-                              {color}
-                            </Typography>
+                              {COLORS.map((color, index) => (
+                                <option
+                                  key={`color-option-${index}`}
+                                  value={color}
+                                >
+                                  {color}
+                                </option>
+                              ))}
+                            </select>
                           </Box>
-                        </Box>
+                        </AccordionDetails>
+                      </Accordion>
 
-                        {!quote?.error && (
-                          <Box
-                            sx={{
-                              flex: 1,
-                              display: "flex",
-                              flexDirection: "column",
-                              alignItems: "end",
-                              minWidth: 80,
-                            }}
-                          >
-                            <Typography
-                              variant="body"
-                              component="div"
-                              sx={{
-                                mr: 1,
-                                fontSize: "0.8rem",
-                                fontWeight: "600",
-                              }}
-                            >
-                              ${quote?.priceEach?.toFixed(2)} ea
-                            </Typography>
-
-                            <Typography
-                              variant="body"
-                              component="div"
-                              sx={{ mr: 1, color: "green", fontWeight: "bold" }}
-                            >
-                              ${quote?.priceTotal?.toFixed(2)}
-                            </Typography>
-                          </Box>
-                        )}
-                      </AccordionSummary>
-
-                      <AccordionDetails sx={{}}>
-                        <Box sx={{ mb: 1, display: "flex" }}>
-                          <Typography
-                            variant="body"
-                            component="div"
-                            sx={{ mr: 1, fontWeight: "bold" }}
-                          >
-                            Material
-                          </Typography>
-
-                          <select
-                            style={{ width: 80, padding: "4px" }}
-                            {...register("material")}
-                          >
-                            {MATERIALS.map((material, index) => (
-                              <option
-                                key={`material-option-${index}`}
-                                value={material}
-                              >
-                                {material}
-                              </option>
-                            ))}
-                          </select>
-                        </Box>
-
-                        <Box sx={{ mb: 1, display: "flex" }}>
-                          <Typography
-                            variant="body"
-                            component="div"
-                            sx={{ mr: 3.5, fontWeight: "bold" }}
-                          >
-                            Color
-                          </Typography>
-
-                          <select
-                            style={{ width: 80, padding: "4px" }}
-                            {...register("color")}
-                          >
-                            {COLORS.map((color, index) => (
-                              <option
-                                key={`color-option-${index}`}
-                                value={color}
-                              >
-                                {color}
-                              </option>
-                            ))}
-                          </select>
-                        </Box>
-                      </AccordionDetails>
-                    </Accordion>
-
-                    {quote?.error && (
-                      <Typography
-                        variant="body"
-                        component="div"
-                        color="red"
-                        sx={{ mt: 1, fontSize: "0.75rem" }}
-                      >
-                        {quote?.error}
-                      </Typography>
-                    )}
-
-                    {isLargePart && (
-                      <Box
-                        sx={{
-                          p: 1,
-                          display: "flex",
-                          justifyContent: "end",
-                        }}
-                      >
-                        <Typography
-                          variant="body"
-                          component="div"
-                          sx={{ mr: 1 }}
-                        >
-                          Part is too large. Please reachout to us for a quote.
-                        </Typography>
-                      </Box>
-                    )}
-
-                    {isDirty && (
-                      <Box
-                        sx={{ mt: 1, display: "flex", justifyContent: "end" }}
-                      >
-                        <Button
-                          variant="outlined"
-                          onClick={() => {
-                            reset();
+                      {isLargePart && (
+                        <Box
+                          sx={{
+                            p: 1,
+                            display: "flex",
+                            justifyContent: "end",
                           }}
-                          sx={{ mr: 1, textTransform: "none" }}
                         >
-                          Cancel
-                        </Button>
+                          <Typography
+                            variant="body"
+                            component="div"
+                            sx={{ mr: 1 }}
+                          >
+                            Part is too large. Please reachout to us for a
+                            quote.
+                          </Typography>
+                        </Box>
+                      )}
 
-                        <Button
-                          autoFocus
-                          variant="contained"
-                          onClick={handleSubmit(save)}
-                          sx={{ textTransform: "none" }}
+                      {isDirty && (
+                        <Box
+                          sx={{ mt: 1, display: "flex", justifyContent: "end" }}
                         >
-                          Save
-                        </Button>
-                      </Box>
-                    )}
-                  </Box>
+                          <Button
+                            variant="outlined"
+                            onClick={() => {
+                              reset();
+                            }}
+                            sx={{ mr: 1, textTransform: "none" }}
+                          >
+                            Cancel
+                          </Button>
+
+                          <Button
+                            autoFocus
+                            variant="contained"
+                            onClick={handleSubmit(save)}
+                            sx={{ textTransform: "none" }}
+                          >
+                            Save
+                          </Button>
+                        </Box>
+                      )}
+                    </Box>
+                  </Grid>
                 </Grid>
               </Grid>
             </Grid>
-          </Grid>
+          )}
         </Box>
 
         {/*  */}
