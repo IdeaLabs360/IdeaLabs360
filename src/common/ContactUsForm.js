@@ -2,52 +2,71 @@ import * as React from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import axios from "axios";
-import { Button, FormControl, Box, TextField, Typography } from "@mui/material";
+import {
+  Button,
+  Container,
+  FormControl,
+  Box,
+  TextField,
+  Typography,
+} from "@mui/material";
+import CheckIcon from "@mui/icons-material/Check";
 import CircularProgress from "@mui/material/CircularProgress";
 
 import apiConfig from "../config/apiConfig";
+import { postRequest } from "../service/httpService";
 
 const schema = yup
   .object({
     name: yup.string().required("Name is required"),
-    phone: yup.string().required("Phone number is required"),
     email: yup
       .string()
       .required("Email is required")
       .email("Email must be in this format; email@email.com"),
+    details: yup.string().required("Detail is required"),
   })
   .required();
 
 export const ContactUsForm = ({ title, detail }) => {
   const [isLoading, setIsLoading] = React.useState(false);
+  const [isSubmitted, setIsSubmitted] = React.useState(false);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(schema) });
+  } = useForm({
+    resolver: yupResolver(schema),
+    defaultValues: { name: "", email: "", details: detail },
+  });
 
-  const onSubmit = async ({ name, phone, email, details }) => {
+  const onSubmit = async ({ name, email, details }) => {
+    setIsLoading(true);
+
     const formData = new FormData();
     formData.append("name", name);
-    formData.append("phone", phone);
     formData.append("email", email);
     formData.append("details", details);
 
-    try {
-      setIsLoading(true);
+    const url = `${apiConfig.api.baseUrl}/v1/contactus`;
+    const result = await postRequest(url, formData);
 
-      const url = `${apiConfig.api.baseUrl}/v1/quote`;
-      await axios.post(url, formData);
-    } catch (err) {}
+    if (result?.error) {
+      setIsSubmitted(false);
+    } else {
+      setIsSubmitted(true);
+
+      setTimeout(() => {
+        setIsSubmitted(false);
+      }, 5000);
+    }
+
+    setIsLoading(false);
   };
 
   return (
-    <Box sx={{ mt: 1 }}>
-      <Typography variant="body1" component="div">
-        {title}
-      </Typography>
+    <Container maxWidth="md">
+      {title}
 
       <FormControl
         sx={{
@@ -67,16 +86,6 @@ export const ContactUsForm = ({ title, detail }) => {
         />
 
         <TextField
-          id="phone"
-          label="Phone"
-          margin="dense"
-          size="small"
-          error={!!errors.phone?.message}
-          helperText={errors.phone?.message}
-          {...register("phone")}
-        />
-
-        <TextField
           id="email"
           label="Email"
           margin="dense"
@@ -92,34 +101,40 @@ export const ContactUsForm = ({ title, detail }) => {
           margin="dense"
           size="small"
           variant="outlined"
-          defaultValue={detail}
           multiline
           rows={5}
+          error={!!errors.details?.message}
+          helperText={errors.details?.message}
           {...register("details")}
         />
 
-        <Box sx={{ marginTop: "20px" }}>
+        <Box sx={{ marginTop: "10px", display: "flex", justifyContent: "end" }}>
           <Button
             variant="contained"
             onClick={handleSubmit(onSubmit)}
-            disabled={isLoading}
+            disabled={isLoading || isSubmitted}
             sx={{
               color: "secondary",
-              width: "100px",
-              height: "40px",
-              px: "30px",
-              py: "10px",
+              px: 4,
+              py: 1.5,
               textTransform: "none",
             }}
           >
             {isLoading ? (
               <CircularProgress size={20} sx={{ color: "white" }} />
+            ) : isSubmitted ? (
+              <>
+                <CheckIcon sx={{ mr: 1, color: "green" }} />
+                <Typography variant="body1" container="div">
+                  Submitted
+                </Typography>
+              </>
             ) : (
               "Submit"
             )}
           </Button>
         </Box>
       </FormControl>
-    </Box>
+    </Container>
   );
 };

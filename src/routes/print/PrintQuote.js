@@ -27,6 +27,7 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
 import apiConfig from "../../config/apiConfig";
 import { PrintQuoteFile } from "./PrintQuoteFile";
+import { postRequest } from "../../service/httpService";
 
 const schema = yup
   .object({
@@ -72,41 +73,6 @@ export const PrintQuote = () => {
 
     setSubtotal(subtotal);
   }, [quotes]);
-
-  const postRequest = async (url, formData) => {
-    const unknownError = (
-      <>
-        Something went wrong. Please try again. If the issue persists, please
-        reachout to us.
-      </>
-    );
-
-    let result = { data: null, error: null };
-
-    try {
-      const response = await axios.post(url, formData);
-
-      if (response.status === 200) {
-        const data = await response.data;
-        result.data = data;
-      } else {
-        result.error = unknownError;
-      }
-    } catch (err) {
-      console.log(err);
-
-      switch (err?.response?.status) {
-        case 400:
-          result.error = err?.response?.data;
-          break;
-
-        default:
-          result.error = unknownError;
-      }
-    }
-
-    return result;
-  };
 
   const getEstimate = async (quantity, material, file) => {
     const formData = new FormData();
