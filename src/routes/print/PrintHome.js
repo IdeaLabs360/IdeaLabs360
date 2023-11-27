@@ -20,7 +20,6 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
-import BackupIcon from "@mui/icons-material/Backup";
 import BoltIcon from "@mui/icons-material/Bolt";
 import CheckIcon from "@mui/icons-material/Check";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -33,19 +32,18 @@ import { IMAGES } from "../../constants/constants";
 
 const createHeroText = (text) => {
   return (
-    <Box sx={{ maxWidth: 400 }}>
-      <Typography
-        component="div"
-        variant="body"
-        sx={{
-          fontSize: { xs: "1.8rem", sm: "2.0rem", md: "1.7rem", lg: "2.0rem" },
-          fontWeight: "bold",
-          lineHeight: "1.2em",
-        }}
-      >
-        {text}
-      </Typography>
-    </Box>
+    <Typography
+      component="div"
+      variant="h1"
+      sx={{
+        fontFamily: "sans-serif",
+        fontSize: { xs: "35px", sm: "35px", md: "50px", lg: "60px" },
+        fontWeight: "900",
+        lineHeight: "1.4em",
+      }}
+    >
+      {text}
+    </Typography>
   );
 };
 
@@ -56,8 +54,9 @@ const createDescriptionText = (text) => {
         component="div"
         variant="body"
         sx={{
-          lineHeight: "1.5em",
-          fontSize: { xs: "1.0rem", sm: "1.1rem", md: "1.1rem", lg: "1.1rem" },
+          lineHeight: "1.2em",
+          fontWeight: "300",
+          fontSize: { xs: "25px", sm: "25px", md: "25px", lg: "30px" },
         }}
       >
         {text}
@@ -147,7 +146,7 @@ export const PrintHome = () => {
             <Grid
               item
               xs={12}
-              md={6}
+              md={8}
               sx={{
                 display: "flex",
                 justifyContent: { xs: "center", md: "end" },
@@ -157,18 +156,29 @@ export const PrintHome = () => {
                 sx={{
                   display: "flex",
                   flexDirection: "column",
+                  alignItems: "center",
                   justifyContent: "center",
                 }}
               >
-                <Box>
+                <Box sx={{ maxWidth: 700, textAlign: "center" }}>
+                  {createHeroText(<>3D Print Your Designs</>)}
                   {createHeroText(
-                    "3D Print Your Designs 3D Print Your Designs 3D Print Your Designs 3D Print Your Designs"
+                    <>
+                      For As Little As
+                      <Box sx={{ ml: 1, display: "inline", color: "green" }}>
+                        $5
+                      </Box>
+                    </>
                   )}
                 </Box>
 
-                <Box sx={{ my: 4 }}>
-                  {createDescriptionText("3D Printing and Rapid Prototyping")}
-                  {createDescriptionText("Manufacturing")}
+                <Box sx={{ my: 4, textAlign: "center" }}>
+                  {createDescriptionText(
+                    "Upload your design, get an estimate, "
+                  )}
+                  {createDescriptionText(
+                    "enter shipping information, and get your part in a few days"
+                  )}
                 </Box>
 
                 {/* Quote button */}
@@ -201,17 +211,17 @@ export const PrintHome = () => {
                   <List dense>
                     <ListItem disablePadding>
                       <CheckIcon sx={{ mr: 0.5, color: "green" }} />
+                      <ListItemText primary="Get FREE Instant Estimates" />
+                    </ListItem>
+
+                    <ListItem disablePadding>
+                      <CheckIcon sx={{ mr: 0.5, color: "green" }} />
+                      <ListItemText primary="Hassel FREE Checkout Process" />
+                    </ListItem>
+
+                    <ListItem disablePadding>
+                      <CheckIcon sx={{ mr: 0.5, color: "green" }} />
                       <ListItemText primary="Free Scanned Model Cleanup" />
-                    </ListItem>
-
-                    <ListItem disablePadding>
-                      <CheckIcon sx={{ mr: 0.5, color: "green" }} />
-                      <ListItemText primary="High-quality 3D Printing" />
-                    </ListItem>
-
-                    <ListItem disablePadding>
-                      <CheckIcon sx={{ mr: 0.5, color: "green" }} />
-                      <ListItemText primary="Affordable and Fast Lead-Times" />
                     </ListItem>
                   </List>
                 </Box>
@@ -221,7 +231,7 @@ export const PrintHome = () => {
             <Grid
               item
               xs={12}
-              md={6}
+              md={4}
               sx={{
                 display: "flex",
                 justifyContent: { xs: "center", md: "start" },
