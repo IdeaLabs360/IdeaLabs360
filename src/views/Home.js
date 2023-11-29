@@ -1,10 +1,22 @@
 import * as React from "react";
 
-import { Box, Paper } from "@mui/material";
+import {
+  Box,
+  Card,
+  CardActionArea,
+  CardContent,
+  CardMedia,
+  Container,
+  Grid,
+  List,
+  ListItem,
+  ListItemText,
+  Typography,
+} from "@mui/material";
+import CheckIcon from "@mui/icons-material/Check";
 
-import { DesignHome } from "../routes/design/DesignHome";
-import { PrintHome } from "../routes/print/PrintHome";
 import { ReviewStar } from "../common/ReviewStar";
+import { useNavigate } from "react-router-dom";
 
 export const reviews = [
   {
@@ -53,46 +65,89 @@ export const reviews = [
   },
 ];
 
-const TabPanel = (props) => {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`full-width-tabpanel-${index}`}
-      aria-labelledby={`full-width-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box>
-          <Box>{children}</Box>
-        </Box>
-      )}
-    </div>
-  );
-};
-
 export const Home = () => {
-  const [serviceTab] = React.useState(0);
+  const navigate = useNavigate();
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-      }}
-    >
-      <Paper elevation={0}>
-        <TabPanel value={serviceTab} index={0} dir={"x"}>
-          <PrintHome />
-        </TabPanel>
+    <Container maxWidth="md" sx={{ py: 6 }}>
+      <Box
+        sx={{
+          pb: 6,
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <Typography
+          component="div"
+          variant="h1"
+          sx={{
+            fontFamily: "sans-serif",
+            fontSize: { xs: "35px", sm: "35px", md: "50px", lg: "50px" },
+            fontWeight: "900",
+            lineHeight: "1.4em",
+          }}
+        >
+          Welcome to IdeaLabs360
+        </Typography>
+      </Box>
 
-        <TabPanel value={serviceTab} index={1} dir={"x"}>
-          <DesignHome />
-        </TabPanel>
-      </Paper>
-    </Box>
+      <Grid container spacing={2}>
+        <Grid item xs={12} md={6}>
+          <Card>
+            <CardActionArea onClick={() => navigate("/print")}>
+              <CardMedia
+                sx={{ height: 200 }}
+                image="/img/1.jpg"
+                title="green iguana"
+              />
+
+              <CardContent>
+                <Typography
+                  gutterBottom
+                  variant="h5"
+                  component="div"
+                  sx={{ fontWeight: "700" }}
+                >
+                  3D Print Your Designs
+                </Typography>
+
+                <Typography variant="body1" color="text.secondary">
+                  3D print your models, get instant cost estimates, and hassel
+                  free checkout process
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+          </Card>
+        </Grid>
+
+        <Grid item xs={12} md={6}>
+          <Card>
+            <CardActionArea onClick={() => navigate("/design")}>
+              <CardMedia
+                sx={{ height: 200 }}
+                image="/img/3.jpg"
+                title="green iguana"
+              />
+
+              <CardContent>
+                <Typography
+                  gutterBottom
+                  variant="h5"
+                  component="div"
+                  sx={{ fontWeight: "700" }}
+                >
+                  Product Design
+                </Typography>
+
+                <Typography variant="body1" color="text.secondary">
+                  Lizards are a widespread group of squamate reptiles, with over
+                  6,000 species, ranging across all continents except Antarctica
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+          </Card>
+        </Grid>
+      </Grid>
+    </Container>
   );
 };
