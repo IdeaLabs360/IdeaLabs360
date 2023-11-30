@@ -7,13 +7,10 @@ import {
   CardContent,
   CardMedia,
   Container,
+  Divider,
   Grid,
-  List,
-  ListItem,
-  ListItemText,
   Typography,
 } from "@mui/material";
-import CheckIcon from "@mui/icons-material/Check";
 
 import { ReviewStar } from "../common/ReviewStar";
 import { useNavigate } from "react-router-dom";
@@ -81,10 +78,10 @@ export const Home = () => {
           component="div"
           variant="h1"
           sx={{
+            color: "primary.main",
             fontFamily: "sans-serif",
-            fontSize: { xs: "35px", sm: "35px", md: "50px", lg: "50px" },
-            fontWeight: "900",
-            lineHeight: "1.4em",
+            fontSize: { xs: "25px", sm: "35px", md: "40px", lg: "50px" },
+            fontWeight: "700",
           }}
         >
           Welcome to IdeaLabs360
@@ -92,24 +89,30 @@ export const Home = () => {
       </Box>
 
       <Grid container spacing={2}>
-        <Grid item xs={12} md={6}>
-          <Card>
+        <Grid
+          item
+          xs={12}
+          md={6}
+          sx={{ display: "flex", justifyContent: "center" }}
+        >
+          <Card sx={{ maxWidth: 400, height: "100%" }}>
             <CardActionArea onClick={() => navigate("/print")}>
               <CardMedia
-                sx={{ height: 200 }}
-                image="/img/1.jpg"
-                title="green iguana"
+                title="3d print"
+                image="/img/print.jpg"
+                sx={{ height: 260, borderBottom: "1px solid lightgray" }}
               />
 
               <CardContent>
                 <Typography
-                  gutterBottom
                   variant="h5"
                   component="div"
                   sx={{ fontWeight: "700" }}
                 >
                   3D Print Your Designs
                 </Typography>
+
+                <Divider sx={{ my: 1 }} />
 
                 <Typography variant="body1" color="text.secondary">
                   3D print your models, get instant cost estimates, and hassel
@@ -120,28 +123,36 @@ export const Home = () => {
           </Card>
         </Grid>
 
-        <Grid item xs={12} md={6}>
-          <Card>
+        <Grid
+          item
+          xs={12}
+          md={6}
+          sx={{ display: "flex", justifyContent: "center" }}
+        >
+          <Card sx={{ maxWidth: 400, height: "100%" }}>
             <CardActionArea onClick={() => navigate("/design")}>
               <CardMedia
-                sx={{ height: 200 }}
-                image="/img/3.jpg"
-                title="green iguana"
+                title="design"
+                image="/img/design.png"
+                sx={{ height: 260, borderBottom: "1px solid lightgray" }}
               />
 
               <CardContent>
                 <Typography
-                  gutterBottom
                   variant="h5"
                   component="div"
                   sx={{ fontWeight: "700" }}
                 >
-                  Product Design
+                  Design
                 </Typography>
 
+                <Divider sx={{ my: 1 }} />
+
                 <Typography variant="body1" color="text.secondary">
-                  Lizards are a widespread group of squamate reptiles, with over
-                  6,000 species, ranging across all continents except Antarctica
+                  Whether you have a rough sketch, a 2D drawing, or just an
+                  idea, we can assist in the entire design and prototyping
+                  process, ensuring your project meets your specifications and
+                  is ready for production.
                 </Typography>
               </CardContent>
             </CardActionArea>
