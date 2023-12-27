@@ -1,5 +1,9 @@
 import * as React from "react";
 
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
 import {
   Box,
   Card,
@@ -14,6 +18,7 @@ import {
 
 import { ReviewStar } from "../common/ReviewStar";
 import { useNavigate } from "react-router-dom";
+import { IMAGES } from "../constants/constants";
 
 export const reviews = [
   {
@@ -64,6 +69,16 @@ export const reviews = [
 
 export const Home = () => {
   const navigate = useNavigate();
+
+  const settings = {
+    dots: true,
+    infinite: true,
+    autoplay: true,
+    autoplaySpeed: 5000,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows: false,
+  };
 
   return (
     <Container maxWidth="md" sx={{ py: 6 }}>
@@ -143,22 +158,31 @@ export const Home = () => {
                   component="div"
                   sx={{ fontWeight: "700" }}
                 >
-                  Design
+                  Free CAD Design
                 </Typography>
 
                 <Divider sx={{ my: 1 }} />
 
                 <Typography variant="body1" color="text.secondary">
                   Whether you have a rough sketch, a 2D drawing, or just an
-                  idea, we can assist in the entire design and prototyping
-                  process, ensuring your project meets your specifications and
-                  is ready for production.
+                  idea, we can assist in the CAD design process.
                 </Typography>
               </CardContent>
             </CardActionArea>
           </Card>
         </Grid>
       </Grid>
+
+      {/* Images */}
+      <Box sx={{ my: 4 }}>
+        <Slider {...settings}>
+          {IMAGES.map((image, index) => (
+            <Box key={`image-${index}`}>
+              <img width="100%" height="100%" src={`./img/${image}`} alt="" />
+            </Box>
+          ))}
+        </Slider>
+      </Box>
     </Container>
   );
 };
