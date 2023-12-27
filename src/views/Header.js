@@ -18,14 +18,14 @@ import { Logo } from "./Logo";
 import { EMAIL, PHONE_NUMBER } from "../constants/constants";
 
 const pages = [
-  // {
-  //   name: "Shop",
-  //   action: () =>
-  //     window.open(
-  //       "https://www.etsy.com/shop/IdeaLabs360?ref=l2-about-shopname",
-  //       "_blank"
-  //     ),
-  // },
+  {
+    name: "3D Print",
+    action: () => (window.location.href = "/#/print"),
+  },
+  {
+    name: "Design",
+    action: () => (window.location.href = "/#/design"),
+  },
 ];
 
 export const Header = () => {

@@ -1,10 +1,24 @@
 import * as React from "react";
 
-import { Box, Paper } from "@mui/material";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
-import { DesignHome } from "../routes/design/DesignHome";
-import { PrintHome } from "../routes/print/PrintHome";
+import {
+  Box,
+  Card,
+  CardActionArea,
+  CardContent,
+  CardMedia,
+  Container,
+  Divider,
+  Grid,
+  Typography,
+} from "@mui/material";
+
 import { ReviewStar } from "../common/ReviewStar";
+import { useNavigate } from "react-router-dom";
+import { IMAGES } from "../constants/constants";
 
 export const reviews = [
   {
@@ -53,46 +67,122 @@ export const reviews = [
   },
 ];
 
-const TabPanel = (props) => {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`full-width-tabpanel-${index}`}
-      aria-labelledby={`full-width-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box>
-          <Box>{children}</Box>
-        </Box>
-      )}
-    </div>
-  );
-};
-
 export const Home = () => {
-  const [serviceTab] = React.useState(0);
+  const navigate = useNavigate();
+
+  const settings = {
+    dots: true,
+    infinite: true,
+    autoplay: true,
+    autoplaySpeed: 5000,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows: false,
+  };
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-      }}
-    >
-      <Paper elevation={0}>
-        <TabPanel value={serviceTab} index={0} dir={"x"}>
-          <PrintHome />
-        </TabPanel>
+    <Container maxWidth="md" sx={{ py: 6 }}>
+      <Box
+        sx={{
+          pb: 6,
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <Typography
+          component="div"
+          variant="h1"
+          sx={{
+            color: "primary.main",
+            fontFamily: "sans-serif",
+            fontSize: { xs: "25px", sm: "35px", md: "40px", lg: "50px" },
+            fontWeight: "700",
+          }}
+        >
+          Welcome to IdeaLabs360
+        </Typography>
+      </Box>
 
-        <TabPanel value={serviceTab} index={1} dir={"x"}>
-          <DesignHome />
-        </TabPanel>
-      </Paper>
-    </Box>
+      <Grid container spacing={2}>
+        <Grid
+          item
+          xs={12}
+          md={6}
+          sx={{ display: "flex", justifyContent: "center" }}
+        >
+          <Card sx={{ maxWidth: 400, height: "100%" }}>
+            <CardActionArea onClick={() => navigate("/print")}>
+              <CardMedia
+                title="3d print"
+                image="/img/print.jpg"
+                sx={{ height: 260, borderBottom: "1px solid lightgray" }}
+              />
+
+              <CardContent>
+                <Typography
+                  variant="h5"
+                  component="div"
+                  sx={{ fontWeight: "700" }}
+                >
+                  3D Print Your Designs
+                </Typography>
+
+                <Divider sx={{ my: 1 }} />
+
+                <Typography variant="body1" color="text.secondary">
+                  3D print your models, get instant cost estimates, and hassel
+                  free checkout process
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+          </Card>
+        </Grid>
+
+        <Grid
+          item
+          xs={12}
+          md={6}
+          sx={{ display: "flex", justifyContent: "center" }}
+        >
+          <Card sx={{ maxWidth: 400, height: "100%" }}>
+            <CardActionArea onClick={() => navigate("/design")}>
+              <CardMedia
+                title="design"
+                image="/img/design.png"
+                sx={{ height: 260, borderBottom: "1px solid lightgray" }}
+              />
+
+              <CardContent>
+                <Typography
+                  variant="h5"
+                  component="div"
+                  sx={{ fontWeight: "700" }}
+                >
+                  Free CAD Design
+                </Typography>
+
+                <Divider sx={{ my: 1 }} />
+
+                <Typography variant="body1" color="text.secondary">
+                  Whether you have a rough sketch, a 2D drawing, or just an
+                  idea, we can assist in the CAD design process.
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+          </Card>
+        </Grid>
+      </Grid>
+
+      {/* Images */}
+      <Box sx={{ my: 4 }}>
+        <Slider {...settings}>
+          {IMAGES.map((image, index) => (
+            <Box key={`image-${index}`}>
+              <img width="100%" height="100%" src={`./img/${image}`} alt="" />
+            </Box>
+          ))}
+        </Slider>
+      </Box>
+    </Container>
   );
 };

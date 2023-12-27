@@ -10,6 +10,8 @@ import { Footer } from "./views/Footer";
 import { PrintQuote } from "./routes/print/PrintQuote";
 import { DesignQuote } from "./routes/design/DesignQuote";
 import { Success } from "./views/Success";
+import { PrintHome } from "./routes/print/PrintHome";
+import { DesignHome } from "./routes/design/DesignHome";
 
 const theme = createTheme({
   palette: {
@@ -46,8 +48,16 @@ const router = createHashRouter([
     element: <Home />,
   },
   {
+    path: "/design",
+    element: <DesignHome />,
+  },
+  {
     path: "/design/quote",
     element: <DesignQuote />,
+  },
+  {
+    path: "/print",
+    element: <PrintHome />,
   },
   {
     path: "/print/quote",
@@ -73,4 +83,4 @@ root.render(
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+reportWebVitals(console.log);
