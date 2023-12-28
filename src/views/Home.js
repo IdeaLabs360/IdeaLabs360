@@ -183,6 +183,83 @@ export const Home = () => {
           ))}
         </Slider>
       </Box>
+
+      <Box sx={{ bgcolor: "#0b076e0a" }}>
+        <Container maxWidth="md" sx={{ py: 6 }}>
+          <Grid container spacing={2}>
+            {reviews.map((review, index) => (
+              <Grid
+                key={`review-${index}`}
+                item
+                xs={12}
+                md={4}
+                sx={{ display: "flex", justifyContent: "center" }}
+              >
+                <Box
+                  key={`review-${index}`}
+                  sx={{
+                    maxWidth: 350,
+                    p: 1,
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    sx={{ mb: 2 }}
+                  >
+                    "{review.detail}"
+                  </Typography>
+
+                  <Typography
+                    gutterBottom
+                    variant="body2"
+                    component="div"
+                    sx={{ fontWeight: "700", lineHeight: "0.9em" }}
+                  >
+                    {review.name}
+                  </Typography>
+
+                  <Box sx={{ display: "flex", justifyContent: "center" }}>
+                    {review.stars}
+                  </Box>
+                </Box>
+              </Grid>
+            ))}
+          </Grid>
+
+          <Box
+            sx={{
+              mt: 2,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <CardMedia
+              component="img"
+              image={"/img/googleImage.png"}
+              sx={{ width: "90px", objectFit: "cover" }}
+            />
+
+            <Typography
+              variant="body2"
+              component="div"
+              color="text.secondary"
+              sx={{
+                ml: 1,
+                textAlign: "center",
+                fontSize: "1.4rem",
+              }}
+            >
+              Reviews
+            </Typography>
+          </Box>
+        </Container>
+      </Box>
     </Container>
   );
 };
