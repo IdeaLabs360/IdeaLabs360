@@ -6,12 +6,10 @@ import "slick-carousel/slick/slick-theme.css";
 
 import {
   Box,
+  Button,
   Card,
-  CardActionArea,
-  CardContent,
   CardMedia,
   Container,
-  Divider,
   Grid,
   Typography,
 } from "@mui/material";
@@ -81,100 +79,221 @@ export const Home = () => {
   };
 
   return (
-    <Container maxWidth="md" sx={{ py: 6 }}>
-      <Box
-        sx={{
-          pb: 6,
-          display: "flex",
-          justifyContent: "center",
-        }}
-      >
+    <Box>
+      {/* Homepage Hero */}
+      <Box sx={{ bgcolor: "#dcdcdc" }}>
+        <Container maxWidth="lg" sx={{ pt: 12, pb: 4 }}>
+          <Grid container spacing={2}>
+            <Grid
+              item
+              xs={12}
+              md={6}
+              sx={{
+                display: "flex",
+                justifyContent: { xs: "center", md: "end" },
+              }}
+            >
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                }}
+              >
+                <Box sx={{ maxWidth: 700 }}>
+                  <Typography
+                    component="div"
+                    variant="h4"
+                    sx={{
+                      fontSize: {
+                        xs: "35px",
+                        sm: "35px",
+                        md: "40px",
+                        lg: "45px",
+                      },
+                      // fontWeight: "700",
+                      lineHeight: "1em",
+                    }}
+                  >
+                    Leading Innovation in Manufacturing Solutions
+                  </Typography>
+                </Box>
+
+                <Box sx={{ mt: 2, mb: 4 }}>
+                  <Typography component="div" variant="body2" sx={{}}>
+                    Upload your design, get an estimate, enter shipping
+                    information, and get your part in a few days
+                  </Typography>
+                </Box>
+
+                {/* Quote button */}
+                <Box sx={{ display: "flex" }}>
+                  <Button
+                    variant="contained"
+                    component="label"
+                    onClick={() => navigate("/print/quote")}
+                    sx={{
+                      py: 2,
+                      px: 10,
+                      bgcolor: "black",
+                      borderRadius: 8,
+                      // textAlign: "center",
+                      // fontSize: { xs: "0.9rem", md: "1.0rem" },
+                      // letterSpacing: "0.1em",
+                    }}
+                  >
+                    Get Started
+                  </Button>
+                </Box>
+              </Box>
+            </Grid>
+
+            <Grid
+              item
+              xs={12}
+              md={6}
+              sx={{
+                display: "flex",
+                justifyContent: { xs: "center", md: "start" },
+              }}
+            >
+              <CardMedia
+                component="img"
+                image={"/img/test.png"}
+                sx={{ width: "100%", height: "100%", objectFit: "contain" }}
+              />
+            </Grid>
+          </Grid>
+        </Container>
+      </Box>
+
+      {/* Services */}
+      <Container maxWidth="lg">
         <Typography
           component="div"
           variant="h1"
           sx={{
-            color: "primary.main",
+            mt: 10,
+            mb: 3,
             fontFamily: "sans-serif",
-            fontSize: { xs: "25px", sm: "35px", md: "40px", lg: "50px" },
-            fontWeight: "700",
+            fontSize: { xs: "35px", sm: "35px", md: "40px", lg: "40px" },
+            lineHeight: "1.4em",
           }}
         >
-          Welcome to IdeaLabs360
+          Our Services
         </Typography>
-      </Box>
 
-      <Grid container spacing={2}>
-        <Grid
-          item
-          xs={12}
-          md={6}
-          sx={{ display: "flex", justifyContent: "center" }}
-        >
-          <Card sx={{ maxWidth: 400, height: "100%" }}>
-            <CardActionArea onClick={() => navigate("/print")}>
+        <Grid container spacing={1}>
+          <Grid item xs={12} md={4}>
+            <Card elevation={0}>
               <CardMedia
                 title="3d print"
                 image="/img/print.jpg"
-                sx={{ height: 260, borderBottom: "1px solid lightgray" }}
+                sx={{ height: 350 }}
               />
 
-              <CardContent>
-                <Typography
-                  variant="h5"
-                  component="div"
-                  sx={{ fontWeight: "700" }}
-                >
-                  3D Print Your Designs
-                </Typography>
+              <Typography
+                variant="h6"
+                component="div"
+                sx={{
+                  mt: 3,
+                  mb: 1,
+                  textDecoration: "underline",
+                  textDecorationColor: "lightgray",
+                }}
+              >
+                3D Print Your Designs
+              </Typography>
 
-                <Divider sx={{ my: 1 }} />
+              <Typography variant="body2" component="div" sx={{ my: 1 }}>
+                $100
+              </Typography>
 
-                <Typography variant="body1" color="text.secondary">
-                  3D print your models, get instant cost estimates, and hassel
-                  free checkout process
-                </Typography>
-              </CardContent>
-            </CardActionArea>
-          </Card>
-        </Grid>
+              <Typography variant="body2">
+                3D print your models, get instant cost estimates, and hassel
+                free checkout process
+              </Typography>
+            </Card>
+          </Grid>
 
-        <Grid
-          item
-          xs={12}
-          md={6}
-          sx={{ display: "flex", justifyContent: "center" }}
-        >
-          <Card sx={{ maxWidth: 400, height: "100%" }}>
-            <CardActionArea onClick={() => navigate("/design")}>
+          <Grid
+            item
+            xs={12}
+            md={4}
+            sx={{ display: "flex", justifyContent: "center" }}
+          >
+            <Card elevation={0}>
               <CardMedia
                 title="design"
                 image="/img/design.png"
-                sx={{ height: 260, borderBottom: "1px solid lightgray" }}
+                sx={{ height: 350 }}
               />
 
-              <CardContent>
-                <Typography
-                  variant="h5"
-                  component="div"
-                  sx={{ fontWeight: "700" }}
-                >
-                  Free CAD Design
-                </Typography>
+              <Typography
+                variant="h6"
+                component="div"
+                sx={{
+                  mt: 3,
+                  mb: 1,
+                  textDecoration: "underline",
+                  textDecorationColor: "lightgray",
+                }}
+              >
+                Free CAD Design
+              </Typography>
 
-                <Divider sx={{ my: 1 }} />
+              <Typography variant="body2" component="div" sx={{ my: 1 }}>
+                $100
+              </Typography>
 
-                <Typography variant="body1" color="text.secondary">
-                  Whether you have a rough sketch, a 2D drawing, or just an
-                  idea, we can assist in the CAD design process.
-                </Typography>
-              </CardContent>
-            </CardActionArea>
-          </Card>
+              <Typography variant="body2">
+                Whether you have a rough sketch, a 2D drawing, or just an idea,
+                we can assist in the CAD design process.
+              </Typography>
+            </Card>
+          </Grid>
+
+          <Grid
+            item
+            xs={12}
+            md={4}
+            sx={{ display: "flex", justifyContent: "center" }}
+          >
+            <Card elevation={0}>
+              <CardMedia
+                title="design"
+                image="/img/design.png"
+                sx={{ height: 350 }}
+              />
+
+              <Typography
+                variant="h6"
+                component="div"
+                sx={{
+                  mt: 3,
+                  mb: 1,
+                  textDecoration: "underline",
+                  textDecorationColor: "lightgray",
+                }}
+              >
+                Free CAD Design
+              </Typography>
+
+              <Typography variant="body2" component="div" sx={{ my: 1 }}>
+                $100
+              </Typography>
+
+              <Typography variant="body2">
+                Whether you have a rough sketch, a 2D drawing, or just an idea,
+                we can assist in the CAD design process.
+              </Typography>
+            </Card>
+          </Grid>
         </Grid>
-      </Grid>
+      </Container>
 
       {/* Images */}
-      <Box sx={{ my: 4 }}>
+      <Box sx={{ mt: 10 }}>
         <Slider {...settings}>
           {IMAGES.map((image, index) => (
             <Box key={`image-${index}`}>
@@ -183,6 +302,84 @@ export const Home = () => {
           ))}
         </Slider>
       </Box>
-    </Container>
+
+      {/* Reviews */}
+      <Box>
+        <Container maxWidth="md" sx={{ py: { xs: 6, sm: 6, md: 8, lg: 12 } }}>
+          <Box
+            sx={{
+              my: 2,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <CardMedia
+              component="img"
+              image={"/img/googleImage.png"}
+              sx={{ width: "90px", objectFit: "cover" }}
+            />
+
+            <Typography
+              variant="body2"
+              component="div"
+              color="text.secondary"
+              sx={{
+                ml: 1,
+                textAlign: "center",
+                fontSize: "1.4rem",
+              }}
+            >
+              Reviews
+            </Typography>
+          </Box>
+
+          <Grid container spacing={2}>
+            {reviews.map((review, index) => (
+              <Grid
+                key={`review-${index}`}
+                item
+                xs={12}
+                md={4}
+                sx={{ display: "flex", justifyContent: "center" }}
+              >
+                <Box
+                  key={`review-${index}`}
+                  sx={{
+                    maxWidth: 350,
+                    p: 1,
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    sx={{ mb: 2 }}
+                  >
+                    "{review.detail}"
+                  </Typography>
+
+                  <Typography
+                    gutterBottom
+                    variant="body2"
+                    component="div"
+                    sx={{ fontWeight: "700", lineHeight: "0.9em" }}
+                  >
+                    {review.name}
+                  </Typography>
+
+                  <Box sx={{ display: "flex", justifyContent: "center" }}>
+                    {review.stars}
+                  </Box>
+                </Box>
+              </Grid>
+            ))}
+          </Grid>
+        </Container>
+      </Box>
+    </Box>
   );
 };
