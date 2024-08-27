@@ -90,7 +90,7 @@ export const Home = () => {
               md={6}
               sx={{
                 display: "flex",
-                justifyContent: { xs: "center", md: "end" },
+                justifyContent: { xs: "center", md: "start" },
               }}
             >
               <Box
@@ -100,7 +100,7 @@ export const Home = () => {
                   justifyContent: "center",
                 }}
               >
-                <Box sx={{ maxWidth: 700 }}>
+                <Box sx={{ maxWidth: 400 }}>
                   <Typography
                     component="div"
                     variant="h4"
@@ -111,18 +111,24 @@ export const Home = () => {
                         md: "40px",
                         lg: "45px",
                       },
-                      // fontWeight: "700",
                       lineHeight: "1em",
                     }}
                   >
-                    Leading Innovation in Manufacturing Solutions
+                    Welcome to Idea Labs 3D
                   </Typography>
                 </Box>
 
-                <Box sx={{ mt: 2, mb: 4 }}>
-                  <Typography component="div" variant="body2" sx={{}}>
-                    Upload your design, get an estimate, enter shipping
-                    information, and get your part in a few days
+                <Box sx={{ mt: 2, mb: 5, maxWidth: 350 }}>
+                  <Typography
+                    component="div"
+                    variant="body2"
+                    sx={{ lineHeight: "1.3em" }}
+                  >
+                    We bring your ideas to life with precision and care. Whether
+                    you need custom 3D prints or expertly crafted CAD designs,
+                    we work closely with you from concept to completion,
+                    delivering top-quality results every time. Your satisfaction
+                    is our priority
                   </Typography>
                 </Box>
 
@@ -134,15 +140,13 @@ export const Home = () => {
                     onClick={() => navigate("/print/quote")}
                     sx={{
                       py: 2,
-                      px: 10,
+                      px: 8,
                       bgcolor: "black",
                       borderRadius: 8,
-                      // textAlign: "center",
-                      // fontSize: { xs: "0.9rem", md: "1.0rem" },
-                      // letterSpacing: "0.1em",
+                      textTransform: "none",
                     }}
                   >
-                    Get Started
+                    Learn More
                   </Button>
                 </Box>
               </Box>
@@ -152,10 +156,7 @@ export const Home = () => {
               item
               xs={12}
               md={6}
-              sx={{
-                display: "flex",
-                justifyContent: { xs: "center", md: "start" },
-              }}
+              sx={{ display: { xs: "none", md: "flex" } }}
             >
               <CardMedia
                 component="img"
@@ -184,8 +185,8 @@ export const Home = () => {
         </Typography>
 
         <Grid container spacing={1}>
-          <Grid item xs={12} md={4}>
-            <Card elevation={0}>
+          <Grid item xs={12} md={6}>
+            <Card elevation={0} sx={{ borderRadius: "0" }}>
               <CardMedia
                 title="3d print"
                 image="/img/print.jpg"
@@ -202,27 +203,51 @@ export const Home = () => {
                   textDecorationColor: "lightgray",
                 }}
               >
-                3D Print Your Designs
+                3D Printing Services
               </Typography>
 
-              <Typography variant="body2" component="div" sx={{ my: 1 }}>
-                $100
-              </Typography>
-
-              <Typography variant="body2">
-                3D print your models, get instant cost estimates, and hassel
-                free checkout process
+              <Typography variant="body2" sx={{ mt: 2, maxWidth: 400 }}>
+                we love helping you bring your ideas to life. Whether it's a
+                small part or a big project, our 3D printing service is all
+                about making sure you get exactly what you need. We focus on
+                quality and detail, treating every print like it's our own
               </Typography>
             </Card>
           </Grid>
 
-          <Grid
-            item
-            xs={12}
-            md={4}
-            sx={{ display: "flex", justifyContent: "center" }}
-          >
-            <Card elevation={0}>
+          <Grid item xs={12} md={6}>
+            <Card elevation={0} sx={{ borderRadius: "0" }}>
+              <CardMedia
+                title="design"
+                image="/img/design.png"
+                sx={{ height: 350 }}
+              />
+
+              <Typography
+                variant="h6"
+                component="div"
+                sx={{
+                  mt: 3,
+                  mb: 1,
+                  textDecoration: "underline",
+                  textDecorationColor: "lightgray",
+                }}
+              >
+                CAD Design Services
+              </Typography>
+
+              <Typography variant="body2" sx={{ mt: 2, maxWidth: 400 }}>
+                When it comes to creating custom designs, we're here to make the
+                process easy and personal. Our CAD design service is all about
+                working together to shape your ideas into something real. No
+                matter what you're imagining, we'll help create the perfect
+                design, just for you.
+              </Typography>
+            </Card>
+          </Grid>
+
+          {/* <Grid item xs={12} md={4}>
+            <Card elevation={0} sx={{ borderRadius: "0" }}>
               <CardMedia
                 title="design"
                 image="/img/design.png"
@@ -251,44 +276,7 @@ export const Home = () => {
                 we can assist in the CAD design process.
               </Typography>
             </Card>
-          </Grid>
-
-          <Grid
-            item
-            xs={12}
-            md={4}
-            sx={{ display: "flex", justifyContent: "center" }}
-          >
-            <Card elevation={0}>
-              <CardMedia
-                title="design"
-                image="/img/design.png"
-                sx={{ height: 350 }}
-              />
-
-              <Typography
-                variant="h6"
-                component="div"
-                sx={{
-                  mt: 3,
-                  mb: 1,
-                  textDecoration: "underline",
-                  textDecorationColor: "lightgray",
-                }}
-              >
-                Free CAD Design
-              </Typography>
-
-              <Typography variant="body2" component="div" sx={{ my: 1 }}>
-                $100
-              </Typography>
-
-              <Typography variant="body2">
-                Whether you have a rough sketch, a 2D drawing, or just an idea,
-                we can assist in the CAD design process.
-              </Typography>
-            </Card>
-          </Grid>
+          </Grid> */}
         </Grid>
       </Container>
 

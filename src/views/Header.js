@@ -3,6 +3,7 @@ import {
   AppBar,
   Box,
   Button,
+  CardMedia,
   Divider,
   Drawer,
   List,
@@ -14,20 +15,21 @@ import {
   Typography,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
+import { Logo } from "./Logo";
 
 const drawerWidth = 240;
 const pages = [
   {
     name: "Services",
-    action: () => (window.location.href = "/#/print"),
+    action: () => (window.location.href = "/#/services"),
   },
   {
     name: "About",
-    action: () => (window.location.href = "/#/print"),
+    action: () => (window.location.href = "/#/about"),
   },
   {
     name: "Contact",
-    action: () => (window.location.href = "/#/design"),
+    action: () => (window.location.href = "/#/contact"),
   },
 ];
 
@@ -42,7 +44,7 @@ export const Header = (props) => {
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
       <Typography variant="h6" sx={{ my: 2 }}>
-        MUI
+        Idea Labs 3D
       </Typography>
 
       <Divider />
@@ -74,30 +76,32 @@ export const Header = (props) => {
         }}
       >
         <Toolbar>
+          <Box sx={{ flexGrow: 1, display: "flex", alignItems: "center" }}>
+            <CardMedia
+              component="img"
+              image={"/img/logo.png"}
+              sx={{ width: "30px", mr: 1.5 }}
+            />
+
+            <Logo variant={"h6"} fontSize={"1.5rem"} />
+          </Box>
+
           <IconButton
             color="inherit"
             aria-label="open drawer"
-            edge="start"
+            edge="end"
             onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: "none" } }}
+            sx={{ display: { sm: "none" } }}
           >
             <MenuIcon />
           </IconButton>
-
-          <Typography
-            variant="h6"
-            component="div"
-            sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
-          >
-            Idea Labs 3D
-          </Typography>
 
           <Box sx={{ display: { xs: "none", sm: "block" } }}>
             {pages.map((page) => (
               <Button
                 key={page.name}
                 onClick={page.action}
-                sx={{ color: "#000" }}
+                sx={{ color: "#000", textTransform: "none" }}
               >
                 {page.name}
               </Button>
@@ -108,6 +112,7 @@ export const Header = (props) => {
 
       <nav>
         <Drawer
+          anchor="right"
           container={container}
           variant="temporary"
           open={drawerOpen}
