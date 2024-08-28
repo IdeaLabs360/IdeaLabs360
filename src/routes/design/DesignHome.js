@@ -37,20 +37,20 @@ export const DesignHome = () => {
                   <Grid container spacing={2}>
                     <Grid item xs={12}>
                       <Typography component="div" variant="body" sx={{ mb: 1 }}>
-                        Dear valued visitor,
+                        Dear valued vistor,
                       </Typography>
                     </Grid>
 
                     <Grid item xs={12}>
                       <Typography component="div" variant="body" sx={{ mb: 1 }}>
-                        My name is Nate. I am a software engineer by day and a
-                        CAD designer by night. I have a proposal for you.
+                        My name is Nate. I am a software engineer by day and CAD
+                        designer by night. I have a proposal for you.
                       </Typography>
                     </Grid>
 
                     <Grid item xs={12}>
                       <Typography component="div" variant="body" sx={{ mb: 1 }}>
-                        I can help you design your idea in two ways:
+                        I can help you design you idea in two ways:
                       </Typography>
                     </Grid>
 
@@ -64,10 +64,10 @@ export const DesignHome = () => {
                       </Typography>
 
                       <Typography component="div" variant="body" sx={{ mb: 2 }}>
-                        I have a personal shop where I sell handmade items. If
+                        I have a personal shop that I sell hand made items. If
                         the idea you have is something I can sell and you
-                        authorize it, I will do the design and send you a
-                        3D-printed model of the design completely free.
+                        authorize it, I will do the desige and send you a 3D
+                        printed model of the design completely free.
                       </Typography>
                     </Grid>
 
@@ -82,14 +82,14 @@ export const DesignHome = () => {
 
                       <Typography component="div" variant="body" sx={{ mb: 2 }}>
                         You want the design to be confidential. I can do the
-                        design for you at a very fair price; we will negotiate
-                        once I understand the task.
+                        design for you at a very fair price; that we will
+                        negotiate once I understand the task.
                       </Typography>
                     </Grid>
 
                     <Grid item xs={12}>
-                      Please feel free to propose other options as well if you
-                      have any.
+                      Please feel free to propose other options as well as you
+                      see fit.
                     </Grid>
 
                     <Grid item xs={12}>
