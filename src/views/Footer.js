@@ -15,13 +15,7 @@ export const Footer = () => {
   return (
     <Box
       component="footer"
-      sx={{
-        backgroundColor: (theme) =>
-          theme.palette.mode === "light"
-            ? theme.palette.grey[200]
-            : theme.palette.grey[800],
-        p: 6,
-      }}
+      sx={{ p: 6, bgcolor: "#fff", boxShadow: "0 5px 20px 0 #0b076e0a" }}
     >
       <Container maxWidth="lg">
         <Grid container spacing={5}>

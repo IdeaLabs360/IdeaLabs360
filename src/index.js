@@ -7,11 +7,7 @@ import reportWebVitals from "./reportWebVitals";
 import { Home } from "./views/Home";
 import { Header } from "./views/Header";
 import { Footer } from "./views/Footer";
-import { PrintQuote } from "./routes/print/PrintQuote";
-import { DesignQuote } from "./routes/design/DesignQuote";
-import { Success } from "./views/Success";
-import { PrintHome } from "./routes/print/PrintHome";
-import { DesignHome } from "./routes/design/DesignHome";
+import { Contact } from "./routes/Contact";
 
 const theme = createTheme({
   palette: {
@@ -48,25 +44,13 @@ const router = createHashRouter([
     element: <Home />,
   },
   {
-    path: "/design",
-    element: <DesignHome />,
+    path: "/contact",
+    element: <Contact />,
   },
-  {
-    path: "/design/quote",
-    element: <DesignQuote />,
-  },
-  {
-    path: "/print",
-    element: <PrintHome />,
-  },
-  {
-    path: "/print/quote",
-    element: <PrintQuote />,
-  },
-  {
-    path: "/return",
-    element: <Success />,
-  },
+  // {
+  //   path: "/about",
+  //   element: <DesignQuote />,
+  // },
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));

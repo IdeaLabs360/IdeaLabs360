@@ -20,16 +20,12 @@ import { Logo } from "./Logo";
 const drawerWidth = 240;
 const pages = [
   {
-    name: "Services",
-    action: () => (window.location.href = "/#/services"),
+    name: "Contacts",
+    action: () => (window.location.href = "/#/contact"),
   },
   {
     name: "About",
     action: () => (window.location.href = "/#/about"),
-  },
-  {
-    name: "Contact",
-    action: () => (window.location.href = "/#/contact"),
   },
 ];
 
@@ -71,7 +67,7 @@ export const Header = (props) => {
         sx={{
           position: "absolute",
           color: "black",
-          bgcolor: "#dcdcdc",
+          bgcolor: "#fff",
           boxShadow: "0 5px 20px 0 #0b076e0a",
         }}
       >
