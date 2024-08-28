@@ -27,6 +27,7 @@ export const Logo = ({ variant, fontSize }) => {
         variant={variant}
         component="div"
         sx={{
+          color: "#000",
           fontWeight: 700,
           fontSize: { fontSize },
         }}

@@ -6,6 +6,7 @@ import {
   CardMedia,
   Divider,
   Drawer,
+  Link,
   List,
   ListItem,
   ListItemButton,
@@ -23,10 +24,10 @@ const pages = [
     name: "Contacts",
     action: () => (window.location.href = "/#/contact"),
   },
-  {
-    name: "About",
-    action: () => (window.location.href = "/#/about"),
-  },
+  // {
+  //   name: "About",
+  //   action: () => (window.location.href = "/#/about"),
+  // },
 ];
 
 export const Header = (props) => {
@@ -72,7 +73,16 @@ export const Header = (props) => {
         }}
       >
         <Toolbar>
-          <Box sx={{ flexGrow: 1, display: "flex", alignItems: "center" }}>
+          <Link
+            href="/"
+            sx={{
+              flexGrow: 1,
+              color: "inherti",
+              display: "flex",
+              alignItems: "center",
+              textDecoration: "none",
+            }}
+          >
             <CardMedia
               component="img"
               image={"/img/logo.png"}
@@ -80,7 +90,7 @@ export const Header = (props) => {
             />
 
             <Logo variant={"h6"} fontSize={"1.5rem"} />
-          </Box>
+          </Link>
 
           <IconButton
             color="inherit"

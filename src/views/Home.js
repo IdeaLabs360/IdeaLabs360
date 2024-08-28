@@ -128,7 +128,7 @@ export const Home = () => {
                     you need custom 3D prints or expertly crafted CAD designs,
                     we work closely with you from concept to completion,
                     delivering top-quality results every time. Your satisfaction
-                    is our priority
+                    is our priority.
                   </Typography>
                 </Box>
 
@@ -137,7 +137,7 @@ export const Home = () => {
                   <Button
                     variant="contained"
                     component="label"
-                    onClick={() => navigate("/print/quote")}
+                    onClick={() => navigate("/contact")}
                     sx={{
                       py: 2,
                       px: 8,
@@ -146,7 +146,7 @@ export const Home = () => {
                       textTransform: "none",
                     }}
                   >
-                    Learn More
+                    Contact Us
                   </Button>
                 </Box>
               </Box>
