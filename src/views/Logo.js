@@ -22,12 +22,12 @@ export const ShortLogo = () => {
 
 export const Logo = ({ variant, fontSize }) => {
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box sx={{ display: "flex", flexGrow: 1 }}>
       <Typography
         variant={variant}
         component="div"
         sx={{
-          fontFamily: "monospace",
+          color: "#000",
           fontWeight: 700,
           fontSize: { fontSize },
         }}
@@ -39,7 +39,6 @@ export const Logo = ({ variant, fontSize }) => {
         variant={variant}
         component="div"
         sx={{
-          fontFamily: "monospace",
           fontWeight: 700,
           fontSize: { fontSize },
           color: "text.secondary",
@@ -52,13 +51,12 @@ export const Logo = ({ variant, fontSize }) => {
         variant={variant}
         component="div"
         sx={{
-          fontFamily: "monospace",
           fontWeight: 700,
           fontSize: { fontSize },
-          color: "lightgray",
+          color: "gray",
         }}
       >
-        360
+        3D
       </Typography>
     </Box>
   );
