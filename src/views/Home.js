@@ -11,6 +11,7 @@ import {
   CardMedia,
   Container,
   Grid,
+  Link,
   Typography,
 } from "@mui/material";
 
@@ -82,7 +83,10 @@ export const Home = () => {
     <Box>
       {/* Homepage Hero */}
       <Box sx={{ bgcolor: "#dcdcdc" }}>
-        <Container maxWidth="lg" sx={{ pt: 12, pb: 4 }}>
+        <Container
+          maxWidth="lg"
+          sx={{ pt: { xs: 18, md: 12 }, pb: { xs: 10, md: 4 } }}
+        >
           <Grid container spacing={2}>
             <Grid
               item
@@ -111,7 +115,7 @@ export const Home = () => {
                         md: "40px",
                         lg: "45px",
                       },
-                      lineHeight: "1em",
+                      lineHeight: "1.1em",
                     }}
                   >
                     Welcome to Idea Labs 3D
@@ -132,14 +136,13 @@ export const Home = () => {
                   </Typography>
                 </Box>
 
-                {/* Quote button */}
                 <Box sx={{ display: "flex" }}>
                   <Button
                     variant="contained"
                     component="label"
                     onClick={() => navigate("/contact")}
                     sx={{
-                      py: 2,
+                      py: 1.5,
                       px: 8,
                       bgcolor: "black",
                       borderRadius: 8,
@@ -158,11 +161,26 @@ export const Home = () => {
               md={6}
               sx={{ display: { xs: "none", md: "flex" } }}
             >
-              <CardMedia
-                component="img"
-                image={"/img/test.png"}
-                sx={{ width: "100%", height: "100%", objectFit: "contain" }}
-              />
+              <Box sx={{ display: "flex", flexDirection: "column" }}>
+                <CardMedia
+                  component="img"
+                  image={"/img/front-page.jpg"}
+                  sx={{ width: "100%", height: "100%", objectFit: "contain" }}
+                />
+                <Link
+                  rel="noopener"
+                  target="_blank"
+                  href="https://www.freepik.com/free-photo/designer-using-3d-printer_78922815.htm#fromView=search&page=1&position=28&uuid=3ed48ee5-6f98-4c90-a78e-f848672d02fb"
+                  sx={{
+                    color: "gray",
+                    fontSize: "0.6rem",
+                    textAlign: "right",
+                    textDecoration: "none",
+                  }}
+                >
+                  Image by freepik
+                </Link>
+              </Box>
             </Grid>
           </Grid>
         </Container>
@@ -245,38 +263,6 @@ export const Home = () => {
               </Typography>
             </Card>
           </Grid>
-
-          {/* <Grid item xs={12} md={4}>
-            <Card elevation={0} sx={{ borderRadius: "0" }}>
-              <CardMedia
-                title="design"
-                image="/img/design.png"
-                sx={{ height: 350 }}
-              />
-
-              <Typography
-                variant="h6"
-                component="div"
-                sx={{
-                  mt: 3,
-                  mb: 1,
-                  textDecoration: "underline",
-                  textDecorationColor: "lightgray",
-                }}
-              >
-                Free CAD Design
-              </Typography>
-
-              <Typography variant="body2" component="div" sx={{ my: 1 }}>
-                $100
-              </Typography>
-
-              <Typography variant="body2">
-                Whether you have a rough sketch, a 2D drawing, or just an idea,
-                we can assist in the CAD design process.
-              </Typography>
-            </Card>
-          </Grid> */}
         </Grid>
       </Container>
 

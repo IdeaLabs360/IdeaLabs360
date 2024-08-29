@@ -73,24 +73,17 @@ export const Header = (props) => {
         }}
       >
         <Toolbar>
-          <Link
-            href="/"
-            sx={{
-              flexGrow: 1,
-              color: "inherti",
-              display: "flex",
-              alignItems: "center",
-              textDecoration: "none",
-            }}
-          >
+          <Box sx={{ flexGrow: 1, display: "flex", alignItems: "center" }}>
             <CardMedia
               component="img"
               image={"/img/logo.png"}
               sx={{ width: "30px", mr: 1.5 }}
             />
 
-            <Logo variant={"h6"} fontSize={"1.5rem"} />
-          </Link>
+            <Link href="/" sx={{ textDecoration: "none" }}>
+              <Logo variant={"h6"} fontSize={"1.5rem"} />
+            </Link>
+          </Box>
 
           <IconButton
             color="inherit"
