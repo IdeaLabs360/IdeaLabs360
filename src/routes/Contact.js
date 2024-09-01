@@ -50,7 +50,7 @@ export const Contact = () => {
     try {
       setIsLoading(true);
 
-      const url = `${apiConfig.api.baseUrl}/v1/quote`;
+      const url = `${apiConfig.api.baseUrl}/v1/contactus`;
       const response = await axios.post(url, formData);
 
       setSuccess(response.status === 200);
