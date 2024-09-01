@@ -63,7 +63,7 @@ export const Contact = () => {
 
   return (
     <Box sx={{ bgcolor: "#fff" }}>
-      <Container maxWidth="lg" sx={{ pt: 16, pb: 4 }}>
+      <Container maxWidth="lg" sx={{ pt: 8, pb: 4 }}>
         <Grid container spacing={4}>
           <Grid
             item
@@ -153,7 +153,7 @@ export const Contact = () => {
                 sx={{
                   display: "flex",
                   flexDirection: "column",
-                  mt: 4,
+                  mt: 3,
                 }}
               >
                 <TextField
