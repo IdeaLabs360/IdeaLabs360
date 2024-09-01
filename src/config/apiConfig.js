@@ -1,20 +1,15 @@
 // configurations shared between most or all environments can be stored in commonConfig
 const commonConfig = {
   api: {
-    baseUrl: "http://localhost:8080/idealabs360",
+    baseUrl: "http://localhost:8080/idealabs3d",
   },
 };
 
 const envConfigs = {
-  dev: {
-    api: {
-      baseUrl: "http://localhost:8080/idealabs360",
-    },
-  },
   stg: {},
   prod: {
     api: {
-      baseUrl: "https://api.idealabs360.com/idealabs360",
+      baseUrl: "https://api.idealabs360.com/idealabs3d",
     },
   },
 };

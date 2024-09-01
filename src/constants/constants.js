@@ -59,7 +59,7 @@ export const COLORS = ["WHITE", "BLACK", "RED"];
 
 export const PHONE_NUMBER = "6125481004";
 export const DISPLAY_PHONE_NUMBER = "(612) 548-1004";
-export const EMAIL = "idealabs360@gmail.com";
+export const EMAIL = "idealabs3d.co@gmail.com";
 
 export const IMAGES = ["4.jpg", "3.jpg", "1.jpg", "2.jpeg"];
 
